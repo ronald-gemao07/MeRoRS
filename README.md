@@ -1,4 +1,4 @@
-MRRS
+MeRoRs
 ====
 
 Meeting Room Reservation System
