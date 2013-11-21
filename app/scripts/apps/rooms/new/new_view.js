@@ -4,7 +4,7 @@ define(["app", "apps/rooms/common/views"], function(MERORS, CommonViews){
       title: "New Room",
 
       onRender: function(){
-        this.$(".js-submit").text("Add room");
+        this.$(".js-submit").text("Add room!");
       }
     });
   });
