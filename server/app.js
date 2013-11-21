@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 
 
 // start mongoose
-mongoose.connect('mongodb://localhost/sit');
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/merors');
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
