@@ -1,0 +1,1 @@
+<div class="alert alert-error">This room doesn't exist !</div>

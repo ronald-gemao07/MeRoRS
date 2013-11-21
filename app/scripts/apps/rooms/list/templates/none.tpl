@@ -1,0 +1,1 @@
+<td colspan="3">No rooms to display.</td>
