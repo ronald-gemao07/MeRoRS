@@ -1,5 +1,6 @@
 <td><%= roomName %></td>
 <td><%= capacity %></td>
+<td><%= roomDescription%></td>
 <td>
   <!--<a href="#rooms/<%= id %>" class="btn btn-small js-show">
   <i class="icon-eye-open"></i>
