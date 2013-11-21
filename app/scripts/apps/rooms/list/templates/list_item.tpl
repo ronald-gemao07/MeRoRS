@@ -1,8 +1,8 @@
 <td><%= roomName %></td>
 <td><%= capacity %></td>
 <td>
-  <a href="#rooms/<%= id %>" class="btn btn-small js-show">
-  <!-- <i class="icon-eye-open"></i>
+  <!--<a href="#rooms/<%= id %>" class="btn btn-small js-show">
+  <i class="icon-eye-open"></i>
     Show
   </a> -->
   <!-- removed by nad -->
