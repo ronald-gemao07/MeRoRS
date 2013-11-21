@@ -1,0 +1,12 @@
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Position</th>
+    <th>Group</th>
+    <th>Active</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+</tbody>

@@ -34,7 +34,7 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
 
   MERORS.on("initialize:after", function(){
     if(Backbone.history){
-      require(["apps/contacts/contacts_app", "apps/rooms/rooms_app",  "apps/about/about_app"], function () {
+      require(["apps/contacts/contacts_app", "apps/rooms/rooms_app",  "apps/users/users_app","apps/about/about_app"], function () {
         Backbone.history.start();
 
         if(MERORS.getCurrentRoute() === ""){
