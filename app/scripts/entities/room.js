@@ -18,8 +18,8 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
           errors.capacity = "can't be blank";
         }
         else{
-          if (attrs.lastName.length < 2) {
-            errors.lastName = "is too short";
+          if (attrs.capacity.length < 2) {
+            errors.capacity = "is too short";
           }
         }
         if( ! _.isEmpty(errors)){

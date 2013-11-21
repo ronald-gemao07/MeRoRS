@@ -2,7 +2,7 @@ define(["app", "apps/rooms/common/views"], function(MERORS, CommonViews){
   MERORS.module("RoomsApp.Edit.View", function(View, MERORS, Backbone, Marionette, $, _){
     View.Room = CommonViews.Form.extend({
       initialize: function(){
-        this.title = "Edit " + this.model.get("roomName") + " " + this.model.get("lastName");
+        this.title = "Edit " + this.model.get("roomName") + " " + this.model.get("capacity");
       },
 
       onRender: function(){
