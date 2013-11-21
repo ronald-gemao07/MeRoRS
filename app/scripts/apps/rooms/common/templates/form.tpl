@@ -4,8 +4,8 @@
     <input id="room-roomName" name="roomName" type="text" value="<%= roomName %>"/>
   </div>
   <div class="control-group">
-    <label for="room-lastName" class="control-label">Last name:</label>
-    <input id="room-lastName" name="lastName" type="text" value="<%= lastName %>"/>
+    <label for="room-capacity" class="control-label">Last name:</label>
+    <input id="room-capacity" name="capacity" type="text" value="<%= capacity %>"/>
   </div>
   <div class="control-group">
     <label for="room-phoneNumber" class="control-label">Phone number:</label>

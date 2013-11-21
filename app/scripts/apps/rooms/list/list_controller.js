@@ -19,7 +19,7 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   var criterion = filterCriterion.toLowerCase();
                   return function(room){
                     if(room.get('roomName').toLowerCase().indexOf(criterion) !== -1
-                      || room.get('lastName').toLowerCase().indexOf(criterion) !== -1
+                      || room.get('capacity').toLowerCase().indexOf(criterion) !== -1
                       || room.get('phoneNumber').toLowerCase().indexOf(criterion) !== -1){
                         return room;
                     }
