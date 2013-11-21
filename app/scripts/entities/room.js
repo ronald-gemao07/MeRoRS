@@ -6,7 +6,7 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
       defaults: {
         roomName: "",
         capacity: "",
-        phoneNumber: ""
+        roomDescription: "",
       },
 
       validate: function(attrs, options) {
@@ -40,9 +40,9 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
 
     var initializeRooms = function(){
       var rooms = new Entities.RoomCollection([
-        { id: 1, roomName: "Room A", capacity: "10", phoneNumber: "555-0184" },
-        { id: 2, roomName: "Room B", capacity: "15", phoneNumber: "555-0163" },
-        { id: 3, roomName: "Room C", capacity: "5", phoneNumber: "555-0129" }
+        { id: 1, roomName: "Room A", capacity: "10", roomDescription: "for general meeting" },
+        { id: 2, roomName: "Room B", capacity: "15", roomDescription: "for scrum masters only" },
+        { id: 3, roomName: "Room C", capacity: "5", roomDescription: "for developers only" }
       ]);
       rooms.forEach(function(room){
         room.save();
