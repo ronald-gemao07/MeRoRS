@@ -2,9 +2,10 @@
 <td><%= capacity %></td>
 <td>
   <a href="#rooms/<%= id %>" class="btn btn-small js-show">
-    <i class="icon-eye-open"></i>
+  <!-- <i class="icon-eye-open"></i>
     Show
-  </a>
+  </a> -->
+  <!-- removed by nad -->
   <a href="#rooms/<%= id %>/edit" class="btn btn-small js-edit">
     <i class="icon-pencil"></i>
       Edit
