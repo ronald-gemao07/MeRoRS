@@ -18,7 +18,6 @@ define(["app", "backbone.picky"], function(MERORS){
 
     var initializeHeaders = function(){
       Entities.headers = new Entities.HeaderCollection([
-        { name: "Contacts", url: "contacts", navigationTrigger: "contacts:list" },
         { name: "Reservation", url: "reservations", navigationTrigger: "reservations:show" },
         { name: "Manage Rooms", url: "rooms", navigationTrigger: "rooms:list" },
         { name: "Manage Users", url: "users", navigationTrigger: "users:list" },
