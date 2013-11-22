@@ -20,7 +20,7 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   return function(room){
                     if(room.get('roomName').toLowerCase().indexOf(criterion) !== -1
                       || room.get('capacity').toLowerCase().indexOf(criterion) !== -1
-                      || room.get('phoneNumber').toLowerCase().indexOf(criterion) !== -1){
+                      || room.get('roomDescription').toLowerCase().indexOf(criterion) !== -1){
                         return room;
                     }
                   };
