@@ -1,16 +1,15 @@
 @import 'sass-bootstrap/lib/bootstrap';
 @import '_jquery_ui';
-
 $header_bgcolor: #8DC640;
 $header_gradient: #6e9c2f;
 $header_font_color: #fff;
-$header_font_color_hover: #ccc;
+$header_font_color_hover: #B2D963;
 
 body {
   padding-top: 70px; /* 60px to make the container make room for the navigation bar */
 }
 
-.navbar-inverse , .navbar-inner{
+.navbar-inverse{
 	background-color: $header_bgcolor !important;
 	background-image: -moz-linear-gradient(top, $header_bgcolor, $header_gradient ) !important;
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from($header_bgcolor), to($header_gradient)) !important;
@@ -20,53 +19,63 @@ body {
 	background-repeat: repeat-x !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF222222', endColorstr='#FF111111', GradientType=0);
 	border-color: $header_gradient !important;
+
+	.navbar-inner {
+		@extend	.navbar-inverse;
+
+		.brand{
+			color: $header_font_color !important;
+			margin-left: 222px !important;
+
+			&:hover{
+				color:$header_font_color_hover !important;
+			}
+			.brand-title{
+				font-weight:900;
+			}
+			.caption-title{
+				font-size: 14px !important;
+				font-weight:500;
+			}
+			.header-logo{
+				border:none;
+				width:25px;
+				height:31px;
+				margin-top:-8px;
+			}
+		}
+	}
+
+	.nav{
+		li{
+			background-color: transparent !important;
+			a{
+				color: $header_font_color !important;	
+				padding-top: 13px !important;
+				-webkit-box-shadow: none !important;
+				-moz-box-shadow: none !important;
+				box-shadow: none !important;
+				background-color: transparent !important;
+
+				&:active, &:hover, &:focus{
+					color: $header_font_color;
+
+				}
+				&:hover{
+					color: $header_font_color_hover !important;
+				} 
+			}
+		}
+
+		li.active {
+			a{
+				color: $header_font_color_hover !important;
+			}
+		}
+	}
+
 }
 
-.brand-title{
-	font-weight:900;	
-}
 
-.caption-title{
-	font-size: 14px !important;
-	font-weight:500;
-}
 
-.header-logo{
-	border:none;
-	width:25px;
-	height:31px;
-	margin-top: -8px;
 
-}
-
-.navbar-inverse .brand {
-	color: $header_font_color !important;
-	margin-left: 222px !important; /*can be changed if there are some header links to be added */
-}
-
-.navbar-inverse .brand:hover{
-	color:$header_font_color_hover !important;
-}
-
-.navbar-inverse .nav > li > a {
-	color: $header_font_color !important;
-}
-
-.navbar .nav > li > a {
-	padding-top: 13px !important;
-}
-
-.navbar-inverse .nav > li > a:hover{
-	color: $header_font_color_hover !important;
-}
-
-.navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
-	color: $header_font_color;
-	background: none !important;
-}
-
-.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	box-shadow: none !important;
-}
