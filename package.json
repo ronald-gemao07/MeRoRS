@@ -11,7 +11,16 @@
     "baucis": "~0.4.6",
     "express-hbs": "~0.2.0",
     "underscore": "~1.4.4", 
-    "bower": "~1.2.7"
+    "bower": "~1.2.7",
+    "connect-mongo": "~0.3.3",
+    "connect-flash": "~0.1.1",
+    "async": "~0.2.9",
+    "view-helpers": "~0.1.2", 
+    "ejs": "~0.8.5", 
+    "ejs-locals": "~1.0.2", 
+    "path": "~0.4.9", 
+    "passport": "~0.1.17", 
+    "passport-local": "~0.1.6"
   },
   
   "devDependencies": {
