@@ -1,0 +1,1 @@
+<div class="alert alert-error">This reservation doesn't exist !</div>
