@@ -1,6 +1,6 @@
-var mongoose = require('mongoose'), 
-    User = mongoose.model('User'), 
-    utils = require('../lib/utils'), 
+var mongoose = require('mongoose'),
+    User = mongoose.model('User'),
+    utils = require('../lib/utils'),
     _ = require('underscore');
 
 exports.index = function (req, res) {
@@ -8,8 +8,8 @@ exports.index = function (req, res) {
   var user = req.user;
 
   res.render('app/index', {
-    title: 'MeRoRs'
-  });  
+    title: 'Meeting Room Reservation System'
+  });
 
 }
 
