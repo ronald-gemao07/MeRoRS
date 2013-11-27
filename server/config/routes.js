@@ -34,12 +34,12 @@ module.exports = function (app, passport) {
   app.get('/forgot-password', users.forgotPassword)
   app.get('/logout', users.logout)
 
-  app.post('/users/session',
-    passport.authenticate('local', {
-      failureRedirect: '/login',
-      failureFlash: 'Invalid email or password.',
-      successRedirect: '/app'
-    }), users.session)
+  // app.post('/users/session',
+  //   passport.authenticate('local', {
+  //     failureRedirect: '/login',
+  //     failureFlash: 'Invalid email or password.',
+  //     successRedirect: '/app'
+  //   }), users.session)
 
   // home route
   app.get('/', site.index);
