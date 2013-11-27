@@ -1,8 +1,8 @@
-define(["app", "apps/rooms/edit/edit_view"], function(MERORS, View){
-  MERORS.module("RoomsApp.Edit", function(Edit, MERORS, Backbone, Marionette, $, _){
+define(["app", "apps/rooms/delete/delete_view"], function(MERORS, View){
+  MERORS.module("RoomsApp.Delete", function(Delete, MERORS, Backbone, Marionette, $, _){
     Edit.Controller = {
-      editRoom: function(id){
-        require(["common/views", "entities/room"], function(CommonViews){
+      deleteRoom: function(id){
+        require(["common/delete", "entities/room"], function(CommonViews){
           var loadingView = new CommonViews.Loading({
             title: "Artificial Loading Delay",
             message: "Data loading is delayed to demonstrate using a loading view."
@@ -17,15 +17,6 @@ define(["app", "apps/rooms/edit/edit_view"], function(MERORS, View){
                 model: room,
                 generateTitle: true
               });
-
-              view.on("form:submit", function(data){
-                if(room.save(data)){
-                  MERORS.trigger("room:show", room.get('id'));
-                }
-                else{
-                  view.triggerMethod("form:data:invalid", room.validationError);
-                }
-              });
             }
             else{
               view = new MERORS.RoomsApp.Show.MissingRoom();
@@ -37,6 +28,5 @@ define(["app", "apps/rooms/edit/edit_view"], function(MERORS, View){
       }
     };
   });
-
-  return MERORS.RoomsApp.Edit.Controller;
+  return MERORS.RoomsApp.Delete.Controller;
 });

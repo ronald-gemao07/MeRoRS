@@ -8,11 +8,17 @@ var async = require('async')
  * Controllers
  */
 
+<<<<<<< HEAD
 var users = require('../controllers/users'), 
     rooms = require('../controllers/rooms'),
     reservations =require('../controllers/users'),
     site = require('../controllers/site'), 
     appMain = require('../controllers/appMain'), 
+=======
+var users = require('../controllers/users'),
+    site = require('../controllers/site'),
+    appMain = require('../controllers/appMain'),
+>>>>>>> 2f004a3b748f9756c613470a3a3aa5166259542b
     auth = require('./middlewares/authorization')
 
 /**
@@ -30,6 +36,8 @@ module.exports = function (app, passport) {
   // user routes
   app.get('/login', users.login)
   app.get('/signup', users.signup)
+  app.get('/help', users.help)
+  app.get('/forgot-password', users.forgotPassword)
   app.get('/logout', users.logout)
 
   app.post('/users/session',

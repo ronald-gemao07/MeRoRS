@@ -104,7 +104,19 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
               });
 
               roomsListView.on("itemview:room:delete", function(childView, model){
-                model.destroy();
+                require(["apps/rooms/delete/delete_view"], function(DeleteView){
+                  var view = new DeleteView.Room({
+                    model: model
+                  });
+
+                  view.on("room : delete", function(data){
+                    model.destroy();
+                    view.trigger("dialog:close");
+                    childView.flash("success");
+                  });
+
+                  MERORS.dialogRegion.show(view);
+                });
               });
 
               MERORS.mainRegion.show(roomsListLayout);
