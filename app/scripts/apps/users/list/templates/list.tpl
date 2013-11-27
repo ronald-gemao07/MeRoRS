@@ -5,7 +5,7 @@
     <th>Position</th>
     <th>Group</th>
     <th>Active</th>
-    <th></th>
+    <th>Options</th>
   </tr>
 </thead>
 <tbody>

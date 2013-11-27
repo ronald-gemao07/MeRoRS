@@ -8,7 +8,8 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         firstName: "",
         lastName: "",
         position: "",
-        userType: ""
+        group: "",
+        status: ""
       },
 
       validate: function(attrs, options) {
@@ -37,7 +38,8 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
           firstName: "Elluis", 
           lastName: "Invento", 
           position: "Software Engineer", 
-          userType: 1
+          group: "Administrator",
+          status: "Active"
         }
       ]);
       users.forEach(function(user){
