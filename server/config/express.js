@@ -12,14 +12,13 @@ var flash = require('connect-flash');
 var helpers = require('view-helpers');
 var path = require('path');
 var async = require('async');
-var baucis = require('baucis');
 var passport = require('passport');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 
 var pkg = require('../../package.json');
 
-module.exports = function (app, config, passport) {
+module.exports = function (app, config, passport, baucis) {
 
   app.configure(function(){
 
@@ -44,6 +43,24 @@ module.exports = function (app, config, passport) {
       // mount static
       app.use(express.static( __dirname + '/../../app') );
       app.use(express.static( __dirname +  '/../../.tmp') );
+
+      // cookieParser should be above session
+      app.use(express.cookieParser())
+
+      // bodyParser should be above methodOverride
+      app.use(express.bodyParser())
+      app.use(express.methodOverride())
+
+      // express/mongo session storage
+      app.use(express.session({
+        secret: 'm3RR05: 0ndwA1L!',
+        store: new mongoStore({
+          url: config.db,
+          collection : 'sessions'
+        })
+      }))
+
+      app.use('/api/v1', baucis({swagger: true}));
 
       // assume "not found" in the error msgs
       // is a 404. this is somewhat silly, but
