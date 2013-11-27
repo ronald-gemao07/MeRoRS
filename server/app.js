@@ -23,15 +23,24 @@ mongoose.connect(process.env.MONGOHQ_URL || config.db);
 // Bootstrap models
 var models_path = __dirname + '/schemas'
 fs.readdirSync(models_path).forEach(function (file) {
-  if (~file.indexOf('.js')) require(models_path + '/' + file)
-})
+  if (~file.indexOf('.js')) {
+  	require(models_path + '/' + file);
+  	console.log(models_path + '/' + file)
+  }
+});
 
 // bootstrap passport config
 require('./config/passport')(passport, config)
 
-var app = express()
+var app = express();
+
+// Baucis REST
+var baucis = require('./api/rest_routes.js')(app);
+
+console.log(baucis)
+
 // express settings
-require('./config/express')(app, config, passport)
+require('./config/express')(app, config, passport, baucis)
 
 // Bootstrap routes
 require('./config/routes')(app, passport)

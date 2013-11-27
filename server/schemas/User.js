@@ -6,10 +6,10 @@ var crypto = require('crypto');
 
 var UserSchema = new Schema( {
       email: { type: String, default: '' },
-	  hashed_password: { type: String, default: '' },
-	  firstName: { type: String, default: '' },
-	  lastName: { type: String, default: '' },
-	  salt: { type: String, default: '' }
+  	  hashed_password: { type: String, default: '' },
+  	  firstName: { type: String, default: '' },
+  	  lastName: { type: String, default: '' },
+  	  salt: { type: String, default: '' }
 });
 
 /**
@@ -49,6 +49,7 @@ UserSchema.path('email').validate(function (email) {
 }, 'Email cannot be blank')
 
 UserSchema.path('email').validate(function (email, fn) {
+  
   var User = mongoose.model('User')
   
   // if you are authenticating by any of the oauth strategies, don't validate
