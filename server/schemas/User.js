@@ -5,8 +5,8 @@ var _ = require('underscore')
 var crypto = require('crypto');
 
 var UserSchema = new Schema( {
-      email: { type: String, default: '' },
-  	  hashed_password: { type: String, default: '' },
+      email: { type: String, default: '', required: true },
+  	  hashed_password: { type: String, default: '', required: true },
   	  firstName: { type: String, default: '' },
   	  lastName: { type: String, default: '' },
   	  salt: { type: String, default: '' }
@@ -36,24 +36,17 @@ var validatePresenceOf = function (value) {
 
 // Hashed password
 UserSchema.path('hashed_password').validate(function (hashed_password) {
-  // if you are authenticating by any of the oauth strategies, don't validate
-  if (authTypes.indexOf(this.provider) !== -1) return true
   return hashed_password.length
 }, 'Password cannot be blank')
 
 // Check email
 UserSchema.path('email').validate(function (email) {
-  // if you are authenticating by any of the oauth strategies, don't validate
-  if (authTypes.indexOf(this.provider) !== -1) return true
   return email.length
 }, 'Email cannot be blank')
 
 UserSchema.path('email').validate(function (email, fn) {
   
   var User = mongoose.model('User')
-  
-  // if you are authenticating by any of the oauth strategies, don't validate
-  if (authTypes.indexOf(this.provider) !== -1) fn(true)
 
   // Check only when it is a new user or when email field is modified
   if (this.isNew || this.isModified('email')) {
@@ -68,13 +61,15 @@ UserSchema.path('email').validate(function (email, fn) {
  */
 
 UserSchema.pre('save', function(next) {
-  if (!this.isNew) return next()
+  if (!this.isNew) {
+    return next()
+  }
 
-  if (!validatePresenceOf(this.hashed_password)
-    && authTypes.indexOf(this.provider) === -1)
+  if (!validatePresenceOf(this.hashed_password)) {
     next(new Error('Invalid hashed_password'))
-  else
+  } else {
     next()
+  }
 });
 
 /**
