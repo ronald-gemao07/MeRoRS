@@ -1,23 +1,15 @@
 var mongoose = require( 'mongoose' ),
     Schema = mongoose.Schema;
-var _ = require('underscore')
 
 var RoomSchema = new Schema( {
-      roomName: { type: String, default: '' },
-	  roomCapacity: { type: Number, default: '' },
-	  roomDescription: { type: String, default: '' }
+  	room: { type: String, default: '' },
+  	capacity: { type: Number, default: '' },
+  	description: { type: String, default: '' },
+  	active: { type: Number, default: 1 }
 });
 
 RoomSchema.pre('save', function (next) {
 	next();
 });
-
-/**
- * Methods
- */
-
-RoomSchema.methods ={
-  
-}
 
 module.exports = mongoose.model( 'Room', RoomSchema );
