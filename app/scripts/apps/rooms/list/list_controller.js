@@ -19,7 +19,7 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   var criterion = filterCriterion.toLowerCase();
                   return function(room){
                     if(room.get('roomName').toLowerCase().indexOf(criterion) !== -1
-                      || room.get('capacity').toLowerCase().indexOf(criterion) !== -1
+                      || room.get('roomCapacity').toLowerCase().indexOf(criterion) !== -1
                       || room.get('roomDescription').toLowerCase().indexOf(criterion) !== -1){
                         return room;
                     }
@@ -57,8 +57,8 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-                    var highestId = rooms.max(function(c){ return c.id; }).get("id");
-                    data.id = highestId + 1;
+
+                    console.log(data);
                     if(newRoom.save(data)){
                       rooms.add(newRoom);
                       view.trigger("dialog:close");
@@ -79,7 +79,7 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
               });
 
               roomsListView.on("itemview:room:show", function(childView, model){
-                MERORS.trigger("room:show", model.get("id"));
+                MERORS.trigger("room:show", model.get("_id"));
               });
 
               roomsListView.on("itemview:room:edit", function(childView, model){
@@ -110,7 +110,7 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("room : delete", function(data){
-                    model.destroy();
+                    model.destroy({wait:false});
                     view.trigger("dialog:close");
                     childView.flash("success");
                   });

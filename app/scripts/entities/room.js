@@ -1,11 +1,15 @@
-define(["app", "apps/config/storage/localstorage"], function(MERORS){
+define(["app"], function(MERORS){
   MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Room = Backbone.Model.extend({
-      urlRoot: "rooms",
+      //var RoomModel = Backbone.Model.extend({
+      idAttribute: '_id',
+
+      urlRoot: "http://localhost:9000/api/v1/Rooms/",
 
       defaults: {
+        _id:null,
         roomName: "",
-        capacity: "",
+        roomCapacity: "",
         roomDescription: "",
       },
 
@@ -14,41 +18,43 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         if (! attrs.roomName) {
           errors.roomName = "can't be blank";
         }
-        if (! attrs.capacity) {
+/*        if (! attrs.capacity) {
           errors.capacity = "can't be blank";
-        }
-        else{
+        }*/
+/*        else{
           if (attrs.capacity.length < 2) {
             errors.capacity = "is too short";
           }
-        }
+        }*/
         if( ! _.isEmpty(errors)){
           return errors;
         }
       }
     });
 
-    Entities.configureStorage(Entities.Room);
+    //Entities.configureStorage(Entities.Room);
 
     Entities.RoomCollection = Backbone.Collection.extend({
-      url: "rooms",
+      //var RoomCollection = Backbone.Collection.extend({
+      url: "http://localhost:9000/api/v1/Rooms/",
+      //model: RoomModel,
       model: Entities.Room,
       comparator: "roomName"
     });
 
-    Entities.configureStorage(Entities.RoomCollection);
+    //Entities.configureStorage(Entities.RoomCollection);
 
-    var initializeRooms = function(){
+/*    var initializeRooms = function(){
       var rooms = new Entities.RoomCollection([
-        { id: 1, roomName: "Room A", capacity: "10", roomDescription: "for general meeting" },
-        { id: 2, roomName: "Room B", capacity: "15", roomDescription: "for scrum masters only" },
-        { id: 3, roomName: "Room C", capacity: "5", roomDescription: "for developers only" }
+        {roomName: "Room A", roomCapacity: "10", roomDescription: "for general meeting" },
+        {roomName: "Room B", roomCapacity: "15", roomDescription: "for scrum masters only" },
+        {roomName: "Room C", roomCapacity: "5", roomDescription: "for developers only" }
       ]);
       rooms.forEach(function(room){
         room.save();
       });
       return rooms.models;
-    };
+    };*/
 
     var API = {
       getRoomEntities: function(){
@@ -63,15 +69,15 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         $.when(promise).done(function(rooms){
           if(rooms.length === 0){
             // if we don't have any rooms yet, create some for convenience
-            var models = initializeRooms();
-            rooms.reset(models);
+            //var models = initializeRooms();
+            //rooms.reset(models);
           }
         });
         return promise;
       },
 
       getRoomEntity: function(roomId){
-        var room = new Entities.Room({id: roomId});
+        var room = new Entities.Room({_id: roomId});
         var defer = $.Deferred();
         setTimeout(function(){
           room.fetch({

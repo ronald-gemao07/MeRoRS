@@ -5,7 +5,7 @@
   </div>
   <div class="control-group">
     <label for="room-capacity" class="control-label">Capacity:</label>
-    <input id="room-capacity" name="capacity" type="text" value="<%= capacity %>"/>
+    <input id="room-capacity" name="roomCapacity" type="text" value="<%= roomCapacity %>"/>
   </div>
   <div class="control-group">
     <label for="room-description" class="control-label">Description:</label>

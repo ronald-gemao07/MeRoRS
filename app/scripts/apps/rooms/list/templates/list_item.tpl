@@ -1,13 +1,9 @@
 <td><%= roomName %></td>
-<td><%= capacity %></td>
+<td><%= roomCapacity %></td>
 <td><%= roomDescription%></td>
 <td>
-  <!--<a href="#rooms/<%= id %>" class="btn btn-small js-show">
-  <i class="icon-eye-open"></i>
-    Show
-  </a> -->
-  <!-- removed by nad -->
-  <a href="#rooms/<%= id %>/edit" class="btn btn-small js-edit">
+
+  <a href="#rooms/<%= _id %>/edit" class="btn btn-small js-edit">
     <i class="icon-pencil"></i>
       Edit
   </a>
