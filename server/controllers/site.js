@@ -8,7 +8,7 @@ exports.index = function (req, res) {
 	} else {
 		res.render('index', {
 			title: 'Meeting Room Reservation System'
-		});	
+		});
 	}
-	
+
 }

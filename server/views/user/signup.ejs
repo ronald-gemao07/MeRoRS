@@ -1,2 +1,16 @@
 <% layout('../layouts/default') -%>
-sign up page
+<p>Fill In the Required Information Below.</p>
+      <div
+      <form>
+        <div class="control-group">
+        <div class="btn-danger btn-large" id="signupError"><%= error %></div>
+        <input type="text" id="inputEmail" placeholder="Email" class="input-xlarge" ><br />
+        <input type="password" id="inputPassword" placeholder="Password"  class="input-xlarge"><br />
+        <input type="password" id="confirmPassword" placeholder="Retype Password"  class="input-xlarge"><br />
+        <button type="submit" class="btn btn-success btn-large">Sign Up</button>
+        </div>
+      </form>
+
+      <div class="signup">
+          <h3><a href="/">Login to Access the System</a></h3><a href="/help">Need Help?</a>
+      </div>
