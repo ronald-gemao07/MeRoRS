@@ -1,0 +1,60 @@
+body{
+  padding: 0;
+}
+.hero-unit {
+          width: 540px;
+          margin: 0 auto;
+          min-height: 540px;
+          padding: 40px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          text-align: center;
+          vertical-align: middle;
+          color: inherit;
+          background-color: #eeeeee;
+          -webkit-border-radius: 6px;
+             -moz-border-radius: 6px;
+                  border-radius: 6px;
+        }
+
+      .hero-unit h1 {
+        margin-bottom: 0;
+        font-size: 48px;
+        line-height: 1;
+        letter-spacing: -1px;
+        color: inherit;
+      }
+
+      .hero-unit ul {
+        text-align: left;
+      }
+
+      .hero-unit li {
+        line-height: 30px;
+        list-style: none;
+      }
+
+      .notifications{
+        font-color:red;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .control-group input, .signup-input{
+        font-size: 18px;
+        height: 36px;
+      }
+
+      .signup{
+        padding: 30px;
+        border-bottom: 1px solid #000000;
+      }
+
+      #loginError, #signupError{
+        margin-bottom: 10px;
+        display: none;
+      }
+
+      .help-text{
+        text-align: justify;
+      }
