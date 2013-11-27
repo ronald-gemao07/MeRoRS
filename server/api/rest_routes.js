@@ -4,11 +4,12 @@ var mongoose = require( 'mongoose' ),
 var baucis = require('baucis');
 
 module.exports = function (app) {
+	//User
 	baucis.rest('User');
-
-	// Rooms
-
-	// Reservations
+	//Room
+	baucis.rest('Room');
+	//Reservation
+	baucis.rest('Reservation');
 
 	return baucis;
 }

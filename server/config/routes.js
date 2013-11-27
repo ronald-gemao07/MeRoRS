@@ -9,6 +9,8 @@ var async = require('async')
  */
 
 var users = require('../controllers/users'), 
+    rooms = require('../controllers/rooms'),
+    reservations =require('../controllers/users'),
     site = require('../controllers/site'), 
     appMain = require('../controllers/appMain'), 
     auth = require('./middlewares/authorization')
@@ -29,7 +31,6 @@ module.exports = function (app, passport) {
   app.get('/login', users.login)
   app.get('/signup', users.signup)
   app.get('/logout', users.logout)
-  app.post('/users', users.create)
 
   app.post('/users/session',
     passport.authenticate('local', {
@@ -37,10 +38,6 @@ module.exports = function (app, passport) {
       failureFlash: 'Invalid email or password.',
       successRedirect: '/app'
     }), users.session)
-
-  app.get('/users/:userId', auth.requiresLogin, users.show)
-
-  app.param('userId', users.user)
 
   // home route
   app.get('/', site.index);
