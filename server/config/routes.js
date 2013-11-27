@@ -31,16 +31,12 @@ module.exports = function (app, passport) {
   app.get('/logout', users.logout)
   app.post('/users', users.create)
 
-  app.post('/users/session',
-    passport.authenticate('local', {
-      failureRedirect: '/login',
-      failureFlash: 'Invalid email or password.',
-      successRedirect: '/app'
-    }), users.session)
-
-  app.get('/users/:userId', auth.requiresLogin, users.show)
-
-  app.param('userId', users.user)
+  // app.post('/users/session',
+  //   passport.authenticate('local', {
+  //     failureRedirect: '/login',
+  //     failureFlash: 'Invalid email or password.',
+  //     successRedirect: '/app'
+  //   }), users.session)
 
   // home route
   app.get('/', site.index);
