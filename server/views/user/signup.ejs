@@ -1,12 +1,12 @@
 <% layout('../layouts/default') -%>
 <p>Fill In the Required Information Below.</p>
       <div
-      <form>
+      <form name="signup-form" action="/signup" method="POST">
         <div class="control-group">
         <div class="btn-danger btn-large" id="signupError"><%= error %></div>
-        <input type="text" id="inputEmail" placeholder="Email" class="input-xlarge" ><br />
-        <input type="password" id="inputPassword" placeholder="Password"  class="input-xlarge"><br />
-        <input type="password" id="confirmPassword" placeholder="Retype Password"  class="input-xlarge"><br />
+        <input type="text" id="email" placeholder="Email" class="input-xlarge signup-input" ><br />
+        <input type="password" id="password" placeholder="Password"  class="input-xlarge signup-input"><br />
+        <input type="password" id="confirmPassword" placeholder="Retype Password"  class="input-xlarge signup-input"><br />
         <button type="submit" class="btn btn-success btn-large">Sign Up</button>
         </div>
       </form>

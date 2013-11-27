@@ -8,11 +8,11 @@ var async = require('async')
  * Controllers
  */
 
-var users = require('../controllers/users'), 
+var users = require('../controllers/users'),
     rooms = require('../controllers/rooms'),
     reservations =require('../controllers/users'),
-    site = require('../controllers/site'), 
-    appMain = require('../controllers/appMain'), 
+    site = require('../controllers/site'),
+    appMain = require('../controllers/appMain'),
     auth = require('./middlewares/authorization')
 
 /**
@@ -28,11 +28,14 @@ var userAuth = [auth.user.isLoggedIn]
 module.exports = function (app, passport) {
 
   // user routes
-  app.get('/login', users.login)
-  app.get('/signup', users.signup)
-  app.get('/help', users.help)
-  app.get('/forgot-password', users.forgotPassword)
-  app.get('/logout', users.logout)
+  app.get('/login', users.login);
+
+  app.get('/signup', users.signup);
+  app.post('/signup', users.create);
+
+  app.get('/help', users.help);
+  app.get('/forgot-password', users.forgotPassword);
+  app.get('/logout', users.logout);
 
   // app.post('/users/session',
   //   passport.authenticate('local', {

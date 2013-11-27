@@ -40,7 +40,7 @@ body{
         text-align: center;
       }
 
-      #inputEmail, #inputPassword, #confirmPassword{
+      .control-group input, .signup-input{
         font-size: 18px;
         height: 36px;
       }
