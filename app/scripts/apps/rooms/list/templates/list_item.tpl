@@ -1,6 +1,6 @@
-<td><%= roomName %></td>
-<td><%= roomCapacity %></td>
-<td><%= roomDescription%></td>
+<td><%= room %></td>
+<td><%= capacity %></td>
+<td><%= description%></td>
 <td>
 
   <a href="#rooms/<%= _id %>/edit" class="btn btn-small js-edit">

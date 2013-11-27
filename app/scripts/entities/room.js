@@ -8,15 +8,16 @@ define(["app"], function(MERORS){
 
       defaults: {
         _id:null,
-        roomName: "",
-        roomCapacity: "",
-        roomDescription: "",
+        room: "",
+        capacity: "",
+        description: "",
+        active: ""
       },
 
       validate: function(attrs, options) {
         var errors = {}
-        if (! attrs.roomName) {
-          errors.roomName = "can't be blank";
+        if (! attrs.room) {
+          errors.room = "can't be blank";
         }
 /*        if (! attrs.capacity) {
           errors.capacity = "can't be blank";
@@ -39,7 +40,7 @@ define(["app"], function(MERORS){
       url: "http://localhost:9000/api/v1/Rooms/",
       //model: RoomModel,
       model: Entities.Room,
-      comparator: "roomName"
+      comparator: "room"
     });
 
     //Entities.configureStorage(Entities.RoomCollection);
