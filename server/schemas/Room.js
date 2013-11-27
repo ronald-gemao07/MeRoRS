@@ -12,4 +12,12 @@ RoomSchema.pre('save', function (next) {
 	next();
 });
 
+/**
+ * Methods
+ */
+
+RoomSchema.methods ={
+  
+}
+
 module.exports = mongoose.model( 'Room', RoomSchema );
