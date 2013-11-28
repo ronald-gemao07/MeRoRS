@@ -10,12 +10,9 @@ var async = require('async')
 
 var users = require('../controllers/users'),
     rooms = require('../controllers/rooms'),
-    reservations =require('../controllers/users'),
-
-    site = require('../controllers/site'), 
-    appMain = require('../controllers/appMain'), 
     reservations =require('../controllers/reservations'),
-
+    site = require('../controllers/site'),
+    appMain = require('../controllers/appMain'),
     auth = require('./middlewares/authorization')
 
 /**
