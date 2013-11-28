@@ -1,91 +1,70 @@
-//
-// Module Dependencies
-//
 
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    utils = require('../lib/utils');
+/**
+ * Module dependencies.
+ */
 
-var login = function(req, res) {
-    if (req.session.returnTo) {
-        res.redirect(req.session.returnTo);
-        delete req.session.returnTo;
-        return;
-    };
-    req.user.update();
-    res.redirect('/app');
-};
+var mongoose = require('mongoose')
+  , User = mongoose.model('User')
+  , utils = require('../lib/utils');
 
-//
-// Auth Callback
-//
+var login = function (req, res) {
+  if (req.session.returnTo) {
+    res.redirect(req.session.returnTo)
+    delete req.session.returnTo
+    return
+  }
+  req.user.update();
+  res.redirect('/app')
+}
 
-exports.authCallback = login;
+exports.signin = function (req, res) {
+  
+}
 
-//
-// Show Login Form
-//
+/**
+ * Auth callback
+ */
 
-exports.login = function(req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('/app');
-        return;
-    }
+exports.authCallback = login
 
-    res.render('/', {
-        title: 'Login',
-        message: req.flash('error')
-    });
-};
+/**
+ * Show login form
+ */
 
-//
-// Show Sign Up Form
-//
+exports.login = function (req, res) {
+/*  if (req.isAuthenticated()) {
+    res.redirect('/feeds');
+    return;
+  }
+*/
+  res.render('users/login', {
+    title: 'Login',
+    message: req.flash('error')
+  })
+}
 
-exports.signup = function(req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('/app');
-        return;
-    }
+/**
+ * Show sign up form
+ */
 
-    res.render('user/signup', {
-        title: 'Sign Up',
-        error: ''
-    });
-};
-
-// Help
-exports.help = function(req, res) {
-    if (req.isAuthenticated()) {
-        res.redirect('/app');
-        return;
-    }
-
-    res.render('user/help', {
-        title: 'Help Page'
-    });
-};
-
-
-//Forgot Password
-exports.forgotPassword = function (req, res) {
+exports.signup = function (req, res) {
   if (req.isAuthenticated()) {
-        res.redirect('/app');
-        return;
-    }
+    res.redirect('/app');
+    return;
+  }
 
-    res.render('user/forgot-password', {
-      title: 'Forgot Password'
-    });
+  res.render('user/signup', {
+    title: 'Sign up'
+  })
 }
 
 /**
  * Logout
  */
 
-exports.logout = function(req, res) {
-    req.logout();
-    res.redirect('/');
+exports.logout = function (req, res) {
+  req.logout()
+  res.redirect('/login')
 }
 
 /**
@@ -98,51 +77,49 @@ exports.session = login
  * Create user
  */
 
-exports.create = function(req, res) {
-    var user = new User(req.body)
-    user.provider = 'local'
-    user.save(function(err) {
-        if (err) {
-            return res.render('users/signup', {
-                errors: utils.errors(err.errors),
-                user: user,
-                title: 'Sign up'
-            })
-        }
+exports.create = function (req, res) {
+  var user = new User(req.body)
+  user.provider = 'local'
+  user.save(function (err) {
+    if (err) {
+      return res.render('users/signup', {
+        errors: utils.errors(err.errors),
+        user: user,
+        title: 'Sign up'
+      })
+    }
 
-        // manually login the user once successfully signed up
-        req.logIn(user, function(err) {
-            if (err) return next(err)
-            return res.redirect('/app');
-        })
+    // manually login the user once successfully signed up
+    req.logIn(user, function(err) {
+      if (err) return next(err)
+      return res.redirect('/app')
     })
+  })
 }
 
 /**
  *  Show profile
  */
 
-exports.show = function(req, res) {
-    var user = req.profile
-    res.render('users/show', {
-        title: user.name,
-        user: user
-    })
+exports.show = function (req, res) {
+  var user = req.profile
+  res.render('users/show', {
+    title: user.name,
+    user: user
+  })
 }
 
 /**
  * Find user by id
  */
 
-exports.user = function(req, res, next, id) {
-    User
-        .findOne({
-            _id: id
-        })
-        .exec(function(err, user) {
-            if (err) return next(err)
-            if (!user) return next(new Error('Failed to load User ' + id))
-            req.profile = user
-            next()
-        })
+exports.user = function (req, res, next, id) {
+  User
+    .findOne({ _id : id })
+    .exec(function (err, user) {
+      if (err) return next(err)
+      if (!user) return next(new Error('Failed to load User ' + id))
+      req.profile = user
+      next()
+    })
 }
