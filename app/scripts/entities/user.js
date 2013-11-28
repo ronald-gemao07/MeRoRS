@@ -1,9 +1,12 @@
-define(["app", "apps/config/storage/localstorage"], function(MERORS){
+define(["app"/*, "apps/config/storage/localstorage"*/], function(MERORS){
   MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.User = Backbone.Model.extend({
-      urlRoot: "users",
+      idAttribute: "_id",
+      urlRoot: "http://localhost:9000/api/v1/Users",
+      /*urlRoot: "users",*/
 
       defaults: {
+        _id: null,
         email: "", 
         firstName: "",
         lastName: "",
@@ -20,18 +23,18 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
       }
     });
 
-    Entities.configureStorage(Entities.User);
+    /*Entities.configureStorage(Entities.User);*/
 
     Entities.UserCollection = Backbone.Collection.extend({
-      url: "users",
+      url: "http://localhost:9000/api/v1/Users",
       model: Entities.User,
       comparator: "email"
     });
 
-    Entities.configureStorage(Entities.UserCollection);
+    /*Entities.configureStorage(Entities.UserCollection);*/
 
     var initializeUsers = function(){
-      var users = new Entities.UserCollection([
+      var users = new Entities.UserCollection(/*[
         { 
           id: 1, 
           email: "elluis.invento@globalzeal.net", 
@@ -41,7 +44,7 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
           group: "Administrator",
           status: "Active"
         }
-      ]);
+      ]*/);
       users.forEach(function(user){
         user.save();
       });

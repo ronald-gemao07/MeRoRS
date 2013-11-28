@@ -57,8 +57,8 @@ define(["app", "apps/users/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-                    var highestId = users.max(function(c){ return c.id; }).get("id");
-                    data.id = highestId + 1;
+                    /*var highestId = users.max(function(c){ return c.id; }).get("id");
+                    data.id = highestId + 1;*/
                     
                     if(newUser.save(data)){
                       users.add(newUser);
