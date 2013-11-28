@@ -1,8 +1,8 @@
-<td><%= name %></td>
+<td><%= lastName %>, <%= firstName %></td>
 <td><%= email %></td>
 <td><%= position %></td>
 <td><%= group %></td>
-<td><%= active %></td>
+<td><%= status %></td>
 <td>
   <a href="#users/<%= id %>" class="btn btn-small js-show">
     <i class="icon-eye-open"></i>

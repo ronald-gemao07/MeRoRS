@@ -49,6 +49,9 @@ module.exports = function (app, passport) {
 
 
   // main app
+  
   app.get('/app', appMain.index);
+  //app.get('/api/v1/Rooms/', rooms.test);
+  //app.post('/api/v1/Rooms/', rooms.create);
 
 }

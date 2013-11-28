@@ -1,0 +1,1 @@
+<div class="alert alert-error">This user doesn't exist !</div>
