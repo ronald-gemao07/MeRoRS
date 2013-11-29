@@ -33,8 +33,8 @@ module.exports = function (app, passport) {
   app.get('/signup', users.signup);
   app.post('/signup', users.create);
 
-  app.get('/help', users.help);
-  app.get('/forgot-password', users.forgotPassword);
+  //app.get('/help', users.help);
+  //app.get('/forgot-password', users.forgotPassword);
   app.get('/logout', users.logout);
 
   // app.post('/users/session',

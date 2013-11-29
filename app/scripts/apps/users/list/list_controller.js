@@ -20,7 +20,8 @@ define(["app", "apps/users/list/list_view"], function(MERORS, View){
                   return function(user){
                     if(user.get('firstName').toLowerCase().indexOf(criterion) !== -1
                       || user.get('lastName').toLowerCase().indexOf(criterion) !== -1
-                      || user.get('email').toLowerCase().indexOf(criterion) !== -1){
+                      || user.get('email').toLowerCase().indexOf(criterion) !== -1
+                      || user.get('position').toLowerCase().indexOf(criterion) !== -1){
                         return user;
                     }
                   };
@@ -57,9 +58,9 @@ define(["app", "apps/users/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-                    var highestId = users.max(function(c){ return c.id; }).get("id");
-                    data.id = highestId + 1;
-                    
+                    // var highestId = users.max(function(c){ return c.id; }).get("id");
+                    // data.id = highestId + 1;
+                    console.log(data);
                     if(newUser.save(data)){
                       users.add(newUser);
                       view.trigger("dialog:close");
@@ -80,7 +81,7 @@ define(["app", "apps/users/list/list_view"], function(MERORS, View){
               });
 
               usersListView.on("itemview:user:show", function(childView, model){
-                MERORS.trigger("user:show", model.get("id"));
+                MERORS.trigger("user:show", model.get("_id"));
               });
 
               usersListView.on("itemview:user:edit", function(childView, model){

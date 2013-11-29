@@ -18,7 +18,7 @@ define(["app", "apps/users/show/show_view"], function(MERORS, View){
               });
 
               userView.on("user:edit", function(user){
-                MERORS.trigger("user:edit", user.get("id"));
+                MERORS.trigger("user:edit", user.get("_id"));
               });
             }
             else{

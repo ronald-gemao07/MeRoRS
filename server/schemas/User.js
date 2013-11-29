@@ -6,9 +6,12 @@ var crypto = require('crypto');
 
 var UserSchema = new Schema( {
       email: { type: String, default: '', required: true },
-  	  hashed_password: { type: String, default: '', required: true },
+  	  hashed_password: { type: String, default: '', required: false },
   	  firstName: { type: String, default: '' },
   	  lastName: { type: String, default: '' },
+      position: {type: String, default: ''},
+      group: {type: String, default: ''},
+      status: {type: String, default: ''},
   	  salt: { type: String, default: '' }
 });
 
@@ -16,35 +19,35 @@ var UserSchema = new Schema( {
  * Virtuals
  */
 
-UserSchema
+/*UserSchema
   .virtual('password')
   .set(function(password) {
     this._password = password
     this.salt = this.makeSalt()
     this.hashed_password = this.encryptPassword(password)
   })
-  .get(function() { return this._password });
+  .get(function() { return this._password });*/
 
 
  /**
  * Validations
  */
 
-var validatePresenceOf = function (value) {
+/*var validatePresenceOf = function (value) {
   return value && value.length
-}
+}*/
 
 // Hashed password
-UserSchema.path('hashed_password').validate(function (hashed_password) {
+/*UserSchema.path('hashed_password').validate(function (hashed_password) {
   return hashed_password.length
-}, 'Password cannot be blank')
+}, 'Password cannot be blank')*/
 
 // Check email
-UserSchema.path('email').validate(function (email) {
+/*UserSchema.path('email').validate(function (email) {
   return email.length
-}, 'Email cannot be blank')
+}, 'Email cannot be blank')*/
 
-UserSchema.path('email').validate(function (email, fn) {
+/*UserSchema.path('email').validate(function (email, fn) {
   
   var User = mongoose.model('User')
 
@@ -54,29 +57,29 @@ UserSchema.path('email').validate(function (email, fn) {
       fn(!err && users.length === 0)
     })
   } else fn(true)
-}, 'Email already exists');
+}, 'Email already exists');*/
 
 /**
  * Pre-save hook
  */
 
 UserSchema.pre('save', function(next) {
-  if (!this.isNew) {
+  /*if (!this.isNew) {
     return next()
   }
 
   if (!validatePresenceOf(this.hashed_password)) {
     next(new Error('Invalid hashed_password'))
-  } else {
-    next()
-  }
+  } else {*/
+    next();
+  //}
 });
 
 /**
  * Methods
  */
 
-UserSchema.methods = {
+//UserSchema.methods = {
 
   /**
    * Authenticate - check if the hashed_passwords are the same
@@ -86,9 +89,9 @@ UserSchema.methods = {
    * @api public
    */
 
-  authenticate: function (plainText) {
+  /*authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password
-  },
+  },*/
 
   /**
    * Make salt
@@ -97,9 +100,9 @@ UserSchema.methods = {
    * @api public
    */
 
-  makeSalt: function () {
+  /*makeSalt: function () {
     return Math.round((new Date().valueOf() * Math.random())) + ''
-  },
+  },*/
 
   /**
    * Encrypt hashed_password
@@ -109,7 +112,7 @@ UserSchema.methods = {
    * @api public
    */
 
-  encryptPassword: function (hashed_password) {
+  /*encryptPassword: function (hashed_password) {
     if (!hashed_password) return ''
     var encrypred
     try {
@@ -119,6 +122,6 @@ UserSchema.methods = {
       return ''
     }
   }
-}
+}*/
 
 module.exports = mongoose.model( 'User', UserSchema );
