@@ -1,18 +1,10 @@
 @import 'sass-bootstrap/lib/bootstrap';
 @import '_jquery_ui';
 @import 'jquery.timepicker.min';
-@import 'kendo.common.min';
-@import 'kendo.default.min';
-@import 'kendo.rtl.min';
 $header_bgcolor: #8DC640;
 $header_gradient: #6e9c2f;
 $header_font_color: #fff;
 $header_font_color_hover: #B2D963;
-
-$header_bgcolor: #8DC640;
-$header_gradient: #6e9c2f;
-$header_font_color: #fff;
-$header_font_color_hover: #ccc;
 
 body {
   padding-top: 70px; /* 60px to make the container make room for the navigation bar */
@@ -58,6 +50,7 @@ body {
 	.nav{
 		li{
 			background-color: transparent !important;
+			box-shadow: none !important;
 			a{
 				color: $header_font_color !important;	
 				padding-top: 13px !important;
@@ -66,10 +59,6 @@ body {
 				box-shadow: none !important;
 				background-color: transparent !important;
 
-				&:active, &:hover, &:focus{
-					color: $header_font_color;
-
-				}
 				&:hover{
 					color: $header_font_color_hover !important;
 				} 
@@ -77,8 +66,9 @@ body {
 		}
 
 		li.active {
+			color: $header_font_color_hover !important;
 			a{
-				color: $header_font_color_hover !important;
+				@extend	li.active;
 			}
 		}
 	}
