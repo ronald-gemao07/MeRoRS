@@ -29,15 +29,24 @@ define(["app"], function(MERORS){
     var API = {
 
       mainReservations: function (criterion) {
-        require(["app/reservations/main/main_controller"], function (MainController) {
+        require(["apps/reservations/main/main_controller"], function (MainController) {
           console.log('api')
           console.log(MainController)
-          executeAction(MainController.mainView, criterion);
+          executeAction(MainController.listReservations, criterion);
         });
       }, 
+
+      listReservations: function(criterion){
+        require(["apps/reservations/list/list_controller"], function(ListController){
+          console.log('reservations list')
+          executeAction(ListController.listReservations, criterion);
+        })
+      },
       // Shows the description of a reservation
       showReservation: function (id) {
-
+        require(["apps/reservations/show/show_controller"], function(ShowController){
+          executeAction(ShowController.showRoom, id);
+        });
       }, 
       // Edit a reservation
       editReservation: function (id) {
@@ -46,7 +55,7 @@ define(["app"], function(MERORS){
     };
 
     // Listeners for our routes
-    MERORS.on("reservations:main", function(){
+    MERORS.on("reservations:show", function(){
       MERORS.navigate("reservations");
       API.mainReservations();
     });

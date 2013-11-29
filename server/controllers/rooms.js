@@ -19,8 +19,3 @@ exports.create = function(req, res) {
 exports.test = function(req, res) {
 	console.log("GET!");
 }
-
-
-
-
-

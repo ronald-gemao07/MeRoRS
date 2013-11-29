@@ -18,9 +18,8 @@ define(["app", "apps/reservations/list/list_view"], function(MERORS, View){
                 filterFunction: function(filterCriterion){
                   var criterion = filterCriterion.toLowerCase();
                   return function(reservation){
-                    if(reservation.get('reservationName').toLowerCase().indexOf(criterion) !== -1
-                      || reservation.get('capacity').toLowerCase().indexOf(criterion) !== -1
-                      || reservation.get('reservationDescription').toLowerCase().indexOf(criterion) !== -1){
+                    if(reservation.get('title').toLowerCase().indexOf(criterion) !== -1
+                      || reservation.get('description').toLowerCase().indexOf(criterion) !== -1){
                         return reservation;
                     }
                   };

@@ -2,7 +2,7 @@ define(["app", "apps/reservations/common/views"], function(MERORS, CommonViews){
   MERORS.module("ReservationsApp.Edit.View", function(View, MERORS, Backbone, Marionette, $, _){
     View.Reservation = CommonViews.Form.extend({
       initialize: function(){
-        this.title = "Edit " + this.model.get("reservationName");
+        this.title = "Edit " + this.model.get("title");
       },
 
       onRender: function(){
