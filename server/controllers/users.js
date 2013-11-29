@@ -17,7 +17,7 @@ var login = function (req, res) {
   res.redirect('/app')
 }
 
-exports.signin = function (req, res) {
+//exports.signin = function (req, res) {
 
 /**
  * Auth callback
@@ -91,30 +91,9 @@ exports.logout = function (req, res) {
  * Session
  */
 
-exports.session = login
-
 /**
  * Create user
  */
-
-exports.create = function (req, res) {
-  var user = new User(req.body)
-  user.provider = 'local'
-  user.save(function (err) {
-    if (err) {
-      return res.render('users/signup', {
-        errors: utils.errors(err.errors),
-        user: user,
-        title: 'Sign up'
-      })
-    }
-
-    // manually login the user once successfully signed up
-    req.logIn(user, function(err) {
-      if (err) return next(err)
-      return res.redirect('/app')
-    })
-  })
 
 exports.createUser = function(req, res) {
     var user = new User(req.body)

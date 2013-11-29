@@ -34,10 +34,10 @@ module.exports = function (app, passport) {
   app.get('/signup', users.signup);
   app.post('/signup', users.createUser);
 
-  app.get('/help', users.help);
+  //app.get('/help', users.help);
 
-  app.get('/forgot-password', users.forgotPassword);
-  app.post('/forgot-password', users.resetPassword);
+ // app.get('/forgot-password', users.forgotPassword);
+ // app.post('/forgot-password', users.resetPassword);
 
   app.get('/logout', users.logout);
 
