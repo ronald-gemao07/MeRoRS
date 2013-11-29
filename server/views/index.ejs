@@ -1,17 +1,17 @@
 <% layout('layouts/default') -%>
 <p>Sign in to Use the System.</p>
 
-      <div
-      <form>
+      <form name="loginForm" id="loginForm" action="/login" method="post">
         <div class="control-group">
-        <div class="btn-danger btn-large" id="loginError">Warning: Username  and password do not match.</div>
+        <div class="btn-danger btn-large error-message" id="loginError">Warning: Username  and password do not match.</div>
         <input type="text" id="inputEmail" placeholder="Email" class="input-xlarge signup-input" ><br />
-        <input type="password" id="inputPassword" placeholder="Password"  class="input-xlarge signup-input"><br />
-        <a href="/forgot-password"><button class="btn btn-primary btn-large">Forgot Password</button></a>
-        <button type="submit" class="btn btn-success btn-large">Sign in</button>
+        <input type="password" id="inputPassword" placeholder="Password"  class="input-xlarge signup-input">
+        <br />
+        <a href="/forgot-password" class="btn btn-primary btn-large">Forgot Password</a>
+        <button type="submit" class="btn btn-success btn-large" >Sign In</button>
         </div>
       </form>
-
       <div class="signup">
           <h3><a href="/signup">Create an Account</a></h3><a href="/help">Need Help?</a>
       </div>
+

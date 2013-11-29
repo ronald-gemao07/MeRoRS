@@ -18,12 +18,20 @@ var login = function (req, res) {
 }
 
 exports.signin = function (req, res) {
-  
-}
 
 /**
  * Auth callback
  */
+
+exports.loginAction = function(req, res){
+    console.log(req.body);
+    res.send(200, "OK");
+    res.end();
+}
+
+//
+// Show Sign Up Form
+//
 
 exports.authCallback = login
 
@@ -56,6 +64,18 @@ exports.signup = function (req, res) {
   res.render('user/signup', {
     title: 'Sign up'
   })
+}
+
+// Process forgot password
+exports.resetPassword = function(req, res) {
+    if (req.isAuthenticated()) {
+        res.redirect('/app');
+        return;
+    }
+
+    console.log(req.body);
+    res.send(200, "OK");
+    res.end();
 }
 
 /**
@@ -95,6 +115,27 @@ exports.create = function (req, res) {
       return res.redirect('/app')
     })
   })
+
+exports.createUser = function(req, res) {
+    var user = new User(req.body)
+    user.provider = 'local'
+    // user.save(function(err) {
+    //     if (err) {
+    //         return res.render('users/signup', {
+    //             errors: utils.errors(err.errors),
+    //             user: user,
+    //             title: 'Sign up'
+    //         })
+    //     }
+
+    //     // manually login the user once successfully signed up
+    //     req.logIn(user, function(err) {
+    //         if (err) return next(err)
+    //         return res.redirect('/app');
+    //     })
+    // })
+    res.send(200, "OK");
+    res.end();
 }
 
 /**

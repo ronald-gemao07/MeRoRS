@@ -29,12 +29,16 @@ module.exports = function (app, passport) {
 
   // user routes
   app.get('/login', users.login);
+  app.post('/login', users.loginAction);
 
   app.get('/signup', users.signup);
-  app.post('/signup', users.create);
+  app.post('/signup', users.createUser);
 
-  //app.get('/help', users.help);
-  //app.get('/forgot-password', users.forgotPassword);
+  app.get('/help', users.help);
+
+  app.get('/forgot-password', users.forgotPassword);
+  app.post('/forgot-password', users.resetPassword);
+
   app.get('/logout', users.logout);
 
   // app.post('/users/session',
@@ -49,7 +53,7 @@ module.exports = function (app, passport) {
 
 
   // main app
-  
+
   app.get('/app', appMain.index);
   //app.get('/api/v1/Rooms/', rooms.test);
   //app.post('/api/v1/Rooms/', rooms.create);
