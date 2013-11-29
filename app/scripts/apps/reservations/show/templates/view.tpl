@@ -1,4 +1,4 @@
-<h1><%= reservationName %> <%= capacity %></h1>
+<h1><%= title %></h1>
 <a href="#reservations/<%= id %>/edit" class="btn btn-small js-edit">
   <i class="icon-pencil"></i>
   Edit this reservation

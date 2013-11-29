@@ -1,7 +1,6 @@
 <thead>
   <tr>
-    <th>Name</th>
-    <th>Capacity</th>
+    <th>Title</th>
     <th>Description</th>
     <th></th>
   </tr>

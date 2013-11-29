@@ -6,7 +6,8 @@ require.config({
         backbone: {
             deps: [
                 'underscore',
-                'jquery'
+                'jquery',
+                //'kendo-ui',
             ],
             exports: 'Backbone'
         },
@@ -18,15 +19,19 @@ require.config({
         "backbone.picky": ["backbone"],
         "backbone.syphon": ["backbone"],
         "spin.jquery": ["spin", "jquery"],
+        //"kendo-ui" : {
+        //    deps : ["jquery"]
+        //},
         localstorage: ["backbone"]
     },
 
     paths: {
-        jquery: '../bower_components/jquery/jquery',
+        jquery: ['../bower_components/jquery/jquery', '../bower_components/jquery/jquery.timepicker'],
         "jquery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
         backbone: '../bower_components/backbone-amd/backbone',
         "backbone.picky": "vendor/backbone.picky",
         "backbone.syphon": "vendor/backbone.syphon",
+        //"kendo-ui" : ["../bower_components/kendoui/js/kendo.web.min",  "../bower_components/kendoui/timeConfig","../bower_components/kendoui/js/kendo.all.min"],
 
         spin: "vendor/spin",
         "spin.jquery": "vendor/spin.jquery",

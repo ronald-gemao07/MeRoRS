@@ -14,7 +14,7 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         startTime: "",
         durationTime: "",
         repeatType: "",
-        dayOfTheWeek: ""
+        dayOfTheWeek: "",
       },
 
       validate: function(attrs, options) {
