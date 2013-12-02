@@ -1,4 +1,4 @@
-define(["app", "apps/reservations/common/views"], function(MERORS, CommonViews){
+define(["app", "apps/reservations/common/views", "jquery.timepicker"], function(MERORS, CommonViews){
   MERORS.module("ReservationsApp.Edit.View", function(View, MERORS, Backbone, Marionette, $, _){
     View.Reservation = CommonViews.Form.extend({
       initialize: function(){
@@ -10,7 +10,10 @@ define(["app", "apps/reservations/common/views"], function(MERORS, CommonViews){
           var $title = $("<h1>", { text: this.title });
           this.$el.prepend($title);
         } 
-        this.$(".js-submit").text("Update reservation");
+
+      this.$(".start").timepicker();
+      this.$(".end").timepicker();
+      this.$(".js-submit").text("Update reservation");
       }
     });
   });

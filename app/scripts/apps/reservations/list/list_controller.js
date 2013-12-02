@@ -88,6 +88,8 @@ define(["app", "apps/reservations/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
+                    view.trigger("dialog:close");
+
                     if(model.save(data)){
                       childView.render();
                       view.trigger("dialog:close");

@@ -1,7 +1,8 @@
 define(["app",
         "tpl!apps/reservations/list/templates/layout.tpl",
         "tpl!apps/reservations/list/templates/panel.tpl",
-        "tpl!apps/reservations/list/templates/none.tpl"],
+        "tpl!apps/reservations/list/templates/none.tpl"], "dhtmlxscheduler_minical",
+        "dhtmlxscheduler"
        function(MERORS, layoutTpl, panelTpl, noneTpl){
         
   MERORS.module("ReservationsApp.List.View", function(View, MERORS, Backbone, Marionette, $, _){

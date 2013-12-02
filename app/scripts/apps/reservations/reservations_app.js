@@ -50,7 +50,9 @@ define(["app"], function(MERORS){
       }, 
       // Edit a reservation
       editReservation: function (id) {
-
+        require(["apps/reservations/edit/edit_controller"], function(EditController){
+          executeAction(EditController.editRoom, id);
+        });
       }
     };
 
@@ -67,6 +69,11 @@ define(["app"], function(MERORS){
       else{
         MERORS.navigate("reservations");
       }
+    });
+
+    MERORS.on("reservation:edit", function(id){
+      MERORS.navigate("reservations/" + id + "/edit");
+      API.editRoom(id);
     });
 
     MERORS.addInitializer(function(){
