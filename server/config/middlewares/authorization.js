@@ -6,7 +6,7 @@
 exports.requiresLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl
-    return res.redirect('/login')
+    return res.redirect('/')
   }
   next()
 }
@@ -19,7 +19,7 @@ exports.requiresLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return res.redirect('/')
   }
-  next() 
+  next()
  }
 
 /*
@@ -33,9 +33,9 @@ exports.user = {
       return res.redirect('/users/'+req.profile.id)
     }
     next()
-  }, 
+  },
   isLoggedIn: function (req, res, next) {
-    return req.isAuthenticated(); 
+    return req.isAuthenticated();
   }
 }
 

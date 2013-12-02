@@ -121,24 +121,25 @@ exports.logout = function (req, res) {
 
 exports.createUser = function(req, res) {
     var user = new User(req.body)
+    console.log(user);
     user.provider = 'local'
-    // user.save(function(err) {
-    //     if (err) {
-    //         return res.render('users/signup', {
-    //             errors: utils.errors(err.errors),
-    //             user: user,
-    //             title: 'Sign up'
-    //         })
-    //     }
+    user.save(function(err) {
+        if (err) {
+            return res.render('user/signup', {
+                errors: utils.errors(err.errors),
+                user: user,
+                title: 'Sign up'
+            })
+        }
 
-    //     // manually login the user once successfully signed up
-    //     req.logIn(user, function(err) {
-    //         if (err) return next(err)
-    //         return res.redirect('/app');
-    //     })
-    // })
-    res.send(200, "OK");
-    res.end();
+        // manually login the user once successfully signed up
+        req.logIn(user, function(err) {
+            if (err) return next(err)
+            return res.redirect('/app');
+        })
+    })
+    // res.send(200, "OK");
+    // res.end();
 }
 
 /**
