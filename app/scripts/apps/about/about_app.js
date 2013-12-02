@@ -8,6 +8,7 @@ define(["app", "marionette"], function(MERORS, Marionette){
   var API = {
     showAbout: function(){
       require(["apps/about/show/show_controller"], function(ShowController){
+        $(document).attr("title", "About - Global Zeal Meeting Room Reservation System");
         MERORS.startSubApp(null);
         ShowController.showAbout();
         MERORS.execute("set:active:header", "about");
@@ -16,7 +17,6 @@ define(["app", "marionette"], function(MERORS, Marionette){
   };
 
   MERORS.on("about:show", function(){
-    $(document).attr("title", "About - Global Zeal Meeting Room Reservation System");
     MERORS.navigate("about");
     API.showAbout();
   });
