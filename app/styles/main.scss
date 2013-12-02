@@ -1,9 +1,6 @@
 @import 'sass-bootstrap/lib/bootstrap';
 @import '_jquery_ui';
-@import 'jquery.timepicker.min';
-@import 'kendo.common.min';
-@import 'kendo.default.min';
-@import 'kendo.rtl.min';
+@import 'jquery.timepicker';
 $header_bgcolor: #8DC640;
 $header_gradient: #6e9c2f;
 $header_font_color: #fff;

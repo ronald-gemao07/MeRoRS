@@ -18,16 +18,9 @@
       <option>Daily Reservation</option>
     </select>
   </div>
-  <div class="control-group">
-    <label for="start">Time Starts: </label>
-    <select>
-      <option id="start" value="8:00 AM"></option>
-    </select>
-  </div>
-
-  <div class="demo-section">
-    <label for="end">Time Ends: </label>
-    <input class="timepicker" name="timepicker"/>
-  </div>
+  <label for="start">Time Starts: </label>
+  <input class="start" name="start"/>
+  <label for="end">Time Ends: </label>
+  <input class="end" name="end"/><br>
   <button class="btn js-submit">Reserve</button>
 </form>

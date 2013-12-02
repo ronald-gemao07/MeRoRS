@@ -1,5 +1,8 @@
+<td><%= roomId %></td>
 <td><%= title %></td>
 <td><%= description%></td>
+<td><%= startTime %></td>
+<td><%= endTime %></td>
 <td>
   <a href="#reservations/<%= roomId %>/edit" class="btn btn-small js-edit">
     <i class="icon-pencil"></i>
