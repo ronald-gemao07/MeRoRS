@@ -9,7 +9,7 @@
  */
 
 (function($){
-	jQuery.fn.timepicker = function(){
+	jQuery.fn.timepicker = function(inputclass){
 		this.each(function(){
 			// get the ID and value of the current element
 			var i = this.id;
@@ -66,14 +66,14 @@
 			// build the new DOM objects
 			var output = '';
 			var changeAp= 'am';
-			output += '<select id="h_' + i + '" class="h timepicker">';				
+			output += '<select id="h_' + i + '" class="h timepicker" name="'+inputclass+'">';				
 			for(hr in hrs){
 				if(hrs[hr] == 12){
 					changeAp = 'pm';
 				}
 				if(hrs[hr]!=7){
 					for(mn in mins){
-						output += '<option value="'+ hrs[hr] + mins[mn] + '"';
+						output += '<option value="'+ hrs[hr] + ":" + mins[mn] + changeAp +'"';
 						if(parseInt(mins[mn]) == m) output += ' selected';
 						output += '>'+ hrs[hr] + ':' + mins[mn] + changeAp +'</option>';
 					}
@@ -83,7 +83,8 @@
 			output += '</select>';							
 	
 			// hide original input and append new replacement inputs
-			$(this).attr('type','hidden').after(output);
+			$(this).attr('type','text').after(output);
+
 		});
 		return this;
 	};

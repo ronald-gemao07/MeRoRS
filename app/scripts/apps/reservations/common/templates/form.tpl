@@ -1,7 +1,8 @@
 <form>
   <div class="control-group">
-    <select class="roomName">
+    <select class="roomName" name = "room">
       <option value="room">room</option>
+      <option value="room1">room1</option>
     </select>
   </div>
   <div class="control-group">
@@ -19,8 +20,8 @@
     </select>
   </div>
   <label for="start">Time Starts: </label>
-  <input class="start" name="start"/>
+  <input class="start"/>
   <label for="end">Time Ends: </label>
-  <input class="end" name="end"/><br>
+  <input class="end"/><br>
   <button class="btn js-submit">Reserve</button>
 </form>

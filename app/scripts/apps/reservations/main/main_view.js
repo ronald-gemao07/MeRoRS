@@ -1,10 +1,10 @@
 define(["app",
         "tpl!apps/reservations/list/templates/layout.tpl",
         "tpl!apps/reservations/list/templates/panel.tpl",
-        "tpl!apps/reservations/list/templates/none.tpl"], "dhtmlxscheduler_minical",
-        "dhtmlxscheduler"
-       function(MERORS, layoutTpl, panelTpl, noneTpl){
-        
+        "tpl!apps/reservations/list/templates/none.tpl",
+        "tpl!apps/reservations/list/templates/list.tpl",
+        "tpl!apps/reservations/list/templates/list_item.tpl"],
+       function(MERORS, layoutTpl, panelTpl, noneTpl, listTpl, listItemTpl){
   MERORS.module("ReservationsApp.List.View", function(View, MERORS, Backbone, Marionette, $, _){
     View.Layout = Marionette.Layout.extend({
       template: layoutTpl,
@@ -19,9 +19,7 @@ define(["app",
       template: panelTpl,
 
       triggers: {
-        "click button.js-new": "reservation:new", 
-        "click button.js-day-view": "reservation:day_view", 
-        "click button.js-week-view": "reservation:week_view"         
+        "click button.js-new": "reservation:new"
       },
 
       events: {

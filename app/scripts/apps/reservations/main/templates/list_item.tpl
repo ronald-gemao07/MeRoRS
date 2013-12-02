@@ -4,7 +4,7 @@
 <td><%= start_time %></td>
 <td><%= end_time %></td>
 <td>
-  <a href="#reservations/<%= roomId %>/edit" class="btn btn-small js-edit">
+  <a href="#reservations/<%= _id %>/edit" class="btn btn-small js-edit">
     <i class="icon-pencil"></i>
       Edit
   </a>

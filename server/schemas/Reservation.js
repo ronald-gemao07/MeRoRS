@@ -4,6 +4,7 @@ var mongoose = require( 'mongoose' ),
 var ReservationSchema = new Schema({
     room: { type: String, default: '' },
     reservedBy: { type: String, default: '' },
+    title: { type: String, default: '' },
     description: { type: String, default: '' },
     startDate: { type: Date, default: '' },
     endDate: { type: Date, default: '' },

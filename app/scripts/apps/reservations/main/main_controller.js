@@ -1,4 +1,4 @@
-define(["app", "apps/reservations/list/list_view"], function(MERORS, View){
+define(["app", "apps/reservations/main/main_view"], function(MERORS, View){
   MERORS.module("ReservationsApp.List", function(List, MERORS, Backbone, Marionette, $, _){
     List.Controller = {
       mainView: function (criterion) {
@@ -59,9 +59,9 @@ define(["app", "apps/reservations/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-                    var highestId = reservations.max(function(c){ return c.id; }).get("id");
-                    data.id = highestId + 1;
+                    console.log(data);
                     if(newReservation.save(data)){
+                      console.log("here");
                       reservations.add(newReservation);
                       view.trigger("dialog:close");
                       var newReservationView = reservationsListView.children.findByModel(newReservation);
@@ -81,7 +81,7 @@ define(["app", "apps/reservations/list/list_view"], function(MERORS, View){
               });
 
               reservationsListView.on("itemview:reservation:show", function(childView, model){
-                MERORS.trigger("reservation:show", model.get("id"));
+                MERORS.trigger("reservation:show", model.get("_id"));
                 console.log('here');
               });
 

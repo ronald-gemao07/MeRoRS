@@ -1,12 +1,14 @@
-define(["app", "apps/config/storage/localstorage"], function(MERORS){
+define(["app"], function(MERORS){
   MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Reservation = Backbone.Model.extend({
-      urlRoot: "reservations",
+      idAttribute: '_id',
+
+      urlRoot: "http://localhost:9000/api/v1/Reservations/",
 
       defaults: {
-        roomId: "",
-        userId: "",
-        reservationId: "",
+        _id:null,
+        room: "",
+        reservedBy: "",
         title: "",
         description: "",
         startDate: "",
@@ -20,7 +22,7 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
 
       validate: function(attrs, options) {
         var errors = {}
-        if (! attrs.title) {
+/*        if (! attrs.title) {
           errors.title = "can't be blank";
         }
         if (! attrs.startDate) {
@@ -28,20 +30,20 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         }
         if( ! _.isEmpty(errors)){
           return errors;
-        }
+        }*/
       }
     });
 
-    Entities.configureStorage(Entities.Reservation);
+    //Entities.configureStorage(Entities.Reservation);
 
     Entities.ReservationCollection = Backbone.Collection.extend({
-      url: "reservations",
+      url: "http://localhost:9000/api/v1/Reservations/",
       model: Entities.Reservation,
-      comparator: "title"
+      comparator: "description"
     });
 
-    Entities.configureStorage(Entities.ReservationCollection);
-
+    //Entities.configureStorage(Entities.ReservationCollection);
+/*
     var initializeReservations = function(){
       var reservations = new Entities.ReservationCollection([
         { reservationId: 1, title: "Team Kadasig Standup", description: "Team Kadasig standup meeting with Scrum Master" }
@@ -50,7 +52,7 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         reservation.save();
       });
       return reservations.models;
-    };
+    };*/
 
     var API = {
       getReservationEntities: function(){
@@ -65,8 +67,8 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
         $.when(promise).done(function(reservations){
           if(reservations.length === 0){
             // if we don't have any reservations yet, create some for convenience
-            var models = initializeReservations();
-            reservations.reset(models);
+            //var models = initializeReservations();
+            //reservations.reset(models);
           }
         });
         return promise;

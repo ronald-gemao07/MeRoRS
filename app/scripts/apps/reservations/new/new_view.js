@@ -4,8 +4,8 @@ define(["app", "apps/reservations/common/views", "jquery.timepicker"], function(
       title: "New Reservation",
 
       onRender: function(){
-  	    this.$(".start").timepicker();
-  	    this.$(".end").timepicker();
+  	    this.$(".start").timepicker("startTime");
+  	    this.$(".end").timepicker("endTime");
         this.$(".js-submit").text("Add reservation");
       }
     });
