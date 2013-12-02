@@ -16,6 +16,7 @@ define(["app", "marionette"], function(MERORS, Marionette){
   };
 
   MERORS.on("about:show", function(){
+    $(document).attr("title", "About - Global Zeal Meeting Room Reservation System");
     MERORS.navigate("about");
     API.showAbout();
   });

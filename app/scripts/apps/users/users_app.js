@@ -22,6 +22,7 @@ define(["app", "marionette"], function(MERORS, Marionette) {
 		});
 
 		var executeAction = function(action, arg){
+			$(document).attr("title", "Manage Users - Global Zeal Meeting Room Reservation System");
 			MERORS.startSubApp("UsersApp");
 			action(arg);
 			MERORS.execute("set:active:header", "users");

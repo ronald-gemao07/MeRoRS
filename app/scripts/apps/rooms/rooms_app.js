@@ -21,6 +21,7 @@ define(["app"], function(MERORS){
     });
 
     var executeAction = function(action, arg){
+      $(document).attr("title", "Manage Rooms - Global Zeal Meeting Room Reservation System");
       MERORS.startSubApp("RoomsApp");
       action(arg);
       MERORS.execute("set:active:header", "rooms");
