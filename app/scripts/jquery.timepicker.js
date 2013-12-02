@@ -83,7 +83,7 @@
 			output += '</select>';							
 	
 			// hide original input and append new replacement inputs
-			$(this).attr('type','text').after(output);
+			$(this).attr('type','hidden').after(output);
 
 		});
 		return this;

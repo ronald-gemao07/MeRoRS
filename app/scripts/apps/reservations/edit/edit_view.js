@@ -11,8 +11,8 @@ define(["app", "apps/reservations/common/views", "jquery.timepicker"], function(
           this.$el.prepend($title);
         } 
 
-      this.$(".start").timepicker();
-      this.$(".end").timepicker();
+      this.$(".start").timepicker("startTime");
+      this.$(".end").timepicker("endTime");
       this.$(".js-submit").text("Update reservation");
       }
     });

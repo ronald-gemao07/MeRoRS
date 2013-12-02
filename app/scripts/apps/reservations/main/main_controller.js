@@ -107,7 +107,20 @@ define(["app", "apps/reservations/main/main_view"], function(MERORS, View){
               });
 
               reservationsListView.on("itemview:reservation:delete", function(childView, model){
-                model.destroy();
+                //model.destroy();
+                require(["apps/reservations/delete/delete_view"], function(DeleteView){
+                  var view = new DeleteView.Reservation({
+                    model: model
+                  });
+
+                  view.on("reservation : delete", function(data){
+                    model.destroy({wait:false});
+                    view.trigger("dialog:close");
+                    childView.flash("success");
+                  });
+
+                  MERORS.dialogRegion.show(view);
+                });
               });
 
               MERORS.mainRegion.show(reservationsListLayout);
