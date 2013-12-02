@@ -66,7 +66,31 @@ exports.signup = function (req, res) {
   })
 }
 
+// Help Page
+
+exports.help = function (req, res) {
+  if (req.isAuthenticated()) {
+      res.redirect('/app');
+      return;
+    }
+
+  res.render('user/help', {
+    title: 'Help Page'
+  })
+}
+
 // Process forgot password
+exports.forgotPassword = function(req, res){
+  if (req.isAuthenticated()) {
+        res.redirect('/app');
+        return;
+    }
+
+    res.render('user/forgot-password', {
+      title: 'Forgot Password'
+    })
+}
+
 exports.resetPassword = function(req, res) {
     if (req.isAuthenticated()) {
         res.redirect('/app');
