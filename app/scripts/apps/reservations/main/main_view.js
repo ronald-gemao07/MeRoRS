@@ -119,6 +119,5 @@ define(["app",
       }
     });
   });
-
   return MERORS.ReservationsApp.List.View;
 });

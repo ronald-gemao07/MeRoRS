@@ -11,7 +11,7 @@
   </div>
   <div class="control-group">
     <label for="reservation-purpose" class="control-label">Description: </label>
-    <input id="reservation-purpose" name="description" type="text" value="<%= description %>"/>
+    <textarea id="reservation-purpose" name="description" type="text" value="<%= description %>"/>
   </div>
   <div class="control-group">
     <select class="reservation">
