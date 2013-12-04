@@ -171,13 +171,18 @@ define(["app", "marionette"], function(MERORS, Marionette){
             }
         });
 
-      $("#date-picker" ).datepicker({
-      dateFormat: 'yy-mm-dd',
-      onSelect: function(dateText,dateIns){
-        var d = new Date(dateText);
-              $('#calendar').fullCalendar('gotoDate', d);
-      }
-      });
+          $("#date-picker" ).datepicker({
+              dateFormat: 'yy-mm-dd',
+              onSelect: function(dateText,dateIns){
+                var d = new Date(dateText);
+                      $('#calendar').fullCalendar('gotoDate', d);
+              }
+          });
+          
+          $(".fc-button-prev, .fc-button-next").click("click", function () {
+            var currentFullCalendarDate = $('#calendar').fullCalendar("getDate").getFullYear() + "-" + ($('#calendar').fullCalendar("getDate").getMonth() + 1) + "-" + $('#calendar').fullCalendar("getDate").getDate();
+            $("#date-picker").datepicker("setDate", currentFullCalendarDate);
+          });
       });
     }
   };
