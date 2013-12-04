@@ -1,6 +1,11 @@
 body{
   padding: 0;
 }
+
+.container{
+  width: 540px !important;
+}
+
 .hero-unit {
           width: 540px;
           margin: 0 auto;
