@@ -8,7 +8,6 @@ define(["app", "marionette"], function(MERORS, Marionette){
   var API = {
     showBoard: function(){
       require(["apps/board/show/show_controller"], function(ShowController){
-        $(document).attr("title", "Reservation Board - Global Zeal Meeting Room Reservation System");
         MERORS.startSubApp(null);
         ShowController.showBoard();
         MERORS.execute("set:active:header", "board");
@@ -109,7 +108,6 @@ define(["app", "marionette"], function(MERORS, Marionette){
                         },
                         "ADD": function(ev) {   
                             var form =$('#test-form');
-                            console.log(form.find('input[id=title]').val());
                             if(title=form.find('input[id=title]').val()){
                                 calendar.fullCalendar('renderEvent', {
                                         title: title,
@@ -129,7 +127,7 @@ define(["app", "marionette"], function(MERORS, Marionette){
            
             eventClick: function(calEvent, jsEvent, view) {
                 var id = calEvent.title;
-                console.log(id);
+
                 $("#dialog").dialog({
                     resizable: true,
                     title: 'Edit Reservation',
@@ -141,9 +139,10 @@ define(["app", "marionette"], function(MERORS, Marionette){
 
                         "Update": function() {
                             var form =$('#test-form');
+                            calEvent.title = form.find('input[id=title]').val();
                             if(title=form.find('input[id=title]').val()){
                                 calendar.fullCalendar('updateEvent', {
-                                        title: form.find('input[id=title]').val(),
+                                        title: calEvent.title,
                                         start: calEvent.start,
                                         end: calEvent.end,
                                         allDay: calEvent.allDay,
@@ -155,9 +154,6 @@ define(["app", "marionette"], function(MERORS, Marionette){
                         },
 
                         "DELETE": function() {
-                            console.log(calEvent.title);
-                            calendar.fullCalendar('removeEvents', calEvent.title);
-                            $("#dialog").dialog("close");
                         }
                     }
                 });
