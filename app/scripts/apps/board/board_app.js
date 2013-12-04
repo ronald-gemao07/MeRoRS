@@ -127,9 +127,8 @@ define(["app", "marionette"], function(MERORS, Marionette){
             },
            
             eventClick: function(calEvent, jsEvent, view) {
-                var id = calEvent.id;
-                var reservationTitle = calEvent.end;
-                console.log(reservationTitle);
+                var id = calEvent.title;
+                console.log(id);
                 $("#dialog").dialog({
                     resizable: true,
                     title: 'Edit Reservation',
@@ -141,10 +140,9 @@ define(["app", "marionette"], function(MERORS, Marionette){
 
                         "Update": function() {
                             var form =$('#test-form');
-                            calEvent.title = form.find('input[id=title]').val();
                             if(title=form.find('input[id=title]').val()){
                                 calendar.fullCalendar('updateEvent', {
-                                        title: calEvent.title,
+                                        title: form.find('input[id=title]').val(),
                                         start: calEvent.start,
                                         end: calEvent.end,
                                         allDay: calEvent.allDay,
@@ -156,7 +154,9 @@ define(["app", "marionette"], function(MERORS, Marionette){
                         },
 
                         "DELETE": function() {
-                            //delete reservation
+                            console.log(calEvent.title);
+                            calendar.fullCalendar('removeEvents', calEvent.title);
+                            $("#dialog").dialog("close");
                         }
                     }
                 });
