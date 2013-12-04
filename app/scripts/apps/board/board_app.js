@@ -29,10 +29,12 @@ define(["app", "marionette"], function(MERORS, Marionette){
             selectable: true,
             selectHelper: true,
             eventColor: '#8dc640',
+            eventTextColor: '#111111',
             editable: true,
             slotEventOverlap: false,
             minTime: '8:00am',
             maxTime: '7:00pm',
+            allDaySlot: false,
             resources: [
                 {
                     name: "Room1",
