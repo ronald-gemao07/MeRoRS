@@ -19,16 +19,19 @@ require.config({
         "backbone.syphon": ["backbone"],
         "spin.jquery": ["spin", "jquery"],
         "jquery-timepicker" : ["jquery"],
+        "fullcalendar" : ["jquery-ui","jquery"],
         localstorage: ["backbone"]
     },
 
     paths: {
         jquery: '../bower_components/jquery/jquery', 
         "jquery-ui": "../bower_components/jquery-ui/ui/jquery-ui",
+        "jquery-timepicker" : "jquery.timepicker", 
+        "fullcalendar" : "fullcalendar",
         backbone: '../bower_components/backbone-amd/backbone',
         "backbone.picky": "vendor/backbone.picky",
         "backbone.syphon": "vendor/backbone.syphon",
-        "jquery-timepicker" : "jquery.timepicker", 
+ 
         spin: "vendor/spin",
         "spin.jquery": "vendor/spin.jquery",
 

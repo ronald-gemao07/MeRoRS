@@ -1,6 +1,8 @@
 @import 'sass-bootstrap/lib/bootstrap';
 @import '_jquery_ui';
 @import 'jquery.timepicker.min';
+@import 'fullcalendar';
+@import 'fullcalendar.print';
 $header_bgcolor: #8DC640;
 $header_gradient: #6e9c2f;
 $header_font_color: #fff;
@@ -8,6 +10,10 @@ $header_font_color_hover: #B2D963;
 
 body {
   padding-top: 70px; /* 60px to make the container make room for the navigation bar */
+}
+
+.container{
+	width: 1220px !important;
 }
 
 .navbar-inverse{
@@ -26,7 +32,7 @@ body {
 
 		.brand{
 			color: $header_font_color !important;
-			margin-left: 222px !important;
+			margin-left: 70px !important;
 
 			&:hover{
 				color:$header_font_color_hover !important;
@@ -48,6 +54,8 @@ body {
 	}
 
 	.nav{
+		@extend .pull-right;
+		margin-right: 100px;
 		li{
 			background-color: transparent !important;
 			box-shadow: none !important;
@@ -73,4 +81,12 @@ body {
 		}
 	}
 
+}
+
+#date-picker{
+   margin-bottom:10px;
+}
+
+#calendar {
+   width: 960px;
 }
