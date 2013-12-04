@@ -108,6 +108,7 @@ define(["app", "marionette"], function(MERORS, Marionette){
                         },
                         "ADD": function(ev) {   
                             var form =$('#test-form');
+                            console.log(form.find('input[id=title]').val());
                             if(title=form.find('input[id=title]').val()){
                                 calendar.fullCalendar('renderEvent', {
                                         title: title,
@@ -126,24 +127,32 @@ define(["app", "marionette"], function(MERORS, Marionette){
             },
            
             eventClick: function(calEvent, jsEvent, view) {
-                id = calEvent.id;
+                var id = calEvent.id;
+                var reservationTitle = calEvent.end;
+                console.log(reservationTitle);
                 $("#dialog").dialog({
                     resizable: true,
                     title: 'Edit Reservation',
                     width: "auto",
                     buttons: {
                         CANCEL: function() {
-                            $("#dialog-edit").dialog("close");
+                            $("#dialog").dialog("close");
                         },
 
-                        "EDIT": function() {
-                            calendar.fullCalendar('renderEvent', {
-                                    title: "MERRRRRRROAAAARS",
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                },true 
-                            );
+                        "Update": function() {
+                            var form =$('#test-form');
+                            calEvent.title = form.find('input[id=title]').val();
+                            if(title=form.find('input[id=title]').val()){
+                                calendar.fullCalendar('updateEvent', {
+                                        title: calEvent.title,
+                                        start: calEvent.start,
+                                        end: calEvent.end,
+                                        allDay: calEvent.allDay,
+                                        resourceId: calEvent.resourceId
+                                    },true 
+                                );
+                            }
+                            $("#dialog").dialog("close");
                         },
 
                         "DELETE": function() {
