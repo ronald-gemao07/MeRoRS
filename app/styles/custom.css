@@ -40,7 +40,7 @@ body{
       }
 
       .notifications{
-        font-color:red;
+        color:red;
         padding: 10px;
         text-align: center;
       }
@@ -55,7 +55,7 @@ body{
         border-bottom: 1px solid #000000;
       }
 
-      #loginError, #signupError{
+      .error-message{
         margin-bottom: 10px;
         display: none;
       }
