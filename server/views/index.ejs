@@ -3,12 +3,17 @@
 
       <form name="loginForm" id="loginForm" action="/login" method="post">
         <div class="control-group">
-        <div class="btn-danger btn-large error-message" id="loginError">Warning: Username  and password do not match.</div>
-        <input type="text" id="inputEmail" placeholder="Email" class="input-xlarge signup-input" ><br />
-        <input type="password" id="inputPassword" placeholder="Password"  class="input-xlarge signup-input">
-        <br />
-        <a href="/forgot-password" class="btn btn-primary btn-large">Forgot Password</a>
-        <button type="submit" class="btn btn-success btn-large" >Sign In</button>
+          <div class="btn-danger btn-large error-message" id="loginError">Warning: Username  and password do not match.</div>
+            <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input" >
+
+            <br />
+
+            <input type="password" id="inputPassword" name="inputPassword" placeholder="Password"  class="input-xlarge signup-input" >
+
+            <br />
+
+            <a href="/forgot-password" class="btn btn-primary btn-large">Forgot Password</a>
+            <button type="submit" class="btn btn-success btn-large" >Sign In</button>
         </div>
       </form>
       <div class="signup">
