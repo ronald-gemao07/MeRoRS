@@ -148,16 +148,9 @@ exports.createUser = function(req, res) {
                         res.send(403, "Error saving details.");
                         res.end();
                     } else { // save successful, force login
-                        req.logIn(user, function(err) {
-                            if (err) {
-                                return next(err);
-                            } else {
-                                return res.redirect('/app');
-                            }
-                        })
+                        return res.redirect('/app');
                     }
                 });
-
             }
         }
     });
