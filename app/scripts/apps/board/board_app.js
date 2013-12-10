@@ -18,7 +18,30 @@ define(["app"], function(MERORS){
         }
       });
 
-      var executeAction = function(action, arg){
+        function isCheckOverlap(event){
+            var start = new Date(event.start);
+            var end = new Date(event.end);
+
+            var events = calendar.fullCalendar('clientEvents');
+            for (var i = 0; i < events.length; i++) {
+                var someEvent = events[i];
+
+                if (someEvent._id == event._id)
+                {
+                    continue;
+                }
+
+                var seStart = new Date(someEvent.start);
+                var seEnd = new Date(someEvent.end);
+
+                if ((event.resourceId == someEvent.resourceId)&&(start < seEnd) && (seStart < end)) {// dates overlap
+                    return true;
+                }
+            }
+
+        } 
+
+        var executeAction = function(action, arg){
           MERORS.startSubApp("BoardApp");
           action(arg);
           MERORS.execute("set:active:header", "board");
@@ -26,7 +49,7 @@ define(["app"], function(MERORS){
 
         var calendar;
 
-      var API = {
+        var API = {
         showBoard: function(){
             require(["apps/board/show/show_controller"], function(ShowController){
                 // Pass the events on render
@@ -35,6 +58,8 @@ define(["app"], function(MERORS){
 
                 var config = {
                     select: API.select,
+                    eventResize: API.eventResize,
+                    eventDrop: API.eventDrop,
                     eventClick: API.eventClick
                 }
 
@@ -140,11 +165,19 @@ define(["app"], function(MERORS){
             calendar.fullCalendar('unselect');
         },
 
-        eventResize: function(event, dayDelta, minuteDelta) {
-                    console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
-                },
-        eventDrop: function( event, dayDelta, minuteDelta, allDay) {
-            console.log("@@ drag/drop event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
+        eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+            console.log("Hello");
+            if(isCheckOverlap(event)){
+
+                revertFunc();
+            }
+
+        },
+        eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+            if(isCheckOverlap(event)){
+                event.resourceId = event.oldResourceId;
+                revertFunc();
+            }
         }
       };
 
