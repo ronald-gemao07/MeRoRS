@@ -53,6 +53,9 @@ module.exports = function (app, config, passport, baucis) {
         })
       }))
 
+      app.use(passport.initialize());
+      app.use(passport.session());
+
       app.use('/api/v1', baucis({swagger: true}));
 
       // assume "not found" in the error msgs
