@@ -30,11 +30,6 @@ $(document).ready(function() {
             }
         },
 
-        success: function(responseText, status, xhr, $form) {
-            window.location.replace("/app");
-            return false;
-        },
-
         error: function(responseText, status, xhr, $form) {
             $(".error-message").text("Email and password do not match.");
             $(".error-message").show();

@@ -49,6 +49,7 @@ exports.signup = function(req, res) {
         return;
     }
 
+    console.log(req.user);
     res.render('user/signup', {
         title: 'Sign up'
     })
@@ -94,7 +95,7 @@ exports.resetPassword = function(req, res) {
 // Action for Logout
 exports.logout = function(req, res) {
     req.logout()
-    res.redirect('/login')
+    res.redirect('/')
 }
 
 // Action for Signup - Create User

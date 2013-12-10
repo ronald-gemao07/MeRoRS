@@ -32,7 +32,7 @@ module.exports = function(app, passport) {
     app.post('/login', passport.authenticate('local', {
         successRedirect: '/app',
         failureRedirect: '/',
-        failureFlash: false
+        failureFlash: true
     }));
 
     app.get('/signup', users.signup);
