@@ -86,6 +86,13 @@ $(document).ready(function() {
                 return false;
             }
 
+            if (password.length < 6){
+                $(".error-message").text("Password length should be at least 6 characters.");
+                $(".error-message").show();
+                $("input#inputPassword").focus();
+                return false;
+            }
+
         },
 
         success: function(responseText, status, xhr, $form) {
@@ -94,7 +101,7 @@ $(document).ready(function() {
         },
 
         error: function(responseText, status, xhr, $form) {
-            $(".error-message").text("Email and password do not match.");
+            $(".error-message").text("Signup Error: Email already in use.");
             $(".error-message").show();
             $("input#inputEmail").focus();
             return false;

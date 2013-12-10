@@ -44,13 +44,6 @@ module.exports = function (app, config, passport, baucis) {
       app.use(express.static( __dirname + '/../../app') );
       app.use(express.static( __dirname +  '/../../.tmp') );
 
-      // cookieParser should be above session
-      app.use(express.cookieParser())
-
-      // bodyParser should be above methodOverride
-      app.use(express.bodyParser())
-      app.use(express.methodOverride())
-
       // express/mongo session storage
       app.use(express.session({
         secret: 'm3RR05: 0ndwA1L!',
@@ -59,6 +52,9 @@ module.exports = function (app, config, passport, baucis) {
           collection : 'sessions'
         })
       }))
+
+      app.use(passport.initialize());
+      app.use(passport.session());
 
       app.use('/api/v1', baucis({swagger: true}));
 
@@ -98,5 +94,5 @@ module.exports = function (app, config, passport, baucis) {
     console.log('%s %s', req.method, req.url);
     next();
   });
-  
+
 }
