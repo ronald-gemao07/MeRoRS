@@ -17,7 +17,7 @@ var defaults = {
 	//disableDragging: false,
 	//disableResizing: false,
 	
-	allDayDefault: true,
+	allDayDefault: false,
 	ignoreTimezone: true,
 	
 	// event ajax

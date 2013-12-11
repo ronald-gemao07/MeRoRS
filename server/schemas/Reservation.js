@@ -7,15 +7,10 @@ var ReservationSchema= new Schema({
     reservedBy: { type: String , default:'' },
     title: { type: String , default:'' },
     description: { type: String , default:'' },
-    startTime: { type: Date , default:'' },
-    endTime: { type: Date , default:'' }
-    /*repetition: {
-        type: { type: String , default:'' },
-        endTime: { type: String , default:'' },
-        endDate: { type: Date , default:'' },
-        days: { type: Array , default:[] }
-    }*/
-
+    dateStart: { type: Number , default:'' },
+    dateEnd: { type: Number , default:'' },
+    timeEnd: { type: Number , default:'' },
+    timeStart: { type: Number , default:'' }
 });
 
 ReservationSchema.pre('save', function (next) {
@@ -23,3 +18,5 @@ ReservationSchema.pre('save', function (next) {
 });
 
 module.exports = mongoose.model( 'Reservation', ReservationSchema );
+
+
