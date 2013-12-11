@@ -3,7 +3,6 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     auth = require('./middlewares/authorization')
 
-
     module.exports = function(passport, config) {
         // require('./initializer')
 

@@ -29,22 +29,7 @@ module.exports = function (app, config, passport, baucis) {
     app.use(express.bodyParser())
     app.use(express.methodOverride())
 
-
-      app.set('port', 9000);
-
-      app.engine('ejs', ejsLocals);
-
-      app.set('views',__dirname + '/../views');
-      app.set('view engine', 'ejs');
-
-      // routes should be at the last
-      app.use(app.router)
-
-      // mount static
-      app.use(express.static( __dirname + '/../../app') );
-      app.use(express.static( __dirname +  '/../../.tmp') );
-
-      // express/mongo session storage
+    // express/mongo session storage
       app.use(express.session({
         secret: 'm3RR05: 0ndwA1L!',
         store: new mongoStore({
@@ -55,6 +40,25 @@ module.exports = function (app, config, passport, baucis) {
 
       app.use(passport.initialize());
       app.use(passport.session());
+
+
+      app.set('port', 9000);
+
+      app.engine('ejs', ejsLocals);
+
+      app.set('views',__dirname + '/../views');
+      app.set('view engine', 'ejs');
+
+      app.use(flash());
+
+
+      // routes should be at the last
+      app.use(app.router)
+
+      // mount static
+      app.use(express.static( __dirname + '/../../app') );
+      app.use(express.static( __dirname +  '/../../.tmp') );
+
 
       app.use('/api/v1', baucis({swagger: true}));
 

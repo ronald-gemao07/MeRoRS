@@ -38,7 +38,7 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
         Backbone.history.start();
 
         if(MERORS.getCurrentRoute() === ""){
-          MERORS.trigger("rooms:list");
+          MERORS.trigger("board:show");
         }
       });
     }

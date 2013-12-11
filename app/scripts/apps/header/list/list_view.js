@@ -28,7 +28,7 @@ define(["app",
       template: listTpl,
       className: "navbar navbar-inverse navbar-fixed-top",
       itemView: View.Header,
-      itemViewContainer: "ul",
+      itemViewContainer: "ul.main-nav",
 
       events: {
         "click a.brand": "brandClicked"
