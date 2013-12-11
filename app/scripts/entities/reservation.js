@@ -7,17 +7,15 @@ define(["app"], function(MERORS){
 
       defaults: {
         _id:null,
-        room: "",
+        roomName: "",
+        roomId:"",
         reservedBy: "",
         title: "",
         description: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        endTime:"",
-        durationTime: "",
-        repeatType: "",
-        dayOfTheWeek: "",
+        dateStart: "",
+        dateEnd:"",
+        timeStart: "",
+        timeEnd:""
       },
 
       validate: function(attrs, options) {
@@ -39,7 +37,7 @@ define(["app"], function(MERORS){
     Entities.ReservationCollection = Backbone.Collection.extend({
       url: "http://localhost:9000/api/v1/Reservations/",
       model: Entities.Reservation,
-      comparator: "description"
+      comparator: "title"
     });
 
     //Entities.configureStorage(Entities.ReservationCollection);
