@@ -7,13 +7,13 @@
   </div>
   <div class="control-group">
     <label for="reservation-description" class="control-label">Title:</label>
-    <input id="reservation-description" name="title" type="text" value="<%= description %>"/>
+    <input id="reservation-description" name="title" type="text" value="<%= title %>"/>
   </div>
   <div class="control-group">
-    <label for="reservation-purpose" class="control-label">Description: </label>
+    <label for="reservation-purpose" class="control-label">Description:</label>
     <textarea id="reservation-purpose" name="description" type="text" value="<%= description %>"/>
   </div>
-  <div class="control-group">
+<!--   <div class="control-group">
     <select class="reservation">
       <option>One-Time Reservation</option>
       <option>Daily Reservation</option>
@@ -22,6 +22,7 @@
   <label for="start">Time Starts: </label>
   <input class="start"/>
   <label for="end">Time Ends: </label>
-  <input class="end"/><br>
+  <input class="end"/><br> -->
+
   <button class="btn js-submit">Reserve</button>
 </form>

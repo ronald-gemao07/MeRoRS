@@ -111,6 +111,12 @@ define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, Vi
 			        center: 'title',
 			        right: 'resourceDay,agendaWeek,'
 			    },
+			    eventMouseover : function( event, jsEvent, view ) {
+		            document.getElementById('hover').innerHTML = '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.user + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+		        },
+		        eventMouseout: function(event, jsEvent, view) {
+					document.getElementById('hover').innerHTML = '';
+				},
 			    slotMinutes: 15,
 			    defaultView: 'resourceDay',
 			    selectable: true,

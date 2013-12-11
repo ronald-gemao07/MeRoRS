@@ -57,20 +57,34 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-
-                    console.log(data);
-                    if(newRoom.save(data)){
-                      rooms.add(newRoom);
-                      view.trigger("dialog:close");
-                      var newRoomView = roomsListView.children.findByModel(newRoom);
-                      // check whether the new room view is displayed (it could be
-                      // invisible due to the current filter criterion)
-                      if(newRoomView){
-                        newRoomView.flash("success");
-                      }
+                    data.room=data.room.replace(/(<([^>]+)>)/ig,"");
+                    data.description=data.description.replace(/(<([^>]+)>)/ig,"");
+                    if(!data.room){
+                      this.$("div.room-error-message").show();
+                    }
+                    else if(!data.capacity){
+                      this.$("div.capacity-error-message").show();
+                    }
+                    else if(isNaN(data.capacity)){
+                      this.$("div.capacity-error-message").show();
+                    }
+                    else if(!data.description){
+                      this.$("div.description-error-message").show();
                     }
                     else{
-                      view.triggerMethod("form:data:invalid", newRoom.validationError);
+                      if(newRoom.save(data)){
+                        rooms.add(newRoom);
+                        view.trigger("dialog:close");
+                        var newRoomView = roomsListView.children.findByModel(newRoom);
+                        // check whether the new room view is displayed (it could be
+                        // invisible due to the current filter criterion)
+                        if(newRoomView){
+                          newRoomView.flash("success");
+                        }
+                      }
+                      else{
+                        view.triggerMethod("form:data:invalid", newRoom.validationError);
+                      }
                     }
                   });
 
@@ -89,13 +103,29 @@ define(["app", "apps/rooms/list/list_view"], function(MERORS, View){
                   });
 
                   view.on("form:submit", function(data){
-                    if(model.save(data)){
-                      childView.render();
-                      view.trigger("dialog:close");
-                      childView.flash("success");
+                    data.room=data.room.replace(/(<([^>]+)>)/ig,"");
+                    data.description=data.description.replace(/(<([^>]+)>)/ig,"");
+                    if(!data.room){
+                      this.$("div.room-error-message").show();
+                    }
+                    else if(!data.capacity){
+                      this.$("div.capacity-error-message").show();
+                    }
+                    else if(isNaN(data.capacity)){
+                      this.$("div.capacity-error-message").show();
+                    }
+                    else if(!data.description){
+                      this.$("div.description-error-message").show();
                     }
                     else{
-                      view.triggerMethod("form:data:invalid", model.validationError);
+                      if(model.save(data)){
+                        childView.render();
+                        view.trigger("dialog:close");
+                        childView.flash("success");
+                      }
+                      else{
+                        view.triggerMethod("form:data:invalid", model.validationError);
+                      }
                     }
                   });
 
