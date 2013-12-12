@@ -1,5 +1,6 @@
 {
   "name": "merors",
+  "description": "Meeting Room Reservation System",
   "version": "0.0.1",
 
   "dependencies": {
@@ -11,7 +12,7 @@
     "baucis": "~0.6.24",
     "express-hbs": "~0.2.0",
     "underscore": "~1.4.4",
-    "bower": "~1.2.7",
+    "bower": "~0.x",
     "connect-mongo": "~0.3.3",
     "connect-flash": "~0.1.1",
     "async": "~0.2.9",
