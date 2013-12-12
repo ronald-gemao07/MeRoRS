@@ -52,6 +52,13 @@ define(["app"], function(MERORS) {
                         console.log('show calendar')
                         console.log(rooms)
                     });
+
+                    $.when(API.getReservations()).done(function(reservations) {
+                        config.events = reservations;
+                        calendar = ShowController.showBoard(config);
+                        console.log('show calendar')
+                        console.log(reservations)
+                    });                    
                 });
             },
             getRooms: function(config) {
@@ -80,11 +87,47 @@ define(["app"], function(MERORS) {
 
                 return dfd.promise();
             },
+            getReservations: function(config) {
+                var dfd = $.Deferred();
+                require(["common/views", "entities/reservation"], function(CommonViews) {
+                    var loadingView = new CommonViews.Loading({
+                        title: "Loading...",
+                        message: "Loading events and rooms."
+                    });
+                    MERORS.mainRegion.show(loadingView);
+
+                    var fetchingReservations = MERORS.request("reservation:entities");
+
+                    $.when(fetchingReservations).done(function(reservations) {
+                        console.log('got reservations');
+                        var events = [];
+                        console.log(reservations);
+                        reservations.each(function(reservation) {
+                            events[events.length] = {
+                                id: reservation.get('_id'),
+                                title: reservation.get('title'),
+                                start: reservation.get('startTime'),
+                                resourceId: reservation.get('roomId'),
+                                end: reservation.get('endTime')
+                            }
+                        });
+                        //calendar.fullCalendar('addEventSource', events);
+                        console.log(calendar.fullCalendar('clientEvents'));
+                        dfd.resolve(events);
+                    });
+                });
+
+                return dfd.promise();
+            },            
             select: function(start, end, allDay, event, resourceId) {
                 $('#title').val('');
                 $('#description').val('');
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
                 var selectedTime = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm');
+                var eventCheck = new Object();
+                eventCheck.start = start;        
+                eventCheck.end = end;
+                eventCheck.resourceId = resourceId;
 
                 if (selectedTime > currentTime) {
                     $("#dialog").dialog({
@@ -105,7 +148,7 @@ define(["app"], function(MERORS) {
                                 var user = $('#test-form').find('input[id=user]').val();
                                 var email = $('#test-form').find('input[id=email]').val();
 
-                                if (title && description) {
+                                if ((title && description)&&(!API.isCheckOverlap(eventCheck))) {
                                     calendar.fullCalendar('renderEvent', {
                                         title: title,
                                         user: user,
@@ -200,7 +243,7 @@ define(["app"], function(MERORS) {
                     revertFunc();
                 }
                 if (currentTime > selectedEventNewEndTime) {
-                    $("<div>You can not resize events with new end times in the past (End time earlier than current).</div>").dialog({
+                    $("<div>You can not drag events with new end times in the past (End time earlier than current).</div>").dialog({
                         modal: true,
                         title: "Edit Reservation"
                     });

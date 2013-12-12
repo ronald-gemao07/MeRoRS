@@ -62,7 +62,7 @@ define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, Vi
                     }
                 });
 
-                $(".fc-button-prev, .fc-button-next").click("click", function() {
+                $(".fc-button-prev, .fc-button-next, .fc-button-today").click("click", function() {
                     var currentFullCalendarDate = $(calendarSelector).fullCalendar("getDate").getFullYear() + "-" + ($('#calendar').fullCalendar("getDate").getMonth() + 1) + "-" + $('#calendar').fullCalendar("getDate").getDate();
                     $("#date-picker").datepicker("setDate", currentFullCalendarDate);
                 });
