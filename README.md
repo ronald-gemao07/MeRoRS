@@ -1,6 +1,8 @@
 #MeRoRs
 Meeting Room Reservation System
 
+[![Build Status](https://travis-ci.org/Team-Kadasig/MeRoRS.png?branch=develop)](https://travis-ci.org/Team-Kadasig/MeRoRS)
+
 Developed for Global Zeal, Inc. to be used in recording and tracking meeting room reservations.
 
 #Features
