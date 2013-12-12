@@ -1,6 +1,6 @@
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
-var mountFolder = function (connect, dir) {
+var mountFolder = function(connect, dir) {
     return connect.static(require('path').resolve(dir));
 };
 
@@ -11,7 +11,7 @@ var mountFolder = function (connect, dir) {
 // 'test/spec/**/*.js'
 // templateFramework: 'handlebars'
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
     // show elapsed time at the end
@@ -24,19 +24,30 @@ module.exports = function (grunt) {
     };
 
     grunt.initConfig({
+
+        pkg: grunt.file.readJSON('package.json'),
+
+        jasmine: {
+            src: 'lib/**/*.js',
+            options: {
+                specs: 'spec/**/*.js',
+                vendor: 'vendor/**/*.js'
+            }
+        },
+
         yeoman: yeomanConfig,
 
         // watch list
         watch: {
-            
+
             compass: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass']
             },
-            
+
             livereload: {
                 files: [
-                    
+
                     '<%= yeoman.app %>/*.html',
                     '{.tmp,<%= yeoman.app %>}/styles/{,**/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,**/}*.js',
@@ -44,7 +55,7 @@ module.exports = function (grunt) {
                     '{.tmp,<%= yeoman.app %>}/templates/{,**/}*.hbs',
                     '{.tmp,<%= yeoman.app %>}/server/views/{,**/}*.ejs',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                    
+
                     'test/spec/{,**/}*.js'
                 ],
                 tasks: ['exec'],
@@ -79,7 +90,7 @@ module.exports = function (grunt) {
             }
         },
 
-        
+
         // express app
         express: {
             options: {
@@ -102,7 +113,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        
+
 
         // open app and test page
         open: {
@@ -124,13 +135,14 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js',
+                'server/{,*/}{,*/}{,*/}{,*/}{,*/}{,*/}*.js',
+                '<%= yeoman.app %>/scripts/{,*/}{,*/}{,*/}{,*/}{,*/}{,*/}*.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
         },
 
-        
+
         // compass
         compass: {
             options: {
@@ -149,7 +161,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        
+
 
         // require
         requirejs: {
@@ -174,7 +186,7 @@ module.exports = function (grunt) {
                     pragmasOnSave: {
                         //removes Handlebars.Parser code (used to compile template strings) set
                         //it to `false` if you need to parse template strings even after build
-                        excludeHbsParser : true,
+                        excludeHbsParser: true,
                         // kills the entire plugin set once it's built.
                         excludeHbs: true,
                         // removes i18n precompiler, handlebars and json2
@@ -280,12 +292,12 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('createDefaultTemplate', function () {
+    grunt.registerTask('createDefaultTemplate', function() {
         grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
     });
 
     // starts express server with live testing via testserver
-    grunt.registerTask('default', function (target) {
+    grunt.registerTask('default', function(target) {
 
         // what is this??
         if (target === 'dist') {
@@ -295,6 +307,7 @@ module.exports = function (grunt) {
         grunt.option('force', true);
 
         grunt.task.run([
+            'jshint',
             'clean:server',
             'compass:server',
             'connect:testserver',
@@ -304,6 +317,13 @@ module.exports = function (grunt) {
             'watch'
         ]);
     });
+
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+
+    //grunt.registerTask('test-files', ['jshint']); // used to be ['jshint', 'jasmine']
+    //grunt.registerTask('default', ['test']);
 
     // todo fix these
     grunt.registerTask('test', [
@@ -329,5 +349,6 @@ module.exports = function (grunt) {
         'copy',
         'usemin'
     ]);
+
 
 };
