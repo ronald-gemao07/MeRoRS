@@ -50,15 +50,7 @@ define(["app"], function(MERORS) {
                         config.resources = rooms;
                         calendar = ShowController.showBoard(config);
                         console.log('show calendar')
-                        console.log(rooms)
                     });
-
-                    $.when(API.getReservations()).done(function(reservations) {
-                        config.events = reservations;
-                        calendar = ShowController.showBoard(config);
-                        console.log('show calendar')
-                        console.log(reservations)
-                    });                    
                 });
             },
             getRooms: function(config) {
@@ -87,47 +79,11 @@ define(["app"], function(MERORS) {
 
                 return dfd.promise();
             },
-            getReservations: function(config) {
-                var dfd = $.Deferred();
-                require(["common/views", "entities/reservation"], function(CommonViews) {
-                    var loadingView = new CommonViews.Loading({
-                        title: "Loading...",
-                        message: "Loading events and rooms."
-                    });
-                    MERORS.mainRegion.show(loadingView);
-
-                    var fetchingReservations = MERORS.request("reservation:entities");
-
-                    $.when(fetchingReservations).done(function(reservations) {
-                        console.log('got reservations');
-                        var events = [];
-                        console.log(reservations);
-                        reservations.each(function(reservation) {
-                            events[events.length] = {
-                                id: reservation.get('_id'),
-                                title: reservation.get('title'),
-                                start: reservation.get('startTime'),
-                                resourceId: reservation.get('roomId'),
-                                end: reservation.get('endTime')
-                            }
-                        });
-                        //calendar.fullCalendar('addEventSource', events);
-                        console.log(calendar.fullCalendar('clientEvents'));
-                        dfd.resolve(events);
-                    });
-                });
-
-                return dfd.promise();
-            },            
             select: function(start, end, allDay, event, resourceId) {
                 $('#title').val('');
                 $('#description').val('');
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
                 var selectedTime = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm');
-                var eventCheck = new Object();
-                eventCheck.start = start;        
-                eventCheck.end = end;
-                eventCheck.resourceId = resourceId;
 
                 if (selectedTime > currentTime) {
                     $("#dialog").dialog({
@@ -148,7 +104,7 @@ define(["app"], function(MERORS) {
                                 var user = $('#test-form').find('input[id=user]').val();
                                 var email = $('#test-form').find('input[id=email]').val();
 
-                                if ((title && description)&&(!API.isCheckOverlap(eventCheck))) {
+                                if (title && description) {
                                     calendar.fullCalendar('renderEvent', {
                                         title: title,
                                         user: user,
@@ -190,16 +146,35 @@ define(["app"], function(MERORS) {
                             },
 
                             "Update": function() {
-                                var form = $('#test-form');
-                                calEvent.title = form.find('input[id=title]').val();
-                                if (title = form.find('input[id=title]').val()) {
+                                var description = $("#description").val();
+                                var title = $("#title").val();
+                                if(title=='' && description==''){
                                     calendar.fullCalendar('updateEvent', {
-                                        title: calEvent.title,
-                                        start: calEvent.start,
-                                        end: calEvent.end,
-                                        allDay: calEvent.allDay,
-                                        resourceId: calEvent.resourceId
-                                    }, true);
+                                            title: calEvent.title,
+                                            user : calEvent.user,
+                                            email : calEvent.email,
+                                            description: calEvent.description,
+                                            start: calEvent.start,
+                                            end: calEvent.end,
+                                            allDay: false,
+                                            resourceId: calEvent.resourceId
+                                        },true 
+                                    );
+                                }
+                                else{
+                                    calEvent.title=title;
+                                    calEvent.description=description;
+                                    calendar.fullCalendar('updateEvent', {
+                                            title: title,
+                                            user : calEvent.user,
+                                            email : calEvent.email,
+                                            description: description,
+                                            start: calEvent.start,
+                                            end: calEvent.end,
+                                            allDay: false,
+                                            resourceId: calEvent.resourceId
+                                        },true 
+                                    );                        
                                 }
                                 $("#dialog").dialog("close");
                             },
@@ -243,7 +218,7 @@ define(["app"], function(MERORS) {
                     revertFunc();
                 }
                 if (currentTime > selectedEventNewEndTime) {
-                    $("<div>You can not drag events with new end times in the past (End time earlier than current).</div>").dialog({
+                    $("<div>You can not resize events with new end times in the past (End time earlier than current).</div>").dialog({
                         modal: true,
                         title: "Edit Reservation"
                     });
@@ -251,15 +226,13 @@ define(["app"], function(MERORS) {
                 }
             },
 
-            eventMouseover: function(event, jsEvent, view) {
-                //$('#hover').html('<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.user + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString());
-                $(jsEvent.currentTarget)
-                    .attr('title','@Vince - test test test')
-                        .tooltip({
-                          show: {
-                            effect: "fade"
-                          }
-                        });
+            eventMouseover : function( event, jsEvent, view ) {
+                $(jsEvent.currentTarget).tooltip({
+                    items : jsEvent.currentTarget,
+                    content: function(){
+                    return '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.user + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+                    }
+                });
             },
 
             isCheckOverlap: function (event) {
