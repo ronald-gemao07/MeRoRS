@@ -3,5 +3,7 @@ node_js:
   - '0.10'
 before_script:
   - npm install -g grunt-cli
-  - bower install
   - npm install grunt-contrib-compass --save-dev
+  - gem update --system
+  - gem install compass
+  - npm install node-compass
