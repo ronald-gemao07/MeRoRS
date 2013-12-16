@@ -1,22 +1,30 @@
-<% layout('layouts/default') -%>
-<p>Sign in to Use the System.</p>
+<% include layouts/header %>
 
-      <form name="loginForm" id="loginForm" action="/login" method="post">
+    <form name="loginForm" id="loginForm" action="/login" method="post">
         <div class="control-group">
-          <div class="btn-danger btn-large error-message" id="loginError">Warning: Username  and password do not match.</div>
-            <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input" >
+            <% if (message){ %>
+                <div class="btn-danger btn-large error-message" id="loginError">
+                  <%= message %>
+                </div>
+                <% } else { %>
+                  <p>Please login to continue.</p>
+                <% } %>
 
-            <br />
+                    <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input">
 
-            <input type="password" id="inputPassword" name="inputPassword" placeholder="Password"  class="input-xlarge signup-input" >
+                    <br />
 
-            <br />
+                    <input type="password" id="inputPassword" name="inputPassword" placeholder="Password" class="input-xlarge signup-input">
 
-            <a href="/forgot-password" class="btn btn-primary btn-large">Forgot Password</a>
-            <button type="submit" class="btn btn-success btn-large" >Sign In</button>
+                    <br />
+
+                    <a href="/forgot-password" class="btn btn-primary btn-large">Forgot Password</a>
+                    <button type="submit" class="btn btn-success btn-large">Sign In</button>
         </div>
-      </form>
-      <div class="signup">
-          <h3><a href="/signup">Create an Account</a></h3><a href="/help">Need Help?</a>
-      </div>
+    </form>
+    <div class="signup">
+        <h3><a href="/signup">Create an Account</a>
+        </h3><a href="/help">Need Help?</a>
+    </div>
 
+    <% include layouts/footer %>

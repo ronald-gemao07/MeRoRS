@@ -1,15 +1,20 @@
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    utils = require('../lib/utils'),
-    _ = require('underscore');
+'use strict';
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+var utils = require('../lib/utils');
+var _ = require('underscore');
 
-exports.index = function (req, res) {
+exports.index = function(req, res) {
+    if (!req.isAuthenticated()) {
+        res.render('index', {
+            message: 'Authentication required to access page.'
+        });
+        return;
+    }
 
-  var user = req.user;
+    var user = req.user;
 
-  res.render('app/index', {
-    title: 'Meeting Room Reservation System'
-  });
-
-}
-
+    res.render('app/index', {
+        title: 'Meeting Room Reservation System'
+    });
+};

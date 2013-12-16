@@ -1,16 +1,31 @@
-<% layout('../layouts/default') -%>
-<p>Fill In the Required Information Below.</p>
+<% include ../layouts/header %>
 
-      <form name="signupForm" id="signupForm" action="/signup" method="POST">
+    <form name="signupForm" id="signupForm" action="/signup" method="POST">
         <div class="control-group">
-        <div class="btn-danger btn-large error-message"></div>
-        <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input" ><br />
-        <input type="password" id="inputPassword" name="inputPassword" placeholder="Password"  class="input-xlarge signup-input"><br />
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Retype Password"  class="input-xlarge signup-input"><br />
-        <button type="submit" class="btn btn-success btn-large">Sign Up</button>
-        </div>
-      </form>
+            <% if(message) { %>
+                <div class="btn-danger btn-large error-message">
+                    <%= message %>
+                </div>
+            <% } else { %>
+                <p>Fill In the Required Information Below.</p>
+            <% } %>
 
-      <div class="signup">
-          <h3><a href="/">Login to Access the System</a></h3><a href="/help">Need Help?</a>
-      </div>
+            <% if(email) { %>
+                <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input" value='<%= email %>' >
+            <% } else { %>
+                <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" class="input-xlarge signup-input" >
+            <% } %>
+                <br />
+                <input type="password" id="inputPassword" name="inputPassword" placeholder="Password" class="input-xlarge signup-input">
+                <br />
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Retype Password" class="input-xlarge signup-input">
+                <br />
+                <button type="submit" class="btn btn-success btn-large">Sign Up</button>
+        </div>
+    </form>
+
+    <div class="signup">
+        <h3><a href="/">Login to Access the System</a>
+        </h3><a href="/help">Need Help?</a>
+    </div>
+    <% include ../layouts/footer %>

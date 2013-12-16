@@ -1,19 +1,18 @@
-/*!
- * Module dependencies.
- */
+'use strict';
 
-var async = require('async')
+// Module Dependencies
+var async = require('async');
 
 /**
  * Controllers
  */
 
-var users = require('../controllers/users'),
-    rooms = require('../controllers/rooms'),
-    reservations = require('../controllers/reservations'),
-    site = require('../controllers/site'),
-    appMain = require('../controllers/appMain'),
-    auth = require('./middlewares/authorization')
+var users = require('../controllers/users');
+var rooms = require('../controllers/rooms');
+var reservations = require('../controllers/reservations');
+var site = require('../controllers/site');
+var appMain = require('../controllers/appMain');
+var auth = require('./middlewares/authorization');
 
     /**
      * Route middlewares
@@ -21,19 +20,30 @@ var users = require('../controllers/users'),
 
 var userAuth = [auth.user.isLoggedIn]
 
-/**
- * Expose routes
- */
-
+// Main Routes
 module.exports = function(app, passport) {
 
     // user routes
     app.get('/login', users.login);
-    app.post('/login', passport.authenticate('local', {
-        successRedirect: '/app',
-        failureRedirect: '/',
-        failureFlash: true
-    }));
+
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local', function(err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                req.session.messages = [info.message];
+                return res.render('index', { message: 'Invalid username or password.' });
+            }
+            req.logIn(user, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.redirect('/app');
+            });
+        })(req, res, next);
+    });
+
 
     app.get('/signup', users.signup);
     app.post('/signup', users.createUser);
@@ -45,21 +55,10 @@ module.exports = function(app, passport) {
 
     app.get('/logout', users.logout);
 
-    // app.post('/users/session',
-    //   passport.authenticate('local', {
-    //     failureRedirect: '/login',
-    //     failureFlash: 'Invalid email or password.',
-    //     successRedirect: '/app'
-    //   }), users.session)
-
     // home route
     app.get('/', site.index);
 
-
     // main app
-
     app.get('/app', appMain.index);
-    //app.get('/api/v1/Rooms/', rooms.test);
-    //app.post('/api/v1/Rooms/', rooms.create);
 
-}
+};
