@@ -75,7 +75,7 @@ define(['app', 'apps/rooms/list/list_view'], function(MERORS, View) {
                                                     view.trigger('dialog:close');
                                                 },
                                                 error: function(model, response) {
-                                                    console.log('error! ' + response);
+        
                                                 }
                                             });
                                         }

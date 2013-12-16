@@ -1,7 +1,7 @@
 define(["app"], function(MERORS){
   MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Room = Backbone.Model.extend({
-      //var RoomModel = Backbone.Model.extend({
+
       idAttribute: '_id',
 
       urlRoot: "http://localhost:9000/api/v1/Rooms/",

@@ -6,7 +6,7 @@ define(["app"], function(MERORS){
       urlRoot: "http://localhost:9000/api/v1/Reservations/",
 
       defaults: {
-        _id:null,
+        
         roomName: "",
         roomId:"",
         reservedBy: "",
@@ -96,6 +96,11 @@ define(["app"], function(MERORS){
     MERORS.reqres.setHandler("reservation:entity", function(id){
       return API.getReservationEntity(id);
     });
+
+    MERORS.reqres.setHandler("reservation:test", function(){
+      return new Entities.ReservationCollection();
+    });
+
 
     MERORS.reqres.setHandler("reservation:entity:new", function(id){
       return new Entities.Reservation();
