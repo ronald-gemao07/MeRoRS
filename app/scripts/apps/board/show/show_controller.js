@@ -1,5 +1,7 @@
-define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, View) {
-    MERORS.module("BoardApp.Show", function(Show, MERORS, Backbone, Marionette, $, _, fullcalendar) {
+'use strict';
+
+define(['app', 'apps/board/show/show_view', 'fullcalendar'], function(MERORS, View) {
+    MERORS.module('BoardApp.Show', function(Show, MERORS, Backbone, Marionette, $, _) {
         Show.Controller = {
             showBoard: function(config) {
                 var view = new View.Message();
@@ -7,27 +9,18 @@ define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, Vi
                 return this.createCalendar(config);
             },
             createCalendar: function(newConfig) {
-                var calendarSelector = '#calendar';
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-
-                var events = [];
-
-                //loop each through all events fetched then modify its editable flag depending on the current time
-                //if an event's end time is past the current time then it is considered done thus can no longer be edited
-                events.forEach(function(event) {
+                newConfig.events.forEach(function(event) {
                     var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
                     var eventEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
                     if (eventEndTime <= currentTime) {
                         event.editable = false;
-                        event.title += " (Done)";
-                        event.backgroundColor = "#C8DEAB";
-                        event.borderColor = "#C8DEAB";
+                        event.title += ' (Done)';
+                        event.backgroundColor = '#C8DEAB';
+                        event.borderColor = '#C8DEAB';
                     }
                 });
-
+                
+                var calendarSelector = '#calendar';
                 var config = {
                     theme: false,
                     header: {
@@ -47,16 +40,15 @@ define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, Vi
                     maxTime: '7:00pm',
                     allDaySlot: false,
                     resources: [],
-                    events: events
+                    events: []
                 };
-
                 _.extend(config, newConfig);
 
                 var calendar = $(calendarSelector).fullCalendar(config);
 
-                $("#date-picker").datepicker({
+                $('#date-picker').datepicker({
                     dateFormat: 'yy-mm-dd',
-                    onSelect: function(dateText, dateIns) {
+                    onSelect: function(dateText) {
                         var d = new Date(dateText);
                         $(calendarSelector).fullCalendar('gotoDate', d);
                     }
@@ -69,7 +61,7 @@ define(["app", "apps/board/show/show_view", "fullcalendar"], function(MERORS, Vi
 
                 return calendar;
             }
-        }
+        };
     });
 
     return MERORS.BoardApp.Show.Controller;
