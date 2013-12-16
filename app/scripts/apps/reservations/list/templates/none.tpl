@@ -1,1 +1,1 @@
-<td colspan="6">No reservations to display.</td>
+<td colspan='6'>No reservations to display.</td>

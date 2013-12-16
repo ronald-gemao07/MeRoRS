@@ -1,15 +1,16 @@
-define(["app", "apps/reservations/edit/edit_view"], function(MERORS, View){
-  MERORS.module("ReservationsApp.Edit", function(Edit, MERORS, Backbone, Marionette, $, _){
+'use strict';
+define(['app', 'apps/reservations/edit/edit_view'], function(MERORS, View){
+  MERORS.module('ReservationsApp.Edit', function(Edit, MERORS, Backbone, Marionette, $, _){
     Edit.Controller = {
       editReservation: function(id){
-        require(["common/views", "entities/reservation"], function(CommonViews){
+        require(['common/views', 'entities/reservation'], function(CommonViews){
           var loadingView = new CommonViews.Loading({
-            title: "Artificial Loading Delay",
-            message: "Data loading is delayed to demonstrate using a loading view."
+            title: 'Artificial Loading Delay',
+            message: 'Data loading is delayed to demonstrate using a loading view.'
           });
           MERORS.mainRegion.show(loadingView);
 
-          var fetchingReservation = MERORS.request("reservation:entity", id);
+          var fetchingReservation = MERORS.request('reservation:entity', id);
           $.when(fetchingReservation).done(function(reservation){
             var view;
             if(reservation !== undefined){
@@ -18,12 +19,12 @@ define(["app", "apps/reservations/edit/edit_view"], function(MERORS, View){
                 generateTitle: true
               });
 
-              view.on("form:submit", function(data){
+              view.on('form:submit', function(data){
                 if(reservation.save(data)){
-                  MERORS.trigger("reservation:show", reservation.get('id'));
+                  MERORS.trigger('reservation:show', reservation.get('id'));
                 }
                 else{
-                  view.triggerMethod("form:data:invalid", reservation.validationError);
+                  view.triggerMethod('form:data:invalid', reservation.validationError);
                 }
               });
             }

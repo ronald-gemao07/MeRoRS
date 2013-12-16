@@ -1,4 +1,5 @@
-define(["app", "apps/about/show/show_view"], function(MERORS, View){
+'use strict';
+define(['app', 'apps/about/show/show_view'], function(MERORS, View){
   return {
     showAbout: function(){
       var view = new View.Message();

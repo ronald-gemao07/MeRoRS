@@ -1,15 +1,16 @@
-define(["app", "apps/users/edit/edit_view"], function(MERORS, View){
-  MERORS.module("UsersApp.Edit", function(Edit, MERORS, Backbone, Marionette, $, _){
+'use strict';
+define(['app', 'apps/users/edit/edit_view'], function(MERORS, View){
+  MERORS.module('UsersApp.Edit', function(Edit, MERORS, Backbone, Marionette, $, _){
     Edit.Controller = {
       editUser: function(id){
-        require(["common/views", "entities/user"], function(CommonViews){
+        require(['common/views', 'entities/user'], function(CommonViews){
           var loadingView = new CommonViews.Loading({
-            title: "Please wait...",
-            message: "Loading data..."
+            title: 'Please wait...',
+            message: 'Loading data...'
           });
           MERORS.mainRegion.show(loadingView);
 
-          var fetchingUser = MERORS.request("user:entity", id);
+          var fetchingUser = MERORS.request('user:entity', id);
           
           $.when(fetchingUser).done(function(user){
             var view;
@@ -19,12 +20,12 @@ define(["app", "apps/users/edit/edit_view"], function(MERORS, View){
                 generateTitle: true
               });
 
-              view.on("form:submit", function(data){
+              view.on('form:submit', function(data){
                 if(user.save(data)){
-                  MERORS.trigger("user:show", user.get('id'));
+                  MERORS.trigger('user:show', user.get('id'));
                 }
                 else{
-                  view.triggerMethod("form:data:invalid", user.validationError);
+                  view.triggerMethod('form:data:invalid', user.validationError);
                 }
               });
             }
