@@ -216,14 +216,13 @@ define(['app'], function(MERORS) {
                 }
             },
 
-            eventMouseover: function(event, jsEvent) {
-                $(jsEvent.currentTarget)
-                    .attr('title', '@Vince - test test test')
-                    .tooltip({
-                        show: {
-                            effect: 'fade'
-                        }
-                    });
+            eventMouseover: function(event, jsEvent, view) {
+                $(jsEvent.currentTarget).tooltip({
+                    items: jsEvent.currentTarget,
+                    content: function() {
+                        return '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.user + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+                    }
+                });
             },
 
             isCheckOverlap: function(event) {

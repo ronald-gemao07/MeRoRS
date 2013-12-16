@@ -1,7 +1,7 @@
-<td><%= room %> </td>
+<td><%= roomName %> </td>
 <td><%= title %></td>
 <td><%= description %></td>
-<td><%= date %>, <%= startTime %> - <%= endTime %></td>
+<td><%= dateStart %> - <%= dateEnd %>, <%= timeStart %> - <%= timeEnd %></td>
 <td>
   <a href='#reservations/<%= _id %>/edit' class='btn btn-small js-edit'>
     <i class='icon-pencil'></i>

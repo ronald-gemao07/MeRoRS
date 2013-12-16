@@ -50,7 +50,6 @@ define(['app', 'apps/reservations/list/list_view'], function(MERORS, View){
               reservationsListPanel.on('reservation:new', function(){
                 require(['apps/reservations/new/new_view'], function(NewView){
                   var newReservation = MERORS.request('reservation:entity:new');
-
                   var view = new NewView.Reservation({
                     model: newReservation
                   });
@@ -78,6 +77,8 @@ define(['app', 'apps/reservations/list/list_view'], function(MERORS, View){
               });
 
               reservationsListView.on('itemview:reservation:show', function(childView, model){
+
+
                 MERORS.trigger('reservation:show', model.get('id'));
               });
 
