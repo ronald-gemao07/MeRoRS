@@ -17,7 +17,9 @@ define(['app', 'tpl!apps/board/common/templates/form.tpl', 'fullcalendar', 'back
                             var user = this.$('#user').val();
                             if ((title && description) && (!this.options.api.isCheckOverlap(this.options))) {
                                     this.options.calendar.fullCalendar('renderEvent', {
-                                        title: title + ' - '+user,
+                                        title: title,
+                                        user : user,
+                                        description : description,
                                         start: this.options.start,
                                         end: this.options.end,
                                         allDay: false,

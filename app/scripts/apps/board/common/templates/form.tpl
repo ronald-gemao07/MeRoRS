@@ -27,4 +27,3 @@
     <button class="btn btn-primary js-edit hide">Update</button>
     <button class="btn btn-primary js-submit hide">Create</button>
 </form>
-

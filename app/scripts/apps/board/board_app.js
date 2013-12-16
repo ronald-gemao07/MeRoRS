@@ -115,7 +115,6 @@ define(['app'], function(MERORS) {
                 eventCheck.start = start;
                 eventCheck.end = end;
                 eventCheck.resourceId = resourceId;
-
                 var obj = {
                     start: start,
                     end: end,
@@ -147,7 +146,6 @@ define(['app'], function(MERORS) {
             eventClick: function(calEvent, jsEvent) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
                 var selectedTime = $.fullCalendar.formatDate(calEvent.start, 'yyyy-MM-dd HH:mm');
-
                 if (selectedTime > currentTime) {
                     var obj = {
                         _id: calEvent._id,
@@ -156,7 +154,8 @@ define(['app'], function(MERORS) {
                         allDay: false,
                         event: jsEvent,
                         resourceId: calEvent.end.resourceId,
-                        resourceName: calEvent.end.resource.name,
+                        resourceName: calEvent.resource.name,
+                        description : calEvent.description,
                         title: calEvent.title,
                         dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
                         dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
@@ -220,7 +219,7 @@ define(['app'], function(MERORS) {
                 $(jsEvent.currentTarget).tooltip({
                     items: jsEvent.currentTarget,
                     content: function() {
-                        return '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.user + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+                        return '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
                     }
                 });
             },
