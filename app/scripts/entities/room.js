@@ -7,7 +7,6 @@ define(["app"], function(MERORS){
       urlRoot: "http://localhost:9000/api/v1/Rooms/",
 
       defaults: {
-        _id:null,
         room: "",
         capacity: "",
         description: "",
