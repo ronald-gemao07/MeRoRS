@@ -14,9 +14,9 @@ define(['app', 'apps/board/show/show_view', 'fullcalendar'], function(MERORS, Vi
                 var config = {
                     theme: false,
                     header: {
-                        left: 'prev,next today',
+                        left: 'prev,next,today',
                         center: 'title',
-                        right: 'resourceDay,agendaWeek,'
+                        right: 'resourceDay,agendaWeek'
                     },
                     slotMinutes: 15,
                     defaultView: 'resourceDay',
@@ -32,9 +32,11 @@ define(['app', 'apps/board/show/show_view', 'fullcalendar'], function(MERORS, Vi
                     resources: [],
                     events: []
                 };
+                
                 _.extend(config, newConfig);
 
                 var calendar = $(calendarSelector).fullCalendar(config);
+
 
                 $('#date-picker').datepicker({
                     dateFormat: 'yy-mm-dd',

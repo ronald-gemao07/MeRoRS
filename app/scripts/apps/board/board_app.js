@@ -42,9 +42,6 @@ define(['app'], function(MERORS) {
                         config.resources = rooms;
                         calendar = ShowController.showBoard(config);
                      });
-
-                    calendar = ShowController.showBoard(config);
-
                 });
             },
 
