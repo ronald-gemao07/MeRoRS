@@ -1,5 +1,4 @@
 'use strict';
-
 define(['app', 'apps/rooms/list/list_view'], function(MERORS, View) {
     MERORS.module('RoomsApp.List', function(List, MERORS, Backbone, Marionette, $, _) {
         List.Controller = {

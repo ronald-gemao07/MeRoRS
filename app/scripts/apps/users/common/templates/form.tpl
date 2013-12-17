@@ -2,14 +2,17 @@
   <div class='control-group'>
     <label for='user-firstName' class='control-label'>First name:</label>
     <input id='user-firstName' name='firstName' type='text' value='<%= firstName %>'/>
+    <div hidden class='firstname-error-message'>*Please enter name</div>
   </div>
   <div class='control-group'>
     <label for='user-lastName' class='control-label'>Last name:</label>
     <input id='user-lastName' name='lastName' type='text' value='<%= lastName %>'/>
+    <div hidden class='lastname-error-message'>*Please enter last name</div>
   </div>
   <div class='control-group'>
     <label for='user-email' class='control-label'>Email:</label>
     <input id='user-email' name='email' type='text' value='<%= email %>'/>
+    <div hidden class='email-error-message'>*Please enter valid Global Zeal email address</div>
   </div>
   <div class='control-group'>
     <label for='user-position' class='control-label'>Position:</label>
