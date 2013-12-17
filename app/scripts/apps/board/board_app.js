@@ -1,4 +1,5 @@
 'use strict';
+
 define(['app'], function(MERORS) {
     MERORS.module('BoardApp', function(BoardApp) {
         BoardApp.startWithParent = false;
@@ -22,11 +23,12 @@ define(['app'], function(MERORS) {
         };
 
         var calendar;
+        var config;
 
         var API = {
             showBoard: function() {
                 require(['apps/board/show/show_controller'], function(ShowController) {
-                    var config = {
+                    config = {
                         select: API.select,
                         eventResize: API.eventResize,
                         eventDrop: API.eventDrop,
@@ -36,13 +38,13 @@ define(['app'], function(MERORS) {
                         viewDisplay: API.viewDisplay
                     };
 
-                    executeAction(function() {}, null);
-
-                    $.when(API.getRooms(), API.getReservations()).done(function(rooms, reservations) {
+                    $.when(API.getRooms()).done(function(rooms) {
                         config.resources = rooms;
-                        config.events = reservations;
                         calendar = ShowController.showBoard(config);
-                    });
+                     });
+
+                    calendar = ShowController.showBoard(config);
+
                 });
             },
 
@@ -73,11 +75,11 @@ define(['app'], function(MERORS) {
                 return dfd.promise();
             },
 
-            getReservations: function() {
+            getReservations: function(obj) {
                 var dfd = $.Deferred();
 
                 require(['entities/reservation'], function() {
-                    var fetchingReservations = MERORS.request('reservation:entities');
+                    var fetchingReservations = MERORS.request('reservation:specificEntities', obj);
 
                     $.when(fetchingReservations).done(function(reservations) {
                         var events = [];
@@ -104,7 +106,23 @@ define(['app'], function(MERORS) {
             },
 
             viewDisplay: function(view) {
-                //view
+                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+                var eventEndTime = $.fullCalendar.formatDate(view.end, 'yyyy-MM-dd HH:mm');
+                var obj ={
+                    dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
+                    dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
+                };
+                $.when(API.getReservations(obj)).done(function(reservations) {
+                    reservations.forEach(function(event) {
+                        if (eventEndTime <= currentTime) {
+                            event.editable = false;
+                            event.title += ' (Done)';
+                            event.backgroundColor = '#C8DEAB';
+                            event.borderColor = '#C8DEAB';
+                        }
+                    });
+                    view.renderEvents(reservations);
+                });
             },
 
             select: function(start, end, allDay, event, resourceId) {
@@ -215,10 +233,16 @@ define(['app'], function(MERORS) {
             },
 
             eventMouseover: function(event, jsEvent, view) {
+                var resourceName=[];
+                resourceName = $.map(view.resources,function(data){
+                    if(data.id === event.resourceId){
+                        return data.name;
+                    }
+                });
                 $(jsEvent.currentTarget).tooltip({
                     items: jsEvent.currentTarget,
                     content: function() {
-                        return '<b>' + event.resource.name + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+                        return '<b>' + resourceName[0] + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
                     }
                 });
             },

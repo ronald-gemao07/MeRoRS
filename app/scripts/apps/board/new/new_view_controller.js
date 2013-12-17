@@ -12,7 +12,7 @@ define(['app', 'apps/board/new/new_view', 'fullcalendar'], function(MERORS, View
                         newReservation.set(data);
                         newReservation.save({}, {
                             success: function(model, response) {
-                                view.trigger("dialog:close");   
+                                view.trigger("dialog:close");
                             },
                             error: function(model, response) {
                                 console.log('error! ' + response);

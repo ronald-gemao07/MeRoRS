@@ -9,17 +9,7 @@ define(['app', 'apps/board/show/show_view', 'fullcalendar'], function(MERORS, Vi
                 return this.createCalendar(config);
             },
             createCalendar: function(newConfig) {
-                newConfig.events.forEach(function(event) {
-                    var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                    var eventEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
-                    if (eventEndTime <= currentTime) {
-                        event.editable = false;
-                        event.title += ' (Done)';
-                        event.backgroundColor = '#C8DEAB';
-                        event.borderColor = '#C8DEAB';
-                    }
-                });
-                
+
                 var calendarSelector = '#calendar';
                 var config = {
                     theme: false,

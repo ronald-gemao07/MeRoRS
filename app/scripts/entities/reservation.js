@@ -55,6 +55,21 @@ define(['app'], function(MERORS) {
                 return promise;
             },
 
+            getSpecificReservationEntities: function(obj) {
+                var reservations = new Entities.ReservationCollection();
+                reservations.url = 'http://localhost:9000/api/v1/Reservations/?dateStart='+obj.dateStart+'&dateEnd='+obj.dateEnd;
+                var defer = $.Deferred();
+                reservations.fetch({
+                    success: function(data) {
+                        defer.resolve(data);
+                    }
+                });
+                var promise = defer.promise();
+                $.when(promise).done();
+
+                return promise;
+            },
+
             getReservationEntity: function(reservationId) {
                 var reservation = new Entities.Reservation({
                     id: reservationId
@@ -76,6 +91,10 @@ define(['app'], function(MERORS) {
 
         MERORS.reqres.setHandler('reservation:entities', function() {
             return API.getReservationEntities();
+        });
+
+        MERORS.reqres.setHandler('reservation:specificEntities', function(obj) {
+            return API.getSpecificReservationEntities(obj);
         });
 
         MERORS.reqres.setHandler('reservation:entity', function(id) {
