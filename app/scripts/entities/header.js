@@ -1,4 +1,5 @@
 'use strict';
+
 define(['app', 'backbone.picky'], function(MERORS){
   MERORS.module('Entities', function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Header = Backbone.Model.extend({
@@ -19,7 +20,7 @@ define(['app', 'backbone.picky'], function(MERORS){
 
     var initializeHeaders = function(){
       Entities.headers = new Entities.HeaderCollection([
-        { name: 'My Reservations', url: 'reservations', navigationTrigger: 'reservations:show' },
+        { name: 'My Reservations', url: 'reservations', navigationTrigger: 'reservations:list' },
         { name: 'Reservation Board', url: 'board', navigationTrigger: 'board:show' },
         { name: 'Manage Rooms', url: 'rooms', navigationTrigger: 'rooms:list' },
         { name: 'Manage Users', url: 'users', navigationTrigger: 'users:list' },

@@ -1,4 +1,5 @@
 'use strict';
+
 define(['app',
         'tpl!apps/reservations/list/templates/layout.tpl',
         'tpl!apps/reservations/list/templates/panel.tpl',
@@ -6,7 +7,8 @@ define(['app',
         'tpl!apps/reservations/list/templates/list.tpl',
         'tpl!apps/reservations/list/templates/list_item.tpl'],
        function(MERORS, layoutTpl, panelTpl, noneTpl, listTpl, listItemTpl){
-  MERORS.module('ReservationsApp.List.View', function(View, MERORS, Backbone, Marionette, $, _){
+
+  MERORS.module('ReservationsApp.List.View', function(View, MERORS, Backbone, Marionette){
     View.Layout = Marionette.Layout.extend({
       template: layoutTpl,
 
@@ -46,6 +48,27 @@ define(['app',
       tagName: 'tr',
       template: listItemTpl,
 
+      onRender: function(){
+        var timeHelpers ={
+            getSplitTime: function(n) {
+                n = parseInt(n);
+                var stime = Math.floor(n / 100);
+                var etime = n - (stime * 100);
+                if (etime === 0){ etime = '00'; }
+
+                return stime.toString()+':'+etime.toString();
+            },
+
+            getSplitDate: function(dateString) {
+                var year = dateString.slice(0, 4);
+                var month = dateString.slice(4, 6);
+                var day = dateString.slice(-2);
+
+                return year+'/'+month+'/'+day;
+            }
+        };
+      },
+
       events: {
         'click': 'highlightName',
         'click td a.js-show': 'showClicked',
@@ -62,7 +85,7 @@ define(['app',
         });
       },
 
-      highlightName: function(e){
+      highlightName: function(){
         this.$el.toggleClass('warning');
       },
 
@@ -107,14 +130,14 @@ define(['app',
 
       initialize: function(){
         this.listenTo(this.collection, 'reset', function(){
-          this.appendHtml = function(collectionView, itemView, index){
+          this.appendHtml = function(collectionView, itemView){
             collectionView.$el.append(itemView.el);
           };
         });
       },
 
       onCompositeCollectionRendered: function(){
-        this.appendHtml = function(collectionView, itemView, index){
+        this.appendHtml = function(collectionView, itemView){
           collectionView.$el.prepend(itemView.el);
         };
       }

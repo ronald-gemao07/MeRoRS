@@ -1,6 +1,7 @@
 'use strict';
+
 define(['app', 'apps/reservations/delete/delete_view'], function(MERORS, View){
-  MERORS.module('ReservationsApp.Delete', function(Delete, MERORS, Backbone, Marionette, $, _){
+  MERORS.module('ReservationsApp.Delete', function(Delete, MERORS, Backbone, Marionette, $){
     Delete.Controller = {
       deleteReservation: function(id){
         require(['common/delete', 'entities/reservations'], function(CommonViews){

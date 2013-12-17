@@ -1,6 +1,7 @@
 'use strict';
+
 define(['app', 'apps/reservations/edit/edit_view'], function(MERORS, View){
-  MERORS.module('ReservationsApp.Edit', function(Edit, MERORS, Backbone, Marionette, $, _){
+  MERORS.module('ReservationsApp.Edit', function(Edit, MERORS, Backbone, Marionette, $){
     Edit.Controller = {
       editReservation: function(id){
         require(['common/views', 'entities/reservation'], function(CommonViews){

@@ -1,6 +1,7 @@
 'use strict';
+
 define(['app', 'apps/header/list/list_view'], function(MERORS, View){
-  MERORS.module('HeaderApp.List', function(List, MERORS, Backbone, Marionette, $, _){
+  MERORS.module('HeaderApp.List', function(List, MERORS){
     List.Controller = {
       listHeader: function(){
         require(['entities/header'], function(){
@@ -12,9 +13,7 @@ define(['app', 'apps/header/list/list_view'], function(MERORS, View){
           });
 
           headers.on('itemview:navigate', function(childView, model){
-            console.log(arguments);
             var trigger = model.get('navigationTrigger');
-            console.log(trigger);
             MERORS.trigger(trigger);
           });
 

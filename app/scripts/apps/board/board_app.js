@@ -110,7 +110,7 @@ define(['app'], function(MERORS) {
             select: function(start, end, allDay, event, resourceId) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
                 var selectedTime = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm');
-                var eventCheck = new Object();
+                var eventCheck = {};
                 eventCheck.start = start;
                 eventCheck.end = end;
                 eventCheck.resourceId = resourceId;
@@ -206,7 +206,7 @@ define(['app'], function(MERORS) {
                     revertFunc();
                 }
                 if (currentTime > selectedEventNewEndTime) {
-                    $("<div>You can not drag events with new end times in the past (End time earlier than current).</div>").dialog({
+                    $('<div>You can not drag events with new end times in the past (End time earlier than current).</div>;').dialog({
                         modal: true,
                         title: 'Edit Reservation'
                     });
@@ -264,7 +264,7 @@ define(['app'], function(MERORS) {
                         break;
                     case 'minute':
                         val = date.getMinutes();
-                        if (val == '0') val = '00';
+                        if (val === 0){ val = '00'; }
                         break;
                 }
                 return val.toString();
@@ -274,7 +274,7 @@ define(['app'], function(MERORS) {
                 n = parseInt(n);
                 var stime = Math.floor(n / 100);
                 var etime = n - (stime * 100);
-                if (etime === 0) etime = '00';
+                if (etime === 0){ etime = '00'; }
 
                 return {
                     hour: stime.toString(),

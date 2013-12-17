@@ -1,4 +1,5 @@
 'use strict';
+
 define(['app', 'tpl!apps/reservations/common/templates/form.tpl', 'backbone.syphon'],
        function(MERORS, formTpl){
   MERORS.module('ReservationsApp.Common.Views', function(Views, MERORS, Backbone, Marionette, $, _){

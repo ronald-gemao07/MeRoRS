@@ -1,7 +1,8 @@
 'use strict';
+
 define(['app', 'tpl!apps/reservations/common/templates/delete.tpl', 'backbone.syphon'],
        function(MERORS, deleteTpl){
-  MERORS.module('ReservationsApp.Common.Views', function(Views, MERORS, Backbone, Marionette, $, _){
+  MERORS.module('ReservationsApp.Common.Views', function(Views, MERORS, Backbone, Marionette){
     Views.Form = Marionette.ItemView.extend({
       template: deleteTpl,
 
