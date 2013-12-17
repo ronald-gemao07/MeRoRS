@@ -17,8 +17,8 @@ define(['app', 'apps/board/new/new_view', 'fullcalendar'], function(MERORS, View
 
                                 getReservation.add(response);
 
-                                view.trigger("dialog:close");
-                                console.log(JSON.stringify(getReservation));    
+                                view.trigger('dialog:close');
+                                console.log(JSON.stringify(getReservation));
 
                             },
                             error: function(model, response) {

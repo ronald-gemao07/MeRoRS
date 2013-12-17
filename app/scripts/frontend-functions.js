@@ -1,7 +1,8 @@
+'use strict';
 $(document).ready(function() {
 
     // Hide Error Messages
-    $(".error-message").hide();
+    $('.error-message').hide();
 
     //login validations
     $('#loginForm').ajaxForm({
@@ -9,31 +10,31 @@ $(document).ready(function() {
         beforeSubmit: function(formData, jqForm, options) {
             $('.error-message').hide();
 
-            var email = $("input#inputEmail").val();
+            var email = $('input#inputEmail').val();
 
             var emailStatus = checkEmail(email);
 
-            if ( emailStatus != "Valid" ) {
-                $(".error-message").text(emailStatus);
-                $(".error-message").show();
-                $("input#inputEmail").focus();
+            if (emailStatus != 'Valid') {
+                $('.error-message').text(emailStatus);
+                $('.error-message').show();
+                $('input#inputEmail').focus();
                 return false;
             }
 
-            var password = $("input#inputPassword").val();
+            var password = $('input#inputPassword').val();
 
-            if (password == "") {
-                $(".error-message").text("Please enter password.");
-                $(".error-message").show();
-                $("input#inputPassword").focus();
+            if (password == '') {
+                $('.error-message').text('Please enter password.');
+                $('.error-message').show();
+                $('input#inputPassword').focus();
                 return false;
             }
         },
 
         error: function(responseText, status, xhr, $form) {
-            $(".error-message").text("Email and password do not match.");
-            $(".error-message").show();
-            $("input#inputEmail").focus();
+            $('.error-message').text('Email and password do not match.');
+            $('.error-message').show();
+            $('input#inputEmail').focus();
             return false;
         }
     });
@@ -45,98 +46,98 @@ $(document).ready(function() {
         beforeSubmit: function(formData, jqForm, options) {
             $('.error-message').hide();
 
-            var email = $("input#inputEmail").val();
+            var email = $('input#inputEmail').val();
 
             var emailStatus = checkEmail(email);
 
-            if ( emailStatus != "Valid" ) {
-                $(".error-message").text(emailStatus);
-                $(".error-message").show();
-                $("input#inputEmail").focus();
+            if (emailStatus !== 'Valid') {
+                $('.error-message').text(emailStatus);
+                $('.error-message').show();
+                $('input#inputEmail').focus();
                 return false;
             }
 
-            var password = $("input#inputPassword").val();
+            var password = $('input#inputPassword').val();
 
-            if (password == "") {
-                $(".error-message").text("Please enter password.");
-                $(".error-message").show();
-                $("input#inputPassword").focus();
+            if (password === '') {
+                $('.error-message').text('Please enter password.');
+                $('.error-message').show();
+                $('input#inputPassword').focus();
                 return false;
             }
 
-            var password2 = $("input#confirmPassword").val();
+            var password2 = $('input#confirmPassword').val();
 
-            if (password2 == "") {
-                $(".error-message").text("Please retype password.");
-                $(".error-message").show();
-                $("input#confirmPassword").focus();
+            if (password2 === '') {
+                $('.error-message').text('Please retype password.');
+                $('.error-message').show();
+                $('input#confirmPassword').focus();
                 return false;
             }
 
             if (password2 !== password) {
-                $(".error-message").text("Password do not match.");
-                $(".error-message").show();
-                $("input#inputPassword").focus();
+                $('.error-message').text('Password do not match.');
+                $('.error-message').show();
+                $('input#inputPassword').focus();
                 return false;
             }
 
-            if (password.length < 6){
-                $(".error-message").text("Password length should be at least 6 characters.");
-                $(".error-message").show();
-                $("input#inputPassword").focus();
+            if (password.length < 6) {
+                $('.error-message').text('Password length should be at least 6 characters.');
+                $('.error-message').show();
+                $('input#inputPassword').focus();
                 return false;
             }
 
         },
 
         success: function(responseText, status, xhr, $form) {
-            window.location.replace("/app");
+            window.location.replace('/app');
             return false;
         },
 
         error: function(responseText, status, xhr, $form) {
-            $(".error-message").text("Signup Error: Email already in use.");
-            $(".error-message").show();
-            $("input#inputEmail").focus();
+            $('.error-message').text('Signup Error: Email already in use.');
+            $('.error-message').show();
+            $('input#inputEmail').focus();
             return false;
         }
     });
 
-// Reset password
+    // Reset password
 
-	$('#forgotPassword').ajaxForm({
+    $('#forgotPassword').ajaxForm({
 
         beforeSubmit: function(formData, jqForm, options) {
             $('.error-message').hide();
 
-            var email = $("input#inputEmail").val();
+            var email = $('input#inputEmail').val();
 
             var emailStatus = checkEmail(email);
 
-            if ( emailStatus != "Valid" ) {
-            	$(".error-message").removeClass("btn-warning").addClass("btn-danger");
-                $(".error-message").text(emailStatus);
-                $(".error-message").show();
-                $("input#inputEmail").focus();
+            if (emailStatus !== 'Valid') {
+                $('.error-message').removeClass('btn-warning').addClass('btn-danger');
+                $('.error-message').text(emailStatus);
+                $('.error-message').show();
+                $('input#inputEmail').focus();
                 return false;
             }
         },
 
         success: function(responseText, status, xhr, $form) {
-        	$("input#inputEmail").hide();
-        	$(".btn").hide();
-        	$(".error-message").removeClass("btn-danger").addClass("btn-warning");
-        	$(".error-message").text("Instructions on how to reset your password will be sent to your email.");
-            $(".error-message").fadeIn("slow");
+            $('input#inputEmail').hide();
+            $('.btn').hide();
+            $('.error-message').removeClass('btn-danger').addClass('btn-warning');
+            $('.error-message').text('Instructions on how to reset your password will be sent to your email.');
+            $('.error-message').fadeIn('slow');
             return false;
         },
 
         error: function(responseText, status, xhr, $form) {
-        	$(".error-message").removeClass("btn-warning").addClass("btn-danger");
-            $(".error-message").text("Invalid Email.");
-            $(".error-message").show();
-            $("input#inputEmail").focus();
+            $('.error-message').removeClass('btn-warning').addClass('btn-danger');
+            $('.error-message').text('Invalid Email.');
+            $('.error-message').show();
+            $('input#inputEmail').focus();
             return false;
         }
     });
@@ -147,16 +148,12 @@ $(document).ready(function() {
 
 
 function checkEmail(email) {
-    if(email == ""){
-    	return "Please enter email.";
-    }
-
-    else if(!validateEmail(email)){
-    	return "Not a valid Global Zeal, Inc. email.";
-    }
-
-    else{
-    	return "Valid";
+    if (email === '') {
+        return 'Please enter email.';
+    } else if (!validateEmail(email)) {
+        return 'Not a valid Global Zeal, Inc. email.';
+    } else {
+        return 'Valid';
     }
 }
 

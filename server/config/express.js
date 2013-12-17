@@ -23,11 +23,11 @@ module.exports = function (app, config, passport, baucis) {
   app.configure(function(){
 
     // cookieParser should be above session
-    app.use(express.cookieParser())
+    app.use(express.cookieParser());
 
     // bodyParser should be above methodOverride
-    app.use(express.bodyParser())
-    app.use(express.methodOverride())
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
 
     // express/mongo session storage
       app.use(express.session({
@@ -36,7 +36,7 @@ module.exports = function (app, config, passport, baucis) {
           url: config.db,
           collection : 'sessions'
         })
-      }))
+      }));
 
       app.use(passport.initialize());
       app.use(passport.session());
@@ -53,7 +53,7 @@ module.exports = function (app, config, passport, baucis) {
 
 
       // routes should be at the last
-      app.use(app.router)
+      app.use(app.router);
 
       // mount static
       app.use(express.static( __dirname + '/../../app') );
@@ -68,26 +68,24 @@ module.exports = function (app, config, passport, baucis) {
       // properties, use instanceof etc.
       app.use(function(err, req, res, next){
         // treat as 404
-        if (err.message
-          && (~err.message.indexOf('not found')
-          || (~err.message.indexOf('Cast to ObjectId failed')))) {
-          return next()
+        if (err.message && (~err.message.indexOf('not found') || (~err.message.indexOf('Cast to ObjectId failed')))) {
+          return next();
         }
 
         // log it
         // send emails if you want
-        console.error(err.stack)
+        console.error(err.stack);
 
         // error page
-        res.status(500).render('500', { error: err.stack })
-      })
+        res.status(500).render('500', { error: err.stack });
+      });
 
       // assume 404 since no middleware responded
       app.use(function(req, res, next){
         res.status(404).render('404', {
           url: req.originalUrl,
           error: 'Not found'
-        })
+        });
       });
 
   });
@@ -99,4 +97,4 @@ module.exports = function (app, config, passport, baucis) {
     next();
   });
 
-}
+};

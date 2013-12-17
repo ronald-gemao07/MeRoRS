@@ -1,25 +1,26 @@
-define(["app", "apps/config/storage/localstorage"], function(MERORS){
-  MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
+'use strict';
+define(['app', 'apps/config/storage/localstorage'], function(MERORS){
+  MERORS.module('Entities', function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.User = Backbone.Model.extend({
 
       idAttribute: '_id',
-      //urlRoot: "users",
-      urlRoot: "http://localhost:9000/api/v1/Users/",
+      //urlRoot: 'users',
+      urlRoot: 'http://localhost:9000/api/v1/Users/',
 
       defaults: {
         _id: null,
-        email: "", 
-        firstName: "",
-        lastName: "",
-        position: "",
-        group: "",
-        status: ""
+        email: '',
+        firstName: '',
+        lastName: '',
+        position: '',
+        group: '',
+        status: ''
       },
 
       validate: function(attrs, options) {
-        var errors = {}
+        var errors = {};
         if (! attrs.email) {
-          errors.email = "can't be blank";
+          errors.email = 'can\'t be blank';
         }
       }
     });
@@ -27,9 +28,9 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
     /*Entities.configureStorage(Entities.User);*/
 
     Entities.UserCollection = Backbone.Collection.extend({
-      url: "http://localhost:9000/api/v1/Users/",
+      url: 'http://localhost:9000/api/v1/Users/',
       model: Entities.User,
-      comparator: "email"
+      comparator: 'email'
     });
 
     /*Entities.configureStorage(Entities.UserCollection);*/
@@ -38,12 +39,12 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
       var users = new Entities.UserCollection(/*[
         { 
           id: 1, 
-          email: "elluis.invento@globalzeal.net", 
-          firstName: "Elluis", 
-          lastName: "Invento", 
-          position: "Software Engineer", 
-          group: "Administrator",
-          status: "Active"
+          email: 'elluis.invento@globalzeal.net', 
+          firstName: 'Elluis', 
+          lastName: 'Invento', 
+          position: 'Software Engineer', 
+          group: 'Administrator',
+          status: 'Active'
         }
       ]*/);
       users.forEach(function(user){
@@ -89,15 +90,15 @@ define(["app", "apps/config/storage/localstorage"], function(MERORS){
       }
     };
 
-    MERORS.reqres.setHandler("user:entities", function(){
+    MERORS.reqres.setHandler('user:entities', function(){
       return API.getUserEntities();
     });
 
-    MERORS.reqres.setHandler("user:entity", function(id){
+    MERORS.reqres.setHandler('user:entity', function(id){
       return API.getUserEntity(id);
     });
 
-    MERORS.reqres.setHandler("user:entity:new", function(id){
+    MERORS.reqres.setHandler('user:entity:new', function(id){
       return new Entities.User();
     });
   });

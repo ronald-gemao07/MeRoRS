@@ -18,7 +18,7 @@ var auth = require('./middlewares/authorization');
      * Route middlewares
      */
 
-var userAuth = [auth.user.isLoggedIn]
+var userAuth = [auth.user.isLoggedIn];
 
 // Main Routes
 module.exports = function(app, passport) {

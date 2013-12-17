@@ -1,15 +1,15 @@
-
+'use strict';
 /*
  *  Generic require login routing middleware
  */
 
 exports.requiresLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
-    req.session.returnTo = req.originalUrl
-    return res.redirect('/')
+    req.session.returnTo = req.originalUrl;
+    return res.redirect('/');
   }
-  next()
-}
+  next();
+};
 
 /*
  * Check if logged in
@@ -17,10 +17,10 @@ exports.requiresLogin = function (req, res, next) {
 
  exports.isLoggedIn = function (req, res, next) {
   if (!req.isAuthenticated()) {
-    return res.redirect('/')
+    return res.redirect('/');
   }
-  next()
- }
+  next();
+ };
 
 /*
  *  User authorization routing middleware
@@ -28,14 +28,13 @@ exports.requiresLogin = function (req, res, next) {
 
 exports.user = {
   hasAuthorization : function (req, res, next) {
-    if (req.profile.id != req.user.id) {
-      req.flash('info', 'You are not authorized')
-      return res.redirect('/users/'+req.profile.id)
+    if (req.profile.id !== req.user.id) {
+      req.flash('info', 'You are not authorized');
+      return res.redirect('/users/'+req.profile.id);
     }
-    next()
+    next();
   },
   isLoggedIn: function (req, res, next) {
     return req.isAuthenticated();
   }
-}
-
+};

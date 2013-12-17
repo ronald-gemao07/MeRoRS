@@ -1,5 +1,4 @@
 'use strict';
-
 define(['app'], function(MERORS) {
     MERORS.module('BoardApp', function(BoardApp) {
         BoardApp.startWithParent = false;

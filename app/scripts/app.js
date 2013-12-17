@@ -1,11 +1,12 @@
-define(["marionette", "apps/config/marionette/regions/dialog"], function(Marionette){
+'use strict';
+define(['marionette', 'apps/config/marionette/regions/dialog'], function(Marionette){
   var MERORS = new Marionette.Application();
 
   MERORS.addRegions({
-    headerRegion: "#header-region",
-    mainRegion: "#main-region",
+    headerRegion: '#header-region',
+    mainRegion: '#main-region',
     dialogRegion: Marionette.Region.Dialog.extend({
-      el: "#dialog-region"
+      el: '#dialog-region'
     })
   });
 
@@ -15,7 +16,7 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
   };
 
   MERORS.getCurrentRoute = function(){
-    return Backbone.history.fragment
+    return Backbone.history.fragment;
   };
 
   MERORS.startSubApp = function(appName, args){
@@ -32,13 +33,13 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
     }
   };
 
-  MERORS.on("initialize:after", function(){
+  MERORS.on('initialize:after', function(){
     if(Backbone.history){
-      require(["apps/reservations/reservations_app", "apps/board/board_app", "apps/rooms/rooms_app",  "apps/users/users_app", "apps/about/about_app"], function () {
+      require(['apps/reservations/reservations_app', 'apps/board/board_app', 'apps/rooms/rooms_app',  'apps/users/users_app', 'apps/about/about_app'], function () {
         Backbone.history.start();
 
-        if(MERORS.getCurrentRoute() === ""){
-          MERORS.trigger("board:show");
+        if(MERORS.getCurrentRoute() === ''){
+          MERORS.trigger('board:show');
         }
       });
     }

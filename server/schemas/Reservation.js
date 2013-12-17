@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require( 'mongoose' ),
     Schema = mongoose.Schema;
 
@@ -18,5 +19,3 @@ ReservationSchema.pre('save', function (next) {
 });
 
 module.exports = mongoose.model( 'Reservation', ReservationSchema );
-
-

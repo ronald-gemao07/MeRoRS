@@ -1,9 +1,10 @@
+'use strict';
 module.exports = {
         'server': {
                 'port': 9000
         },
         'store': generate_mongo_url
-}
+};
 
 // Helper function for generating mongodb configs
 function generate_mongo_url( obj ) {

@@ -1,5 +1,6 @@
-define(["app", "backbone.picky"], function(MERORS){
-  MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
+'use strict';
+define(['app', 'backbone.picky'], function(MERORS){
+  MERORS.module('Entities', function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Header = Backbone.Model.extend({
       initialize: function(){
         var selectable = new Backbone.Picky.Selectable(this);
@@ -18,11 +19,11 @@ define(["app", "backbone.picky"], function(MERORS){
 
     var initializeHeaders = function(){
       Entities.headers = new Entities.HeaderCollection([
-        { name: "My Reservations", url: "reservations", navigationTrigger: "reservations:show" },
-        { name: "Reservation Board", url: "board", navigationTrigger: "board:show" },
-        { name: "Manage Rooms", url: "rooms", navigationTrigger: "rooms:list" },
-        { name: "Manage Users", url: "users", navigationTrigger: "users:list" },
-        { name: "About", url: "about", navigationTrigger: "about:show" }
+        { name: 'My Reservations', url: 'reservations', navigationTrigger: 'reservations:show' },
+        { name: 'Reservation Board', url: 'board', navigationTrigger: 'board:show' },
+        { name: 'Manage Rooms', url: 'rooms', navigationTrigger: 'rooms:list' },
+        { name: 'Manage Users', url: 'users', navigationTrigger: 'users:list' },
+        { name: 'About', url: 'about', navigationTrigger: 'about:show' }
       ]);
     };
 
@@ -35,7 +36,7 @@ define(["app", "backbone.picky"], function(MERORS){
       }
     };
 
-    MERORS.reqres.setHandler("header:entities", function(){
+    MERORS.reqres.setHandler('header:entities', function(){
       return API.getHeaders();
     });
   });

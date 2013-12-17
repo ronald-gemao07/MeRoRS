@@ -32,7 +32,7 @@ define(['app', 'tpl!apps/users/common/templates/form.tpl', 'backbone.syphon'],
           var $controlGroup = $view.find('#user-' + key).parent();
           var $errorEl = $('<span>', { class: 'help-inline error', text: value });
           $controlGroup.append($errorEl).addClass('error');
-        }
+        };
 
         clearFormErrors();
         _.each(errors, markErrors);

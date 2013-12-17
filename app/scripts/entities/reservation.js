@@ -1,30 +1,31 @@
-define(["app"], function(MERORS){
-  MERORS.module("Entities", function(Entities, MERORS, Backbone, Marionette, $, _){
+'use strict';
+define(['app'], function(MERORS){
+  MERORS.module('Entities', function(Entities, MERORS, Backbone, Marionette, $, _){
     Entities.Reservation = Backbone.Model.extend({
       idAttribute: '_id',
 
-      urlRoot: "http://localhost:9000/api/v1/Reservations/",
+      urlRoot: 'http://localhost:9000/api/v1/Reservations/',
 
       defaults: {
         
-        roomName: "",
-        roomId:"",
-        reservedBy: "",
-        title: "",
-        description: "",
-        dateStart: "",
-        dateEnd:"",
-        timeStart: "",
-        timeEnd:""
+        roomName: '',
+        roomId:'',
+        reservedBy: '',
+        title: '',
+        description: '',
+        dateStart: '',
+        dateEnd:'',
+        timeStart: '',
+        timeEnd:''
       },
 
       validate: function(attrs, options) {
-        var errors = {}
+        var errors = {};
 /*        if (! attrs.title) {
-          errors.title = "can't be blank";
+          errors.title = 'can't be blank';
         }
         if (! attrs.startDate) {
-          errors.startDate = "can't be blank";
+          errors.startDate = 'can't be blank';
         }
         if( ! _.isEmpty(errors)){
           return errors;
@@ -35,16 +36,16 @@ define(["app"], function(MERORS){
     //Entities.configureStorage(Entities.Reservation);
 
     Entities.ReservationCollection = Backbone.Collection.extend({
-      url: "http://localhost:9000/api/v1/Reservations/",
+      url: 'http://localhost:9000/api/v1/Reservations/',
       model: Entities.Reservation,
-      comparator: "title"
+      comparator: 'title'
     });
 
     //Entities.configureStorage(Entities.ReservationCollection);
 /*
     var initializeReservations = function(){
       var reservations = new Entities.ReservationCollection([
-        { reservationId: 1, title: "Team Kadasig Standup", description: "Team Kadasig standup meeting with Scrum Master" }
+        { reservationId: 1, title: 'Team Kadasig Standup', description: 'Team Kadasig standup meeting with Scrum Master' }
       ]);
       reservations.forEach(function(reservation){
         reservation.save();
@@ -89,20 +90,20 @@ define(["app"], function(MERORS){
       }
     };
 
-    MERORS.reqres.setHandler("reservation:entities", function(){
+    MERORS.reqres.setHandler('reservation:entities', function(){
       return API.getReservationEntities();
     });
 
-    MERORS.reqres.setHandler("reservation:entity", function(id){
+    MERORS.reqres.setHandler('reservation:entity', function(id){
       return API.getReservationEntity(id);
     });
 
-    MERORS.reqres.setHandler("reservation:test", function(){
+    MERORS.reqres.setHandler('reservation:test', function(){
       return new Entities.ReservationCollection();
     });
 
 
-    MERORS.reqres.setHandler("reservation:entity:new", function(id){
+    MERORS.reqres.setHandler('reservation:entity:new', function(id){
       return new Entities.Reservation();
     });
   });
