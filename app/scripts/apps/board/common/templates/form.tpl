@@ -1,6 +1,7 @@
 <form id="add-form" autocomplete="off">
     <div class="control-group">
-        <input type="hidden" id="user" name="reservedBy" value="User123"/>
+        <input type="hidden" id="reservedBy" name="reservedBy"/>
+        <input type="hidden" id="email" name="email">
         <input type="hidden" id="start-date" name="dateStart"/>
         <input type="hidden" id="end-date" name="dateEnd"/>
         <input type="hidden" id="start-time" name="timeStart"/>

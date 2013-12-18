@@ -76,7 +76,6 @@ define(['app'], function(MERORS) {
 
                 return dfd.promise();
             },
-
             getReservations: function(obj) {
                 var dfd = $.Deferred();
 
@@ -261,7 +260,7 @@ define(['app'], function(MERORS) {
                 $(jsEvent.currentTarget).tooltip({
                     items: jsEvent.currentTarget,
                     content: function() {
-                        return '<b>' + resourceName[0] + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br>' + '<b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
+                        return '<b>' + resourceName[0] + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br><b>Email</b>: ' + event.email + '<br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
                     }
                 });
             },
