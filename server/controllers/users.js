@@ -5,11 +5,80 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var utils = require('../lib/utils');
 var baucis = require('baucis');
+var nodemailer = require('nodemailer');
+var _ = require('underscore');
+var mail = require('nodemailer').mail;
 
 // Private functions
+
 function _validateEmail(email) {
     var regExPattern = /[a-zA-Z]{1,20}\.[a-zA-Z]{1,20}@globalzeal\.net$/i;
     return regExPattern.test(email);
+}
+
+// userDetails = { firstName, lastName, email}
+
+function _sendAdminNotification(userDetails, adminEmail, adminName) {
+    // create reusable transport method (opens pool of SMTP connections)
+    var smtpTransport = nodemailer.createTransport('SMTP', {
+        service: 'Gmail',
+        auth: {
+            user: 'merors.min@gmail.com',
+            pass: 'merors123'
+        }
+    });
+
+    var htmlEmail = '<strong>Hi ' + adminName + ',</strong><br /><p>The following user registered recently: </p><br /><table border=\'1\' bordercolor=\'#FFCC00\' style=\'background-color:#FFFFCC\' width=\'100%\' cellpadding=\'3\' cellspacing=\'0\'><tr><td colspan=\'2\'><strong>New User Registered</strong></td></tr><tr><td><strong>Email:</strong></td><td>' + userDetails.email + '</td></tr><tr><td><strong>First Name:</strong></td><td>' + userDetails.firstName + '</td></tr><tr><td><strong>Last Name</strong></td><td>' + userDetails.lastName + '</td></tr></table><br /><br />Please activate said account if no problem exist.';
+
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: 'MeRoRS Admin<merors.min@gmail.com>', // sender address
+        to: adminEmail, // list of receivers
+        subject: 'New User Registered', // Subject line
+        text: 'New user ' + userDetails.lastName + ', ' + userDetails.firstName + ' needs activation.', // plain text body
+        html: htmlEmail // html body
+    };
+
+    // send mail with defined transport object
+    smtpTransport.sendMail(mailOptions, function(error, response) {
+        if (error) {            mail({
+                from: 'MeRoRS Admin<merors.min@gmail.com>', // sender address
+                to: adminEmail, // list of receivers
+                subject: 'New User Registered', // Subject line
+                text: 'New user ' + userDetails.lastName + ', ' + userDetails.firstName + ' needs activation.', // plain text body
+                html: 'New user ' + userDetails.lastName + ', ' + userDetails.firstName + ' needs activation.' // html body
+            });
+        } else {
+            // admin notified successfully.
+            // if you don't want to use this transport object anymore, uncomment following line
+            smtpTransport.close(); // shut down the connection pool, no more messages
+        }
+
+    });
+
+}
+
+
+function _getActiveAdmins(userDetails, sendEmail) {
+    var query = User.find({
+        'status': 'Active',
+        'group': 'Administrator'
+    });
+
+    // selecting the `firstName` and `email` fields
+    query.select('firstName email');
+
+    // execute the query
+    query.exec(function(err, admins) {
+        if (err) {
+            console.log('Error during _getActiveAdmins');
+            //return handleError(err);
+        }
+
+        _.each(admins, function(admin, index) {
+            sendEmail(userDetails, admin.email, admin.firstName);
+        });
+    });
 }
 
 // Export Functions
@@ -110,22 +179,34 @@ exports.createUser = function(req, res) {
         email: req.body.inputEmail
     }, function(err, user) {
         if (err) {
-            return res.render('user/signup', { message: 'Server error: please contact site admin.', email: '' });
+            return res.render('user/signup', {
+                message: 'Server error: please contact site admin.',
+                email: ''
+            });
         }
         if (user) { // email in use
-            return res.render('user/signup', { message: 'Email already in use.', email: '' } );
+            return res.render('user/signup', {
+                message: 'Email already in use.',
+                email: ''
+            });
         } else {
             // Email not in use, check password here
             if ((req.body.inputPassword !== req.body.confirmPassword) || req.body.inputPassword.length < 6) {
-                return res.render('user/signup', { message: 'Password do not match or less than 6 characters.', email: req.body.inputEmail } );
+                return res.render('user/signup', {
+                    message: 'Password do not match or less than 6 characters.',
+                    email: req.body.inputEmail
+                });
             } else {
 
                 // Email and password is valid
                 // Extract info from req.body
                 var userEmail = req.body.inputEmail;
 
-                if(!_validateEmail(userEmail)){
-                    return res.render('user/signup', { message: 'Not a valid Global Zeal, Inc. email.', email: req.body.inputEmail });
+                if (!_validateEmail(userEmail)) {
+                    return res.render('user/signup', {
+                        message: 'Not a valid Global Zeal, Inc. email.',
+                        email: req.body.inputEmail
+                    });
                 }
 
                 var userPassword = req.body.inputPassword;
@@ -149,10 +230,21 @@ exports.createUser = function(req, res) {
 
                 userInfo.save(function(err) {
                     if (err) {
-                        return res.render('user/signup', { message: 'Error saving details.', email: '' });
-                    } else { // save successful, force login
-                        return res.render('index', { message: 'Account created. Please login to continue.' });
-                    }
+                        return res.render('user/signup', {
+                            message: 'Error saving details.',
+                            email: ''
+                        });
+                    } else { // save successful
+
+                        // Send email to Admin - default admin email at the moment: merors.min@gmail.com
+                        _getActiveAdmins(userDetails, _sendAdminNotification);
+
+                        // Account Created. Forward to login page.
+                        return res.render('index', {
+                            message: 'Account created. Please login to continue.'
+                        });
+
+                    } // end else
                 });
             }
         }
@@ -238,7 +330,7 @@ function buildRESTController () {
         }
     });
 
-    // Update 
+    // Update
     restController.put('/', function ( req, res, next ) {
         if (!req.isAuthenticated()) {
             res.send(401);
@@ -247,7 +339,7 @@ function buildRESTController () {
         }
     });
 
-    // Delete 
+    // Delete
     restController.delete('/', function ( req, res, next ) {
         if (!req.isAuthenticated()) {
             res.send(401);
