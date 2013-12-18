@@ -10,7 +10,7 @@ var baucis = require('baucis');
 // Query daily reservations
 function getReservations ( req, res, next ) {
 	var params = req.query;
-	var userId;
+	var userId, roomId;
 
 	switch(params.getBy) {
 		case 'user':
@@ -29,9 +29,14 @@ function getReservations ( req, res, next ) {
 			}
 
 			break;
-		default:
+		case 'room':
+			roomId = params.roomId;
+
+			getReservationByRoom(roomId, req, res, next);
 
 			break;
+		default:
+			getAllRservationByDate(req, res, next);
 	}
 
 }
@@ -39,6 +44,50 @@ function getReservations ( req, res, next ) {
 function getReservationByUser ( userId, req, res, next ) {
 	ReservationModel.find({
         reservedBy: userId
+    }).lean().exec(function ( err, results ) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.json(results);
+		}
+    });
+}
+
+function getReservationByRoom (roomId, req, res, next) {
+	var params = req.query;
+	// Todo check roomId
+	ReservationModel.find({
+		roomId: roomId,
+        dateStart: {
+            $gte: params.dateStart,
+            $lte: params.dateEnd
+        },
+        dateEnd: {
+            $gte: params.dateEnd,
+            $lte: params.dateStart
+        }
+    }).lean().exec(function ( err, results ) {
+    	
+		if (err) {
+			res.send(err);
+		} else {
+			res.json(results);
+		}
+    });
+}
+
+function getAllRservationByDate (req, res, next) {
+	var params = req.query;
+	// Todo check roomId
+	ReservationModel.find({
+        dateStart: {
+            $gte: params.dateStart,
+            $lte: params.dateEnd
+        },
+        dateEnd: {
+            $gte: params.dateEnd,
+            $lte: params.dateStart
+        }
     }).lean().exec(function ( err, results ) {
 		if (err) {
 			res.send(err);
