@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var utils = require('../lib/utils');
+var baucis = require('baucis');
 
 // Private functions
 function _validateEmail(email) {
@@ -186,3 +187,80 @@ exports.user = function(req, res, next, id) {
             next();
         });
 };
+
+// REST Service
+
+function getLoggedInUserProfile (req, res, next) {
+    var userId = req.user._doc._id;
+
+    User.findOne({
+        _id: userId
+    }).lean().exec(function ( err, results ) {
+        if (err) {
+            res.send(err);
+        } else {
+            delete results.hashed_password;
+            delete results.salt;
+            res.json(results);
+        }
+    });
+}
+function buildRESTController () {
+
+    var restController = baucis.rest('User');
+
+
+    // GET
+    restController.get('/', function ( req, res, next ) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+
+    });
+
+    restController.get('/Profile', function ( req, res, next ) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            getLoggedInUserProfile(req, res, next);
+        }
+
+    });
+
+    // Create user
+    restController.post('/', function ( req, res, next ) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        }  else {
+            next();
+        }
+    });
+
+    // Update 
+    restController.put('/', function ( req, res, next ) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        }  else {
+            next();
+        }
+    });
+
+    // Delete 
+    restController.delete('/', function ( req, res, next ) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        }  else {
+            next();
+        }
+    });
+
+    return restController;
+}
+
+function restController () {
+    return buildRESTController();
+}
+
+exports.getRESTController = restController;

@@ -72,6 +72,38 @@ module.exports = function(grunt) {
             }*/
         },
 
+        nodemon: {
+            dev: {
+                options: {
+                  file: 'server/app.js',
+                  args: ['dev'],
+                  nodeArgs: ['--debug'],
+                  ignoredFiles: ['node_modules/**'],
+                  watchedExtensions: ['js'],
+                  watchedFolders: ['server'],
+                  delayTime: 1,
+                  env: {
+                    PORT: '9000'
+                  },
+                  cwd: __dirname
+                }
+              },
+            exec: {
+                options: {
+                  exec: 'less'
+                }
+            }
+        },
+
+        concurrent: {
+            dev: {
+                tasks: ['nodemon', 'watch', 'open'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
+        },
+
         // testing server
         connect: {
             testserver: {
@@ -318,12 +350,23 @@ module.exports = function(grunt) {
         ]);
     });
 
+    grunt.registerTask('dev', function (target) {
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
+        // what is this??
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+        }
 
-    //grunt.registerTask('test-files', ['jshint']); // used to be ['jshint', 'jasmine']
-    //grunt.registerTask('default', ['test']);
+        grunt.option('force', true);
+
+        grunt.task.run([
+            'clean:server',
+            'compass:server',
+            'connect:testserver',
+            'exec',
+            'concurrent:dev'
+        ]);
+    });
 
     // todo fix these
     grunt.registerTask('test', [

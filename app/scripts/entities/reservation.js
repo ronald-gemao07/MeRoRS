@@ -86,6 +86,21 @@ define(['app'], function(MERORS) {
                     });
                 }, 2000);
                 return defer.promise();
+            },
+
+            getMyReservations: function () {
+              var reservations = new Entities.ReservationCollection();
+              reservations.url = 'http://localhost:9000/api/v1/Reservations/?getBy=user';
+              var defer = $.Deferred();
+              reservations.fetch({
+                  success: function(data) {
+                      defer.resolve(data);
+                  }
+              });
+              var promise = defer.promise();
+              $.when(promise).done();
+
+              return promise;
             }
         };
 
@@ -104,6 +119,11 @@ define(['app'], function(MERORS) {
         MERORS.reqres.setHandler('reservation:entity:new', function() {
             return new Entities.Reservation();
         });
+
+        MERORS.reqres.setHandler('reservation:myReservations', function() {
+            return API.getMyReservations();
+        });
+
     });
   return;
 });

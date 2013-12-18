@@ -1,16 +1,18 @@
 'use strict';
-var mongoose = require( 'mongoose' ),
-    Schema = mongoose.Schema;
 
 var baucis = require('baucis');
+var reservationsController = require('../controllers/reservations');
+var usersController = require('../controllers/users');
 
-module.exports = function (app) {
-	//User
-	baucis.rest('User');
-	//Room
-	baucis.rest('Room');
-	//Reservation
-	baucis.rest('Reservation');
+module.exports = function(app) {
+    //User
+    usersController.getRESTController();
 
-	return baucis;
+    //Room
+    baucis.rest('Room');
+
+    //Reservation
+    reservationsController.getRESTController();
+
+    return baucis;
 };

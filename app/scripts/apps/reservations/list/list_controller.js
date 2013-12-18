@@ -8,7 +8,7 @@ define(['app', 'apps/reservations/list/list_view'], function(MERORS, View) {
                     var loadingView = new CommonViews.Loading();
                     MERORS.mainRegion.show(loadingView);
 
-                    var fetchingReservations = MERORS.request('reservation:entities');
+                    var fetchingReservations = MERORS.request('reservation:myReservations');
 
                     var reservationsListLayout = new View.Layout();
                     var reservationsListPanel = new View.Panel();

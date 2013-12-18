@@ -2,20 +2,17 @@
 var mongoose = require( 'mongoose' ),
     Schema = mongoose.Schema;
 
-var ReservationSchema= new Schema({
-    roomName:{ type: String , default:'' },
-    roomId: { type: String , default:'' },
-    reservedBy: { type: String , default:'' },
-    title: { type: String , default:'' },
+var ReservationSchema = new Schema({
+    roomId: { type: Schema.Types.ObjectId, required: true },
+    reservedBy: { type: Schema.Types.ObjectId, required: true },
+    title: { type: String , default:'', required: true },
     description: { type: String , default:'' },
-    dateStart: { type: String , default:'' },
-    dateEnd: { type: String , default:'' },
-    timeEnd: { type: String , default:'' },
-    timeStart: { type: String , default:'' }
+    dateStart: { type: Number, required: true },
+    dateEnd: { type: Number, required: true },
+    timeEnd: { type: Number, required: true },
+    timeStart: { type: Number, required: true }
 });
 
-ReservationSchema.pre('save', function (next) {
-  next();
-});
+var Reservation = mongoose.model( 'Reservation', ReservationSchema );
 
-module.exports = mongoose.model( 'Reservation', ReservationSchema );
+module.exports = Reservation;
