@@ -57,11 +57,13 @@ define(['app'], function(MERORS){
       return rooms.models;
     };*/
 
+    var RoomsCollection;
+
     var API = {
       getRoomEntities: function(){
-        var rooms = new Entities.RoomCollection();
+        RoomsCollection = new Entities.RoomCollection();
         var defer = $.Deferred();
-        rooms.fetch({
+        RoomsCollection.fetch({
           success: function(data){
             defer.resolve(data);
           }
@@ -96,6 +98,10 @@ define(['app'], function(MERORS){
 
     MERORS.reqres.setHandler('room:entities', function(){
       return API.getRoomEntities();
+    });
+
+    MERORS.reqres.setHandler('room:entities:collection', function(){
+      return RoomsCollection;
     });
 
     MERORS.reqres.setHandler('room:entity', function(id){

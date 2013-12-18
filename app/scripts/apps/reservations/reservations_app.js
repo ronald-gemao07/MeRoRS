@@ -28,11 +28,34 @@ define(['app'], function(MERORS) {
 
 
         var API = {
-            listReservations: function(criterion) {
-                require(['apps/reservations/list/list_controller'], function(ListController) {
-                    executeAction(ListController.listReservations, criterion);
-                });
-            },
+            getRooms: function() {
+               var dfd = $.Deferred();
+
+               require(['common/views', 'entities/room'], function(CommonViews) {
+                   var loadingView = new CommonViews.Loading({
+                       title: 'Loading...',
+                       message: 'Loading required data'
+                   });
+                   MERORS.mainRegion.show(loadingView);
+
+                   // Fetch rooms
+                   var fetchingRooms = MERORS.request('room:entities');
+
+                   $.when(fetchingRooms).done(function(rooms) {
+                       dfd.resolve(rooms);
+                   });
+               });
+
+               return dfd.promise();
+           },
+           listReservations: function(criterion) {
+               require(['apps/reservations/list/list_controller'], function(ListController) {
+                   $.when(API.getRooms()).done(function(rooms) {
+                       executeAction(ListController.listReservations, criterion);
+                   });
+               });
+           },
+
             showReservation: function(id) {
                 require(['apps/reservations/show/show_controller'], function(ShowController) {
                     executeAction(ShowController.showRoom, id);

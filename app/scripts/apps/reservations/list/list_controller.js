@@ -4,17 +4,53 @@ define(['app', 'apps/reservations/list/list_view'], function(MERORS, View) {
     MERORS.module('ReservationsApp.List', function(List, MERORS, Backbone, Marionette, $) {
         List.Controller = {
             listReservations: function(criterion) {
-                require(['common/views', 'entities/reservation'], function(CommonViews) {
+                require(['common/views', 'entities/reservation' , 'entities/room'], function(CommonViews) {
                     var loadingView = new CommonViews.Loading();
                     MERORS.mainRegion.show(loadingView);
 
                     var fetchingReservations = MERORS.request('reservation:myReservations');
+                    var roomsCollection = MERORS.request('room:entities:collection');
+
 
                     var reservationsListLayout = new View.Layout();
                     var reservationsListPanel = new View.Panel();
 
+                    var getSplitTime = function(n) {
+                        n = parseInt(n);
+                        var stime = Math.floor(n / 100);
+                        var etime = n - (stime * 100);
+                        if (etime === 0){ etime = '00'; }
+                        var h24=stime;                        
+                        stime = stime%12;
+                        if(stime===0){ 
+                          stime=12; 
+                        }
+                        return stime.toString() + ':' + etime.toString() + (h24 < 12 ? ' am' : ' pm');
+                    };
+
+                    var getSplitDate = function(dateString) {
+                        dateString = dateString.toString();
+                        var year = dateString.slice(0, 4);
+                        var month = dateString.slice(4, 6);
+                        var day = dateString.slice(-2);
+
+                        return month + '/' + day + '/' + year; 
+                    };
+                    
+
                     require(['entities/common'], function() {
                         $.when(fetchingReservations).done(function(reservations) {
+                            for(var index in reservations.models){
+                                reservations.models[index].attributes.timeStart = getSplitTime(reservations.models[index].attributes.timeStart);
+                                reservations.models[index].attributes.timeEnd = getSplitTime(reservations.models[index].attributes.timeEnd);
+                                reservations.models[index].attributes.dateStart = getSplitDate(reservations.models[index].attributes.dateStart);
+                                reservations.models[index].attributes.dateEnd = getSplitDate(reservations.models[index].attributes.dateEnd);
+                                
+                                var room = roomsCollection.findWhere({ _id : reservations.models[index].attributes.roomId})         
+                                reservations.models[index].attributes.roomName = room.attributes.room;               
+                            }  
+                        
+
                             var filteredReservations = MERORS.Entities.FilteredCollection({
                                 collection: reservations,
                                 filterFunction: function(filterCriterion) {
