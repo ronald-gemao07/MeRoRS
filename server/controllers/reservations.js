@@ -191,7 +191,104 @@ function addWeeklyReservation ( req, res, next ) {
 }
 
 function updateOneTimeReservation ( req, res, next ) {
-	
+	var params = req.body;
+	var userId = req.user._doc._id;
+	var reservationId = req.params.id;
+
+	async.series({
+		checkRoom: function (callback) {
+
+			roomsController.checkRoomExists(params.roomId, function ( err, results ) {
+				if (err) {
+					callback(err);
+				} else if (results) {
+					callback(null, results);
+				} else {
+					callback(true);
+				}
+			});
+
+		},
+		getReservation: function (callback) {
+			ReservationModel.find({
+				_id: reservationId
+			}, function ( err, results ) {
+
+				callback(err, results);
+
+		    });
+		},
+		checkConflicts: function (callback) {
+
+			ReservationModel.find({
+				_id: { $ne: reservationId },
+		        roomId: params.roomId,
+		        $or: [{
+		            dateStart: {
+		                $gte: params.dateStart,
+		                $lte: params.dateEnd
+		            },
+		            $or: [{
+		                timeStart: {
+		                    $gte: params.timeStart,
+		                    $lt: params.dateEnd
+		                }
+		            }, {
+		                timeEnd: {
+		                    $gt: params.timeStart,
+		                    $lte: params.timeEnd
+		                }
+		            }]
+		        }, {
+		            dateEnd: {
+		                $gte: params.dateEnd,
+		                $lte: params.dateStart
+		            },
+		            $or: [{
+		                timeStart: {
+		                    $gte: params.timeStart,
+		                    $lt: params.timeEnd
+		                }
+		            }, {
+		                timeEnd: {
+		                    $gt: params.timeStart,
+		                    $lte: params.timeEnd
+		                }
+		            }]
+		        }]
+		    }, function ( err, results ) {
+
+				callback(err, results);
+
+		    });
+		}
+	}, function (err, results) {
+
+		if (err) {
+			if (!results.checkRoom) {
+				res.json({error: 'Room does not exist!'});
+			} else if (!results.getReservation) {
+				res.json({error: 'Reservation does not exist!'});
+			} else {
+				next(err);
+			}
+		} else if (!results.getReservation.length) {
+			// No reservation found
+			res.json({error: 'No reservation found'});
+
+        } else if (results.checkConflicts.length) {
+			// Event conflict
+			// Return the number of events
+			res.json({results: results.checkConflicts.length});
+
+        } else {
+			// Add userId
+			req.body.reservedBy = userId;
+
+			next();
+        }
+
+	});
 }
 
 function updateDailyReservation (req, res, next) {
@@ -211,7 +308,6 @@ function buildRESTController () {
 
 	// Create reservation
 	restController.post('/', function ( req, res, next ) {
-		var params = req.params;
 		
 		if (!req.isAuthenticated()) {
 			res.send(401);
@@ -232,14 +328,13 @@ function buildRESTController () {
 	});
 
 	// Update reservation
-	restController.put('/', function ( req, res, next ) {
-		var params = req.params;
+	restController.put('/:id', function ( req, res, next ) {
 		
 		if (!req.isAuthenticated()) {
 			res.send(401);
 		}
 
-		switch (req.params.recurType) {
+		switch (req.params.body) {
 			case 'daily':
 				updateDailyReservation(req, res, next);
 				break;
@@ -253,12 +348,13 @@ function buildRESTController () {
 
 	// Delete reservation
 	restController.delete('/', function ( req, res, next ) {
-		var params = req.params;
 
 		// Todo: make truthy on live
 		if (!req.isAuthenticated()) {
 			res.send(401);
 		}
+
+		next();
 
 	});
 
