@@ -16,6 +16,11 @@ define(['app'], function(MERORS) {
             }
         });
 
+        var currentUser = "";
+        $.getJSON('/api/v1/users/profile', function (data) {
+            currentUser = data._id;
+        });
+
         var executeAction = function(action, arg) {
             MERORS.startSubApp('BoardApp');
             action(arg);
@@ -103,19 +108,31 @@ define(['app'], function(MERORS) {
             },
 
             viewDisplay: function(view) {
-                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+                
                 var obj ={
                     dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
                     dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
                 };
                 $.when(API.getReservations(obj)).done(function(reservations) {
-                    reservations.forEach(function(event) {
+                    
+                    var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+
+                    _.each(reservations, function(event) {
+                        event.owner = true;
                         var eventEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
                         if (eventEndTime <= currentTime) {
                             event.editable = false;
                             event.title += ' (Done)';
                             event.backgroundColor = '#C8DEAB';
                             event.borderColor = '#C8DEAB';
+                        }
+
+                        if(event.reservedBy != currentUser) {
+                            event.title += ' (Not owned)';
+                            event.backgroundColor = '#E8E8E8';
+                            event.borderColor = '#E8E8E8';
+                            event.editable = false;
+                            event.owner = false;
                         }
                     });
                     view.renderEvents(reservations);
