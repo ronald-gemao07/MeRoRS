@@ -63,8 +63,8 @@ function getReservationByRoom (roomId, req, res, next) {
             $lte: params.dateEnd
         },
         dateEnd: {
-            $gte: params.dateEnd,
-            $lte: params.dateStart
+            $gte: params.dateStart,
+            $lte: params.dateEnd
         }
     }).lean().exec(function ( err, results ) {
     	
@@ -85,8 +85,8 @@ function getAllRservationByDate (req, res, next) {
             $lte: params.dateEnd
         },
         dateEnd: {
-            $gte: params.dateEnd,
-            $lte: params.dateStart
+            $gte: params.dateStart,
+            $lte: params.dateEnd
         }
     }).lean().exec(function ( err, results ) {
 		if (err) {
