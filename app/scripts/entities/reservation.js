@@ -72,7 +72,7 @@ define(['app'], function(MERORS) {
 
             getReservationEntity: function(reservationId) {
                 var reservation = new Entities.Reservation({
-                    id: reservationId
+                    _id: reservationId
                 });
                 var defer = $.Deferred();
                 setTimeout(function() {
@@ -84,7 +84,7 @@ define(['app'], function(MERORS) {
                             defer.resolve(undefined);
                         }
                     });
-                }, 2000);
+                }, 500);
                 return defer.promise();
             },
 

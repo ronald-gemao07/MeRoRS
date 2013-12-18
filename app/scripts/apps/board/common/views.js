@@ -7,7 +7,9 @@ define(['app', 'tpl!apps/board/common/templates/form.tpl', 'fullcalendar', 'back
                 template: formTpl,
 
                 events: {
-                    'click button.js-submit': 'submitClicked'
+                    'click button.js-submit': 'submitClicked',
+                    'click button.js-edit': 'editClicked',
+                    'click button.js-delete': 'deleteClicked'
                 },
 
                 submitClicked: function(e) {
@@ -16,18 +18,28 @@ define(['app', 'tpl!apps/board/common/templates/form.tpl', 'fullcalendar', 'back
                     var title = (this.$('#title').val()).replace(/(<([^>]+)>)/ig, '');
                     var user = this.$('#user').val();
                     if ((title && description) && (!this.options.api.isCheckOverlap(this.options))) {
-                        this.options.calendar.fullCalendar('renderEvent', {
-                            title: title,
-                            user: user,
-                            description: description,
-                            start: this.options.start,
-                            end: this.options.end,
-                            allDay: false,
-                            resourceId: this.options.resourceId
-                        }, true);
+                        var data = Backbone.Syphon.serialize(this);
+                        this.trigger('form:submit', data);
                     }
+                    
+                    
+                },
+
+                editClicked: function(e) {
+                    e.preventDefault();
+                    var description = (this.$('#description').val()).replace(/(<([^>]+)>)/ig, '');
+                    var title = (this.$('#title').val()).replace(/(<([^>]+)>)/ig, '');
+                    var user = this.$('#user').val();
+
                     var data = Backbone.Syphon.serialize(this);
                     this.trigger('form:submit', data);
+
+                },
+
+                deleteClicked: function(e) {
+                    e.preventDefault();
+                    this.trigger('form:delete');
+
                 },
 
                 onFormDataInvalid: function(errors) {

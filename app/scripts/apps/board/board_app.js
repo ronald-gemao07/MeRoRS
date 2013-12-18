@@ -46,7 +46,7 @@ define(['app'], function(MERORS) {
                     $.when(API.getRooms()).done(function(rooms) {
                         config.resources = rooms;
                         calendar = ShowController.showBoard(config);
-                     });
+                    });
                 });
             },
 
@@ -78,12 +78,14 @@ define(['app'], function(MERORS) {
             },
             getReservations: function(obj) {
                 var dfd = $.Deferred();
+                var events = [];
 
                 require(['entities/reservation'], function() {
+                    calendar.fullCalendar('removeEvents');
                     var fetchingReservations = MERORS.request('reservation:specificEntities', obj);
 
                     $.when(fetchingReservations).done(function(reservations) {
-                        var events = [];
+
                         reservations.each(function(reservation) {
                             var startDate = API.mergeDateTime(reservation.get('dateStart'), reservation.get('timeStart'));
                             var endDate = API.mergeDateTime(reservation.get('dateEnd'), reservation.get('timeEnd'));
@@ -99,10 +101,9 @@ define(['app'], function(MERORS) {
                                 end: endDate
                             };
                         });
-                        dfd.resolve(events);
+                        calendar.fullCalendar('addEventSource', events);
                     });
                 });
-
                 return dfd.promise();
             },
 
@@ -134,7 +135,6 @@ define(['app'], function(MERORS) {
                             event.owner = false;
                         }
                     });
-                    view.renderEvents(reservations);
                 });
             },
 
@@ -174,36 +174,35 @@ define(['app'], function(MERORS) {
             },
 
             eventClick: function(calEvent, jsEvent) {
+                var obj = {
+                    _id: calEvent.reservationId,
+                    id: calEvent._id,
+                    start: calEvent.start,
+                    end: calEvent.end,
+                    allDay: false,
+                    title: calEvent.title,
+                    description: calEvent.description,
+                    event: event,
+                    resourceId: calEvent.resourceId,
+                    dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
+                    dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
+                    timeStart: API.getDateType(calEvent.start, 'hour') + API.getDateType(calEvent.start, 'minute'),
+                    timeEnd: API.getDateType(calEvent.end, 'hour') + API.getDateType(calEvent.end, 'minute'),
+                    source: calEvent.source,
+                    calendar: calendar,
+                    api: API
+                };
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                var selectedTime = $.fullCalendar.formatDate(calEvent.end, 'yyyy-MM-dd HH:mm');
-                if (selectedTime > currentTime && calEvent.reservedBy == currentUser) {
-                    var obj = {
-                        _id: calEvent._id,
-                        start: calEvent.start,
-                        end: calEvent.end,
-                        allDay: false,
-                        event: jsEvent,
-                        resourceId: calEvent.end.resourceId,
-                        resourceName: calEvent.resource.name,
-                        description : calEvent.description,
-                        title: calEvent.title,
-                        dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
-                        dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
-                        timeStart: API.getDateType(calEvent.start, 'hour') + API.getDateType(calEvent.start, 'minute'),
-                        timeEnd: API.getDateType(calEvent.end, 'hour') + API.getDateType(calEvent.end, 'minute'),
-                        calendar: calendar,
-                        api: API
-                    };
-                    require(['apps/board/new/new_view_controller'], function(NewViewController) {
-                        //NewViewController.showAddView(obj);
+
+                var selectedTime = $.fullCalendar.formatDate(calEvent.start, 'yyyy-MM-dd HH:mm');
+
+                if (selectedTime > currentTime) {
+                    require(['apps/board/edit/edit_controller'], function(EditController) {
+                        EditController.editReservation(obj, calEvent);
                     });
-                } else if (calEvent.owner == false) {
-                    $('<div>You can only edit events that you have created.</div>').dialog({
-                        modal: true,
-                        title: 'Edit Reservation'
-                    });
+
                 } else {
-                    $('<div>You can only edit events that are yet to be accomplished.</div>').dialog({
+                    $('<div>You can only edit events later than the current time.</div>').dialog({
                         modal: true,
                         title: 'Edit Reservation'
                     });
@@ -212,11 +211,28 @@ define(['app'], function(MERORS) {
                 calendar.fullCalendar('unselect');
             },
 
-            eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui) {
-                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                var selectedEventNewEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
+            eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc, jsEvent, ui) {
+                var obj = {
+                    _id: calEvent.reservationId,
+                    id: calEvent._id,
+                    start: calEvent.start,
+                    end: calEvent.end,
+                    allDay: false,
+                    event: calEvent,
+                    resourceId: calEvent.resourceId,
+                    dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
+                    dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
+                    timeStart: API.getDateType(calEvent.start, 'hour') + API.getDateType(calEvent.start, 'minute'),
+                    timeEnd: API.getDateType(calEvent.end, 'hour') + API.getDateType(calEvent.end, 'minute'),
+                    source: calEvent.source,
+                    calendar: calendar,
+                    api: API
+                };
 
-                if (API.isCheckOverlap(event)) {
+                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+                var selectedEventNewEndTime = $.fullCalendar.formatDate(calEvent.end, 'yyyy-MM-dd HH:mm');
+
+                if (API.isCheckOverlap(calEvent)) {
                     revertFunc();
                 }
                 if (currentTime > selectedEventNewEndTime) {
@@ -225,6 +241,10 @@ define(['app'], function(MERORS) {
                         title: 'Edit Reservation'
                     });
                     revertFunc();
+                } else {
+                    require(['apps/board/edit/edit_controller'], function(EditController) {
+                        EditController.resizeReservation(obj, calEvent);
+                    });
                 }
                 ui.element.tooltip({
                     hide: {
@@ -233,27 +253,49 @@ define(['app'], function(MERORS) {
                 });
             },
 
-            eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
-                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                var selectedEventNewEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
+            eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
 
-                if (API.isCheckOverlap(event)) {
-                    event.resourceId = event.oldResourceId;
+                var obj = {
+                    _id: calEvent.reservationId,
+                    id: calEvent._id,
+                    start: calEvent.start,
+                    end: calEvent.end,
+                    allDay: false,
+                    event: calEvent,
+                    resourceId: calEvent.resourceId,
+                    dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
+                    dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
+                    timeStart: API.getDateType(calEvent.start, 'hour') + API.getDateType(calEvent.start, 'minute'),
+                    timeEnd: API.getDateType(calEvent.end, 'hour') + API.getDateType(calEvent.end, 'minute'),
+                    source: calEvent.source,
+                    calendar: calendar,
+                    api: API
+                };
+
+                var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
+                var selectedEventNewEndTime = $.fullCalendar.formatDate(calEvent.end, 'yyyy-MM-dd HH:mm');
+
+                if (API.isCheckOverlap(calEvent)) {
+                    calEvent.resourceId = calEvent.oldResourceId;
                     revertFunc();
                 }
                 if (currentTime > selectedEventNewEndTime) {
-                    $('<div>You can not drag events with new end times in the past (End time earlier than current).</div>;').dialog({
+                    $("<div>You can not drag events with new end times in the past (End time earlier than current).</div>").dialog({
                         modal: true,
                         title: 'Edit Reservation'
                     });
                     revertFunc();
+                } else {
+                    require(['apps/board/edit/edit_controller'], function(EditController) {
+                        EditController.dropReservation(obj, calEvent);
+                    });
                 }
             },
 
             eventMouseover: function(event, jsEvent, view) {
-                var resourceName=[];
-                resourceName = $.map(view.resources,function(data){
-                    if(data.id === event.resourceId){
+                var resourceName = [];
+                resourceName = $.map(view.resources, function(data) {
+                    if (data.id === event.resourceId) {
                         return data.name;
                     }
                 });
@@ -306,7 +348,9 @@ define(['app'], function(MERORS) {
                         break;
                     case 'minute':
                         val = date.getMinutes();
-                        if (val === 0){ val = '00'; }
+                        if (val === 0) {
+                            val = '00';
+                        }
                         break;
                 }
                 return val.toString();
@@ -316,7 +360,9 @@ define(['app'], function(MERORS) {
                 n = parseInt(n);
                 var stime = Math.floor(n / 100);
                 var etime = n - (stime * 100);
-                if (etime === 0){ etime = '00'; }
+                if (etime === 0) {
+                    etime = '00';
+                }
 
                 return {
                     hour: stime.toString(),

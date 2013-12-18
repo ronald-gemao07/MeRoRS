@@ -32,7 +32,7 @@ define(['app', 'apps/board/show/show_view', 'fullcalendar'], function(MERORS, Vi
                     resources: [],
                     events: []
                 };
-                
+
                 _.extend(config, newConfig);
 
                 var calendar = $(calendarSelector).fullCalendar(config);
