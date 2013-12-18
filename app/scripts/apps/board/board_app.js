@@ -176,8 +176,8 @@ define(['app'], function(MERORS) {
 
             eventClick: function(calEvent, jsEvent) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                var selectedTime = $.fullCalendar.formatDate(calEvent.start, 'yyyy-MM-dd HH:mm');
-                if (selectedTime > currentTime) {
+                var selectedTime = $.fullCalendar.formatDate(calEvent.end, 'yyyy-MM-dd HH:mm');
+                if (selectedTime > currentTime && calEvent.reservedBy == currentUser) {
                     var obj = {
                         _id: calEvent._id,
                         start: calEvent.start,
@@ -198,10 +198,15 @@ define(['app'], function(MERORS) {
                     require(['apps/board/new/new_view_controller'], function(NewViewController) {
                         //NewViewController.showAddView(obj);
                     });
-                } else {
-                    $('<div>You can only add events later than the current time.</div>').dialog({
+                } else if (calEvent.owner == false) {
+                    $('<div>You can only edit events that you have created.</div>').dialog({
                         modal: true,
-                        title: 'Create New Reservation'
+                        title: 'Edit Reservation'
+                    });
+                } else {
+                    $('<div>You can only edit events that are yet to be accomplished.</div>').dialog({
+                        modal: true,
+                        title: 'Edit Reservation'
                     });
                 }
 
