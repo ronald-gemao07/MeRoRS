@@ -3,9 +3,9 @@
     <form name="loginForm" id="loginForm" action="/login" method="post">
         <div class="control-group">
             <% if (message){ %>
-                <div class="btn-danger btn-large error-message" id="loginError">
+                <p class="text-error error-message" id="loginError">
                   <%= message %>
-                </div>
+                </p>
                 <% } else { %>
                   <p>Please login to continue.</p>
                 <% } %>

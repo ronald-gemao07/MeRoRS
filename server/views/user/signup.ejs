@@ -3,9 +3,9 @@
     <form name="signupForm" id="signupForm" action="/signup" method="POST">
         <div class="control-group">
             <% if(message) { %>
-                <div class="btn-danger btn-large error-message">
+                <p class="text-error error-message">
                     <%= message %>
-                </div>
+                </p>
             <% } else { %>
                 <p>Fill In the Required Information Below.</p>
             <% } %>
