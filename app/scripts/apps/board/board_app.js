@@ -104,13 +104,13 @@ define(['app'], function(MERORS) {
 
             viewDisplay: function(view) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-                var eventEndTime = $.fullCalendar.formatDate(view.end, 'yyyy-MM-dd HH:mm');
                 var obj ={
                     dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
                     dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
                 };
                 $.when(API.getReservations(obj)).done(function(reservations) {
                     reservations.forEach(function(event) {
+                        var eventEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
                         if (eventEndTime <= currentTime) {
                             event.editable = false;
                             event.title += ' (Done)';
@@ -304,6 +304,7 @@ define(['app'], function(MERORS) {
             },
 
             getSplitDate: function(dateString) {
+                dateString = dateString.toString();
                 var year = dateString.slice(0, 4);
                 var month = dateString.slice(4, 6);
                 var day = dateString.slice(-2);
