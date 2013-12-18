@@ -54,7 +54,8 @@
     "time-grunt": "~0.1.1",
     "grunt-node-inspector": "~0.1.2",
     "grunt-nodemon": "~0.1.2",
-    "grunt-concurrent": "~0.4.2"
+    "grunt-concurrent": "~0.4.2",
+    "nodemailer": "~0.5.15"
   },
   "engines": {
     "node": ">=0.8.0"
