@@ -88,7 +88,7 @@ function getAllRservationByDate (req, res, next) {
             $gte: params.dateStart,
             $lte: params.dateEnd
         }
-    }).lean().exec(function ( err, results ) {
+    }).populate('reservedBy', 'firstName lastName email').lean().exec(function ( err, results ) {
 		if (err) {
 			res.send(err);
 		} else {
