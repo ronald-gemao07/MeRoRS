@@ -87,7 +87,7 @@ define(['app', 'apps/board/edit/edit_view', 'fullcalendar'], function(MERORS, Vi
                     dateEnd: obj.dateEnd,
                     timeStart: obj.timeStart,
                     timeEnd: obj.timeEnd,                    
-                    roomId: obj.resourceId,
+                    roomId: obj.resourceId
                 };
                 
                 require(['entities/reservation'], function() {
