@@ -28,12 +28,14 @@ define(['app'], function(MERORS) {
 
         var API = {
             showBoard: function() {
-                require(['apps/board/show/show_controller'], function(ShowController) {
+                require(['apps/board/show/show_controller', 'entities/header'], function(ShowController) {
+                    $(document).attr('title', ' Reservation Board - Global Zeal Meeting Room Reservation System');
+                    MERORS.execute('set:active:header', 'board');
                     config = {
                         select: API.select,
                         eventResize: API.eventResize,
                         eventDrop: API.eventDrop,
-                        eventClick: API.eventClick,                        
+                        eventClick: API.eventClick,
                         eventRender: API.eventRender,
                         viewDisplay: API.viewDisplay
                     };
@@ -92,10 +94,10 @@ define(['app'], function(MERORS) {
                             var title = reservation.get('title');
                             var reservedBy = reservation.get('reservedBy');
                             var owner = true;
-                            
+
                             //get the user that is currently logged in
                             var currentUser = MERORS.request('profile:entity:first');
-                            
+
                             //subract two dates, if the difference is <= 0 then it is past
                             if(endDate - currentTime <= 0) {
                                 editable = false;
@@ -137,7 +139,7 @@ define(['app'], function(MERORS) {
             },
 
             viewDisplay: function(view) {
-                
+
                 var obj ={
                     dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
                     dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
@@ -148,7 +150,7 @@ define(['app'], function(MERORS) {
             eventRender: function(event, element) {
                 var startTime = API.getTime(event.start);
                 var endTime = API.getTime(event.end);
-                
+
                 $(element).tooltip({
                     items: element,
                    content: function() {
@@ -219,7 +221,7 @@ define(['app'], function(MERORS) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
 
                 var selectedTime = $.fullCalendar.formatDate(calEvent.start, 'yyyy-MM-dd HH:mm');
-                
+
                 if ((!calEvent.done || calEvent.done === undefined) && (calEvent.owner || calEvent.owner === undefined)) {
                     require(['apps/board/edit/edit_controller'], function(EditController) {
                         EditController.editReservation(obj, calEvent);

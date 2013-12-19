@@ -60,20 +60,30 @@ define(['app', 'backbone.picky'], function(MERORS) {
 
         var API = {
             getHeaders: function() {
-                var profile = MERORS.request('profile:entity:first');
-                var group = profile.get('group');
+                if (Entities.headers === undefined) {
+                    initializeHeaders();
+                }
+                return Entities.headers;
+            },
 
-                if (Entities.headers === undefined && group === 'Administrator') {
-                  initializeAdminHeaders();
-                } else{
-                  initializeHeaders();
+            getAdminHeaders: function() {
+                if (Entities.headers === undefined) {
+                    initializeAdminHeaders();
                 }
                 return Entities.headers;
             }
         };
 
         MERORS.reqres.setHandler('header:entities', function() {
-            return API.getHeaders();
+            var profile = MERORS.request('profile:entity:first');
+
+            var group = profile.get('group');
+
+            if (group !== 'Administrator') {
+                return API.getHeaders();
+            } else {
+                return API.getAdminHeaders();
+            }
         });
     });
 
