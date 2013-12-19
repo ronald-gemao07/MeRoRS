@@ -101,6 +101,9 @@ function addOneTimeReservation ( req, res, next ) {
 	var params = req.body;
 	var userId = req.user._doc._id;
 
+	req.body.title = req.body.title.replace(/[^\w\s,.]/gi, '');
+	req.body.description = req.body.description.replace(/[^\w\s,.]/gi, '');
+
 	if ((params.timeEnd - params.timeStart) < 15) {
 		res.json({error: 'Time range error!'});
 		return;
@@ -204,6 +207,9 @@ function updateOneTimeReservation ( req, res, next ) {
 		res.json({error: 'Time range error!'});
 		return;
 	}
+
+	req.body.title = req.body.title.replace(/[^\w\s,.]/gi, '');
+	req.body.description = req.body.description.replace(/[^\w\s,.]/gi, '');
 	
 	async.series({
 		checkRoom: function (callback) {

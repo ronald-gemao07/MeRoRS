@@ -11,7 +11,7 @@ define(['app', 'apps/board/new/new_view', 'fullcalendar'], function(MERORS, View
                     view.on('form:submit', function(data) {
                         
                         // Add the user profile on reservation
-                        var userProfile = MERORS.request('profile:entity:first');
+                        var userProfile = MERORS.request('profile:entity:first');                        
 
                         data.reservedBy = {
                             _id: userProfile.get('_id'),
@@ -25,9 +25,12 @@ define(['app', 'apps/board/new/new_view', 'fullcalendar'], function(MERORS, View
                         newReservation.save({}, {
                             success: function(model, response) {
                                 
-                                
+                                data.title = data.title.replace(/[^\w\s,.]/gi, '');
+                                data.description = data.description.replace(/[^\w\s,.]/gi, '');
+
                                 calObj.calendar.fullCalendar('renderEvent', {
                                     title: data.title,
+                                    description: data.description,
                                     start: calObj.start,
                                     end: calObj.end,
                                     allDay: false,
