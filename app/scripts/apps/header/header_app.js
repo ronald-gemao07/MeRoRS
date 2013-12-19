@@ -12,7 +12,23 @@ define(['app', 'apps/header/list/list_controller'], function(MERORS, ListControl
     });
 
     Header.on('start', function(){
-      API.listHeader();
+      require(['common/views', 'entities/profile'], function(CommonViews) {
+          var loadingView = new CommonViews.Loading({
+              title: 'Loading',
+              message: 'Loading required data...'
+          });
+          MERORS.mainRegion.show(loadingView);
+          
+          // Load the logged in user profile
+          var fetchingProfile = MERORS.request('profile:entities');
+
+          $.when(fetchingProfile).done(function(profiles) {
+            // Load the header
+            API.listHeader();
+
+          });
+      });
+     
     });
   });
 

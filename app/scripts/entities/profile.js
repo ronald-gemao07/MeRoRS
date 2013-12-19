@@ -1,11 +1,11 @@
 'use strict';
 define(['app', 'apps/config/storage/localstorage'], function(MERORS){
   MERORS.module('Entities', function(Entities, MERORS, Backbone, Marionette, $, _){
-    Entities.User = Backbone.Model.extend({
+    Entities.Profile = Backbone.Model.extend({
 
       idAttribute: '_id',
-      //urlRoot: 'users',
-      urlRoot: 'http://localhost:9000/api/v1/Users/profile',
+      //urlRoot: 'profiles',
+      urlRoot: 'http://localhost:9000/api/v1/Users/Profile',
 
       defaults: {
         _id: null,
@@ -18,37 +18,39 @@ define(['app', 'apps/config/storage/localstorage'], function(MERORS){
       }
     });
 
-    Entities.UserCollection = Backbone.Collection.extend({
-      url: 'http://localhost:9000/api/v1/Users/profile',
-      model: Entities.User,
+    Entities.ProfileCollection = Backbone.Collection.extend({
+      url: 'http://localhost:9000/api/v1/Users/Profile',
+      model: Entities.Profile,
       comparator: 'email'
     });
 
+    var Profiles;
+
     var API = {
-      getUserEntities: function(){
-        var users = new Entities.UserCollection();
+      getProfileEntities: function(){
+        Profiles = new Entities.ProfileCollection();
         var defer = $.Deferred();
-        users.fetch({
+        Profiles.fetch({
           success: function(data){
             defer.resolve(data);
           }
         });
         var promise = defer.promise();
-        $.when(promise).done(function(users){
-          if(users.length === 0){
-            // if we don't have any users yet, create some for convenience
-            var models = initializeUsers();
-            users.reset(models);
+        $.when(promise).done(function(profiles){
+          if(profiles.length === 0){
+            // if we don't have any profiles yet, create some for convenience
+            var models = initializeProfiles();
+            profiles.reset(models);
           }
         });
         return promise;
       },
 
-      getUserEntity: function(userId){
-        var user = new Entities.User({id: userId});
+      getProfileEntity: function(profileId){
+        var profile = new Entities.Profile({id: profileId});
         var defer = $.Deferred();
         setTimeout(function(){
-          user.fetch({
+          profile.fetch({
             success: function(data){
               defer.resolve(data);
             },
@@ -58,19 +60,28 @@ define(['app', 'apps/config/storage/localstorage'], function(MERORS){
           });
         }, 2000);
         return defer.promise();
+      },
+
+      getProfileEntityFirst: function () {
+        return Profiles.first();
       }
+
     };
 
-    MERORS.reqres.setHandler('user:entities', function(){
-      return API.getUserEntities();
+    MERORS.reqres.setHandler('profile:entities', function(){
+      return API.getProfileEntities();
     });
 
-    MERORS.reqres.setHandler('user:entity', function(id){
-      return API.getUserEntity(id);
+    MERORS.reqres.setHandler('profile:entity', function(id){
+      return API.getProfileEntity(id);
     });
 
-    MERORS.reqres.setHandler('user:entity:new', function(id){
-      return new Entities.User();
+    MERORS.reqres.setHandler('profile:entity:first', function(){
+      return API.getProfileEntityFirst();
+    });
+
+    MERORS.reqres.setHandler('profile:entity:new', function(id){
+      return new Entities.Profile();
     });
   });
 
