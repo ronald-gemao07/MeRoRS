@@ -33,7 +33,8 @@ define(['app', 'apps/board/new/new_view', 'fullcalendar'], function(MERORS, View
                                     allDay: false,
                                     resourceId: calObj.resourceId,
                                     reservationId: response._id,
-                                    reservedBy: data.reservedBy 
+                                    reservedBy: data.reservedBy,
+                                    description: data.description
                                 }, true);
 
                                 view.trigger("dialog:close");
