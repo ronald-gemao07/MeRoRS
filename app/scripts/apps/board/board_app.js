@@ -33,6 +33,7 @@ define(['app'], function(MERORS) {
         var API = {
             showBoard: function() {
                 require(['apps/board/show/show_controller', 'entities/header'], function(ShowController) {
+                    $(document).attr('title', 'Reservation Board - Global Zeal Meeting Room Reservation System');
                     MERORS.execute('set:active:header', 'board');
                     config = {
                         select: API.select,
@@ -109,13 +110,13 @@ define(['app'], function(MERORS) {
             },
 
             viewDisplay: function(view) {
-                
+
                 var obj ={
                     dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
                     dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
                 };
                 $.when(API.getReservations(obj)).done(function(reservations) {
-                    
+
                     var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
 
                     _.each(reservations, function(event) {
