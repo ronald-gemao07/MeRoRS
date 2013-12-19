@@ -16,12 +16,8 @@ define(['app'], function(MERORS) {
             }
         });
 
-        var currentUser = "";
-        $.getJSON('/api/v1/users/profile', function (data) {
-            currentUser = data._id;
-        });
-
         var executeAction = function(action, arg) {
+            $(document).attr('title', ' Reservation Board - Global Zeal Meeting Room Reservation System');
             MERORS.startSubApp('BoardApp');
             action(arg);
             MERORS.execute('set:active:header', 'board');
@@ -32,9 +28,7 @@ define(['app'], function(MERORS) {
 
         var API = {
             showBoard: function() {
-                require(['apps/board/show/show_controller', 'entities/header'], function(ShowController) {
-                    $(document).attr('title', 'Reservation Board - Global Zeal Meeting Room Reservation System');
-                    MERORS.execute('set:active:header', 'board');
+                require(['apps/board/show/show_controller'], function(ShowController) {
                     config = {
                         select: API.select,
                         eventResize: API.eventResize,
@@ -81,7 +75,7 @@ define(['app'], function(MERORS) {
                 var dfd = $.Deferred();
                 var events = [];
 
-                require(['entities/reservation'], function() {
+                require(['entities/reservation', 'entities/profile'], function() {
                     calendar.fullCalendar('removeEvents');
                     var fetchingReservations = MERORS.request('reservation:specificEntities', obj);
 
@@ -90,16 +84,50 @@ define(['app'], function(MERORS) {
                         reservations.each(function(reservation) {
                             var startDate = API.mergeDateTime(reservation.get('dateStart'), reservation.get('timeStart'));
                             var endDate = API.mergeDateTime(reservation.get('dateEnd'), reservation.get('timeEnd'));
+                            var currentTime = new Date();
+                            var backgroundColor = '#8dc640';
+                            var borderColor = '#8dc640';
+                            var editable = true;
+                            var eventDone = false;
+                            var title = reservation.get('title');
+                            var reservedBy = reservation.get('reservedBy');
+                            var owner = true;
+                            
+                            //get the user that is currently logged in
+                            var currentUser = MERORS.request('profile:entity:first');
+                            
+                            //subract two dates, if the difference is <= 0 then it is past
+                            if(endDate - currentTime <= 0) {
+                                editable = false;
+                                eventDone = true;
+                                backgroundColor = '#C8DEAB';
+                                borderColor = '#C8DEAB';
+                                title += ' (Done)';
+                            }
+
+                            //the user does not own the reservation
+                            if(reservedBy._id != currentUser.id) {
+                                editable = false;
+                                backgroundColor = '#E8E8E8';
+                                borderColor = '#E8E8E8';
+                                owner = false;
+                            }
+
                             events[events.length] = {
                                 reservationId: reservation.get('_id'),
                                 reservedBy: reservation.get('reservedBy'),
-                                title: reservation.get('title'),
+                                title: title,
                                 description: reservation.get('description'),
                                 resourceId: reservation.get('roomId'),
                                 allDay: false,
                                 roomName: reservation.get('roomName'),
                                 start: startDate,
-                                end: endDate
+                                end: endDate,
+                                editable: editable,
+                                done: eventDone,
+                                backgroundColor: backgroundColor,
+                                borderColor: borderColor,
+                                owner: owner
                             };
                         });
                         calendar.fullCalendar('addEventSource', events);
@@ -109,34 +137,12 @@ define(['app'], function(MERORS) {
             },
 
             viewDisplay: function(view) {
-
+                
                 var obj ={
                     dateStart: API.getDateType(view.start, 'year') + API.getDateType(view.start, 'month') + API.getDateType(view.start, 'day'),
                     dateEnd: API.getDateType(view.end, 'year') + API.getDateType(view.end, 'month') + API.getDateType(view.end, 'day')
                 };
-                $.when(API.getReservations(obj)).done(function(reservations) {
-
-                    var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
-
-                    _.each(reservations, function(event) {
-                        event.owner = true;
-                        var eventEndTime = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm');
-                        if (eventEndTime <= currentTime) {
-                            event.editable = false;
-                            event.title += ' (Done)';
-                            event.backgroundColor = '#C8DEAB';
-                            event.borderColor = '#C8DEAB';
-                        }
-
-                        if(event.reservedBy != currentUser) {
-                            event.title += ' (Not owned)';
-                            event.backgroundColor = '#E8E8E8';
-                            event.borderColor = '#E8E8E8';
-                            event.editable = false;
-                            event.owner = false;
-                        }
-                    });
-                });
+                $.when(API.getReservations(obj)).done(function(reservations) {});
             },
 
             eventRender: function(event, element) {
@@ -200,6 +206,7 @@ define(['app'], function(MERORS) {
                     allDay: false,
                     title: calEvent.title,
                     description: calEvent.description,
+                    //event: event,
                     resourceId: calEvent.resourceId,
                     dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
                     dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
@@ -212,12 +219,16 @@ define(['app'], function(MERORS) {
                 var currentTime = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd HH:mm');
 
                 var selectedTime = $.fullCalendar.formatDate(calEvent.start, 'yyyy-MM-dd HH:mm');
-
-                if (selectedTime > currentTime) {
+                
+                if ((!calEvent.done || calEvent.done === undefined) && (calEvent.owner || calEvent.owner === undefined)) {
                     require(['apps/board/edit/edit_controller'], function(EditController) {
                         EditController.editReservation(obj, calEvent);
                     });
-
+                } else if(!calEvent.owner) {
+                    $('<div>You can only edit events that you own and are not yet done.</div>').dialog({
+                        modal: true,
+                        title: 'Edit Reservation'
+                    });
                 } else {
                     $('<div>You can only edit events later than the current time.</div>').dialog({
                         modal: true,
@@ -394,6 +405,7 @@ define(['app'], function(MERORS) {
 
                 return new Date(yr, mt, dy, hr, ms);
             },
+
             getTime : function(time){
                 //time = time.toLocaleTimeString();
                 var h24 = time.getHours();
