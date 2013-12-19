@@ -1,10 +1,10 @@
 'use strict';
 
 define(['app', 'apps/header/list/list_view'], function(MERORS, View){
-  MERORS.module('HeaderApp.List', function(List, MERORS){
+  MERORS.module('HeaderApp.List', function(List, MERORS, Backbone, Marionette, $, _){
     List.Controller = {
       listHeader: function(){
-        require(['entities/header'], function(){
+        require(['entities/header', 'entities/profile'], function(){
           var links = MERORS.request('header:entities');
           var headers = new View.Headers({collection: links});
 
@@ -18,6 +18,12 @@ define(['app', 'apps/header/list/list_view'], function(MERORS, View){
           });
 
           MERORS.headerRegion.show(headers);
+
+          var profile = MERORS.request('profile:entity:first');
+
+          var firstName = profile.get('firstName');
+
+          $('.profile').text(firstName);
         });
       },
 

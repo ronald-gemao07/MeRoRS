@@ -7,7 +7,7 @@
       <ul class='nav pull-right'>
         <li><a href='/logout'>Logout</a></li>
         <li class='divider-vertical navbar-inverse'></li>
-        <li><a href='app#profile'>Admin</a></li>
+        <li><a href='app#profile' class='profile'>Admin</a></li>
       </ul>
       <ul class='nav main-nav'>
       </ul>
