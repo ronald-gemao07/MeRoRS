@@ -39,9 +39,8 @@ define(['app'], function(MERORS) {
                         select: API.select,
                         eventResize: API.eventResize,
                         eventDrop: API.eventDrop,
-                        eventClick: API.eventClick,
-                        eventMouseover: API.eventMouseover,
-                        eventMouseout: API.eventMouseout,
+                        eventClick: API.eventClick,                        
+                        eventRender: API.eventRender,
                         viewDisplay: API.viewDisplay
                     };
 
@@ -137,6 +136,23 @@ define(['app'], function(MERORS) {
                             event.owner = false;
                         }
                     });
+                });
+            },
+
+            eventRender: function(event, element) {
+                var startTime = API.getTime(event.start);
+                var endTime = API.getTime(event.end);
+                
+                $(element).tooltip({
+                    items: element,
+                   content: function() {
+                        return '<b>' + event.resource.name + '</b><br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + startTime + '<br><b>End:</b> ' + endTime + '<br><b>Reserved By:</b> ' + event.reservedBy.firstName + ' ' +  event.reservedBy.lastName + '<br><b>Email</b>: ' + event.reservedBy.email;
+                    },
+                    track : true,
+                    delay : 0,
+                    show: {
+                        ready: true
+                    }
                 });
             },
 
@@ -291,19 +307,6 @@ define(['app'], function(MERORS) {
                         EditController.dropReservation(obj, calEvent);
                     });
                 }
-            },
-
-            eventMouseover: function(event, jsEvent, view) {
-                var startTime = API.getTime(event.start);
-                var endTime = API.getTime(event.end);
-                $(jsEvent.currentTarget).tooltip({
-                    items: jsEvent.currentTarget,
-                   content: function() {
-                        return '<b>' + event.resource.name + '</b><br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + startTime + '<br><b>End:</b> ' + endTime + '<br><b>Reserved By:</b> ' + event.reservedBy.firstName + ' ' +  event.reservedBy.lastName + '<br><b>Email</b>: ' + event.reservedBy.email;
-                    },
-                    track : true,
-                    delay : 0
-                });
             },
 
             isCheckOverlap: function(event) {

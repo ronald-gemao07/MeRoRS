@@ -101,6 +101,11 @@ function addOneTimeReservation ( req, res, next ) {
 	var params = req.body;
 	var userId = req.user._doc._id;
 
+	if ((params.timeEnd - params.timeStart) < 15) {
+		res.json({error: 'Time range error!'});
+		return;
+	}
+
 	async.series({
 		checkRoom: function (callback) {
 
@@ -116,8 +121,7 @@ function addOneTimeReservation ( req, res, next ) {
 
 		},
 		checkConflicts: function (callback) {
-
-			ReservationModel.find({
+			var find = {
 		        roomId: params.roomId,
 		        $or: [{
 		            dateStart: {
@@ -127,7 +131,7 @@ function addOneTimeReservation ( req, res, next ) {
 		            $or: [{
 		                timeStart: {
 		                    $gte: params.timeStart,
-		                    $lt: params.dateEnd
+		                    $lt: params.timeEnd
 		                }
 		            }, {
 		                timeEnd: {
@@ -152,7 +156,8 @@ function addOneTimeReservation ( req, res, next ) {
 		                }
 		            }]
 		        }]
-		    }, function ( err, results ) {
+		    };
+			ReservationModel.find(find, function ( err, results ) {
 
 				callback(err, results);
 
@@ -195,6 +200,11 @@ function updateOneTimeReservation ( req, res, next ) {
 	var userId = req.user._doc._id;
 	var reservationId = req.params.id;
 
+	if ((params.timeEnd - params.timeStart) < 15) {
+		res.json({error: 'Time range error!'});
+		return;
+	}
+	
 	async.series({
 		checkRoom: function (callback) {
 
