@@ -182,7 +182,6 @@ define(['app'], function(MERORS) {
                     allDay: false,
                     title: calEvent.title,
                     description: calEvent.description,
-                    event: event,
                     resourceId: calEvent.resourceId,
                     dateStart: API.getDateType(calEvent.start, 'year') + API.getDateType(calEvent.start, 'month') + API.getDateType(calEvent.start, 'day'),
                     dateEnd: API.getDateType(calEvent.end, 'year') + API.getDateType(calEvent.end, 'month') + API.getDateType(calEvent.end, 'day'),
@@ -293,13 +292,15 @@ define(['app'], function(MERORS) {
             },
 
             eventMouseover: function(event, jsEvent, view) {
+                var startTime = API.getTime(event.start);
+                var endTime = API.getTime(event.end);
                 $(jsEvent.currentTarget).tooltip({
                     items: jsEvent.currentTarget,
                    content: function() {
-                        return '<b>' + event.resource.name + '</b><br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString() + '<br><b>Reserved By:</b> ' + event.reservedBy.firstName + ' ' +  event.reservedBy.lastName + '<br><b>Email</b>: ' + event.reservedBy.email;
+                        return '<b>' + event.resource.name + '</b><br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + startTime + '<br><b>End:</b> ' + endTime + '<br><b>Reserved By:</b> ' + event.reservedBy.firstName + ' ' +  event.reservedBy.lastName + '<br><b>Email</b>: ' + event.reservedBy.email;
                     },
                     track : true,
-                    delay : 0,
+                    delay : 0
                 });
             },
 
@@ -387,6 +388,19 @@ define(['app'], function(MERORS) {
                 var ms = API.getSplitTime(time).minute;
 
                 return new Date(yr, mt, dy, hr, ms);
+            },
+            getTime : function(time){
+                //time = time.toLocaleTimeString();
+                var h24 = time.getHours();
+                var minutes = time.getMinutes();
+                var hour = h24%12;
+                if(hour===0){
+                    hour=12;
+                }
+                if(minutes===0){
+                    minutes = '00';
+                }
+                return hour + ':' + minutes + (h24 < 12 ? ' am' : ' pm');
             }
         };
 

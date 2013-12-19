@@ -1572,12 +1572,12 @@ function parseISO8601(s, ignoreTimezone) { // ignoreTimezone defaults to false
 		if (m[8]) {
 			date.setMinutes(m[8]);
 		}
-		if (m[10]) {
+		/*if (m[10]) {
 			date.setSeconds(m[10]);
 		}
 		if (m[12]) {
 			date.setMilliseconds(Number("0." + m[12]) * 1000);
-		}
+		}*/
 		fixDate(date, check);
 	}else{
 		date.setUTCFullYear(

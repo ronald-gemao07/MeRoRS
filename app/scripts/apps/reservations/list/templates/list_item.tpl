@@ -6,10 +6,10 @@
 <td><%= timeStart %></td>
 <td><%= timeEnd %></td>
 <td>
-  <a href='#reservations/<%= _id %>/edit' class='btn btn-small js-edit'>
+ <!--  <a href='#reservations/<%= _id %>/edit' class='btn btn-small js-edit'>
     <i class='icon-pencil'></i>
       Edit
-  </a>
+  </a> -->
   <button class='btn btn-small js-delete'>
     <i class='icon-remove'></i>
     Delete
