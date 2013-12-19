@@ -293,17 +293,13 @@ define(['app'], function(MERORS) {
             },
 
             eventMouseover: function(event, jsEvent, view) {
-                var resourceName = [];
-                resourceName = $.map(view.resources, function(data) {
-                    if (data.id === event.resourceId) {
-                        return data.name;
-                    }
-                });
                 $(jsEvent.currentTarget).tooltip({
                     items: jsEvent.currentTarget,
-                    content: function() {
-                        return '<b>' + resourceName[0] + '</b><br><b>Reserved By:</b> ' + event.reservedBy + '<br><b>Email</b>: ' + event.email + '<br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString();
-                    }
+                   content: function() {
+                        return '<b>' + event.resource.name + '</b><br><b>' + event.title + '</b><br>&nbsp;&nbsp;&nbsp;&nbsp;<i>' + event.description + '</i><br><b>Start:</b> ' + event.start.toLocaleTimeString() + '<br><b>End:</b> ' + event.end.toLocaleTimeString() + '<br><b>Reserved By:</b> ' + event.reservedBy.firstName + ' ' +  event.reservedBy.lastName + '<br><b>Email</b>: ' + event.reservedBy.email;
+                    },
+                    track : true,
+                    delay : 0,
                 });
             },
 

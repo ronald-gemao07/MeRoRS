@@ -66,7 +66,6 @@ define(['app', 'apps/board/edit/edit_view', 'fullcalendar'], function(MERORS, Vi
                         reservation.set(data);
                         reservation.save({}, {
                             success: function() {
-                                console.log("Heyy");
                                 obj.calendar.fullCalendar('updateEvent', calEvent, true);        
                             },
 

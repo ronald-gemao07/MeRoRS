@@ -1,11 +1,5 @@
 <form>
   <div class='control-group'>
-    <select class='roomName' name = 'room'>
-      <option value='room'>room</option>
-      <option value='room1'>room1</option>
-    </select>
-  </div>
-  <div class='control-group'>
     <label for='reservation-description' class='control-label'>Title:</label>
     <input id='reservation-description' name='title' type='text' value='<%= title %>'/>
   </div>
