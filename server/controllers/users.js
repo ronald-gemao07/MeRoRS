@@ -3,7 +3,7 @@
 // Module Dependencies
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var utils = require('../lib/utils');
+//var utils = require('../lib/utils');
 var baucis = require('baucis');
 var nodemailer = require('nodemailer');
 var _ = require('underscore');
@@ -40,7 +40,7 @@ function _sendAdminNotification(userDetails, adminEmail, adminName) {
     };
 
     // send mail with defined transport object
-    smtpTransport.sendMail(mailOptions, function(error, response) {
+    smtpTransport.sendMail(mailOptions, function(error) {
         if (error) {            mail({
                 from: 'MeRoRS Admin<merors.min@gmail.com>', // sender address
                 to: adminEmail, // list of receivers
@@ -113,7 +113,7 @@ function _getActiveAdmins(userDetails, sendEmail) {
             //return handleError(err);
         }
 
-        _.each(admins, function(admin, index) {
+        _.each(admins, function(admin) {
             sendEmail(userDetails, admin.email, admin.firstName);
         });
     });
@@ -320,7 +320,7 @@ exports.user = function(req, res, next, id) {
 
 // REST Service
 
-function getLoggedInUserProfile (req, res, next) {
+function getLoggedInUserProfile (req, res) {
     var userId = req.user._doc._id;
 
     User.findOne({
