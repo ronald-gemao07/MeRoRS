@@ -59,6 +59,44 @@ function _sendAdminNotification(userDetails, adminEmail, adminName) {
 }
 
 
+function sendStatusNotification(userDetails){
+    // create reusable transport method (opens pool of SMTP connections)
+    var smtpTransport = nodemailer.createTransport('SMTP', {
+        service: 'Gmail',
+        auth: {
+            user: 'merors.min@gmail.com',
+            pass: 'merors123'
+        }
+    });
+
+    var htmlEmail = '<strong>Hi '+userDetails.firstName+',</strong><br><br>Congratulations! Your account has been successfully activated.';
+
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: 'MeRoRS Admin<merors.min@gmail.com>', // sender address
+        to: userDetails.email, // list of receivers
+        subject: 'MERORS Account Status Activitation', // Subject line
+        text: 'Hi '+userDetails.firstName+'. Congratulations! Your account has been successfully activated.',
+        html: htmlEmail // html body
+    };
+
+    // send mail with defined transport object
+    smtpTransport.sendMail(mailOptions, function(error) {
+        if (error) {
+            mail({
+                from: 'MeRoRS Admin<merors.min@gmail.com>', // sender address
+                to: userDetails.email, // list of receivers
+                subject: 'Status Activitation', // Subject line
+                text: 'Hi '+userDetails.firstName+'. Congratulations! Your account has been successfully activated.',
+                html: 'Hi '+userDetails.firstName+'. Congratulations! Your account has been successfully activated.'
+            });
+        } else {
+            smtpTransport.close(); // shut down the connection pool, no more messages
+        }
+    });
+}
+
+
 function _getActiveAdmins(userDetails, sendEmail) {
     var query = User.find({
         'status': 'Active',
@@ -331,10 +369,13 @@ function buildRESTController () {
     });
 
     // Update
-    restController.put('/', function ( req, res, next ) {
+    restController.put('/:id', function ( req, res, next ) {
         if (!req.isAuthenticated()) {
             res.send(401);
         }  else {
+            if(req.body.status  === 'Active'){
+                sendStatusNotification(req.body);
+            }
             next();
         }
     });
