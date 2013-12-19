@@ -241,7 +241,7 @@ function updateOneTimeReservation ( req, res, next ) {
 		            $or: [{
 		                timeStart: {
 		                    $gte: params.timeStart,
-		                    $lt: params.dateEnd
+		                    $lt: params.timeEnd
 		                }
 		            }, {
 		                timeEnd: {
