@@ -32,7 +32,8 @@ define(['app'], function(MERORS) {
 
         var API = {
             showBoard: function() {
-                require(['apps/board/show/show_controller'], function(ShowController) {
+                require(['apps/board/show/show_controller', 'entities/header'], function(ShowController) {
+                    MERORS.execute('set:active:header', 'board');
                     config = {
                         select: API.select,
                         eventResize: API.eventResize,
